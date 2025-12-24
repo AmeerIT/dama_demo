@@ -28,7 +28,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3389
+ENV PORT=5589
 
 # Install curl for healthcheck
 RUN apk add --no-cache curl
@@ -45,7 +45,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 USER nextjs
 
-EXPOSE 3389
+EXPOSE 5589
 
 ENV HOSTNAME="0.0.0.0"
 

@@ -59,7 +59,7 @@ docker-compose build
 
 ```bash
 docker run -d \
-  -p 3389:3389 \
+  -p 5589:5589 \
   -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1 \
   -e NEXT_PUBLIC_APPWRITE_DATABASE_ID=dama_db \
   --name dama-website \
@@ -73,7 +73,7 @@ docker run -d \
 docker-compose up -d
 ```
 
-The application will be available at `http://localhost:3389`
+The application will be available at `http://localhost:5589`
 
 ## Development vs Production
 
@@ -154,13 +154,13 @@ docker inspect dama-website | grep -A 10 Health
 
 ## Troubleshooting
 
-### Port 3389 is already in use
+### Port 5589 is already in use
 
-If port 3389 is already in use, you can change the port mapping in `docker-compose.yml`:
+If port 5589 is already in use, you can change the port mapping in `docker-compose.yml`:
 
 ```yaml
 ports:
-  - "3390:3389"  # Map host port 3390 to container port 3389
+  - "3390:5589"  # Map host port 3390 to container port 5589
 ```
 
 Then access the application at `http://localhost:3390`

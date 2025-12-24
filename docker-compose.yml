@@ -4,10 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3389:3389"
+      - "5589:5589"
     environment:
       - NODE_ENV=production
-      - PORT=3389
+      - PORT=5589
       # Appwrite configuration
       - NEXT_PUBLIC_APPWRITE_ENDPOINT=${NEXT_PUBLIC_APPWRITE_ENDPOINT:-https://cloud.appwrite.io/v1}
       - NEXT_PUBLIC_APPWRITE_DATABASE_ID=${NEXT_PUBLIC_APPWRITE_DATABASE_ID:-dama_db}
@@ -17,7 +17,7 @@ services:
     # volumes:
     #   - ./.env.local:/app/.env.local:ro
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3389/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:5589/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

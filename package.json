@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3389",
+    "dev": "next dev -p 5589",
     "build": "next build",
-    "start": "next start -p 3389",
+    "start": "next start -p 5589",
     "lint": "eslint",
     "setup:appwrite": "tsx scripts/setup-appwrite.ts",
     "test:data": "tsx scripts/test-data.ts"
