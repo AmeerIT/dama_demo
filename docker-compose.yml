@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3389:3389"
+    environment:
+      - NODE_ENV=production
+      - PORT=3389
+      # Appwrite configuration
+      - NEXT_PUBLIC_APPWRITE_ENDPOINT=${NEXT_PUBLIC_APPWRITE_ENDPOINT:-https://cloud.appwrite.io/v1}
+      - NEXT_PUBLIC_APPWRITE_DATABASE_ID=${NEXT_PUBLIC_APPWRITE_DATABASE_ID:-dama_db}
+      # Optional: Uncomment if you need admin operations
+      # - APPWRITE_API_KEY=${APPWRITE_API_KEY}
+    # Uncomment for development to mount .env.local
+    # volumes:
+    #   - ./.env.local:/app/.env.local:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3389/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+

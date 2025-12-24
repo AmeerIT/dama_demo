@@ -1,0 +1,610 @@
+{
+    "projectId": "694beec300098b09a52c",
+    "projectName": "dama",
+    "settings": {
+        "services": {
+            "account": true,
+            "avatars": true,
+            "databases": true,
+            "locale": true,
+            "health": true,
+            "storage": true,
+            "teams": true,
+            "users": true,
+            "sites": true,
+            "functions": true,
+            "graphql": true,
+            "messaging": true
+        },
+        "auth": {
+            "methods": {
+                "jwt": true,
+                "phone": true,
+                "invites": true,
+                "anonymous": true,
+                "email-otp": true,
+                "magic-url": true,
+                "email-password": true
+            },
+            "security": {
+                "duration": 31536000,
+                "limit": 0,
+                "sessionsLimit": 10,
+                "passwordHistory": 0,
+                "passwordDictionary": false,
+                "personalDataCheck": false,
+                "sessionAlerts": false,
+                "mockNumbers": []
+            }
+        }
+    },
+    "buckets": [
+        {
+            "$id": "694c1573001db670c6e6",
+            "$permissions": [],
+            "fileSecurity": false,
+            "name": "fonts",
+            "enabled": true,
+            "maximumFileSize": 300000000,
+            "allowedFileExtensions": [
+                "ttf",
+                "woff",
+                "woff2",
+                "otf"
+            ],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        },
+        {
+            "$id": "images",
+            "$permissions": [],
+            "fileSecurity": false,
+            "name": "images",
+            "enabled": true,
+            "maximumFileSize": 10485760,
+            "allowedFileExtensions": [
+                "jpg",
+                "jpeg",
+                "png",
+                "gif",
+                "webp",
+                "svg"
+            ],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        },
+        {
+            "$id": "media",
+            "$permissions": [],
+            "fileSecurity": false,
+            "name": "media",
+            "enabled": true,
+            "maximumFileSize": 52428800,
+            "allowedFileExtensions": [
+                "jpg",
+                "jpeg",
+                "png",
+                "gif",
+                "webp",
+                "svg",
+                "pdf",
+                "mp4",
+                "mov",
+                "mp3"
+            ],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        }
+    ],
+    "tablesDB": [
+        {
+            "$id": "dama_db",
+            "name": "Dama Productions Database",
+            "enabled": true
+        }
+    ],
+    "tables": [
+        {
+            "$id": "posts",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"any\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "dama_db",
+            "name": "Posts",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "slug_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "slug_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "title_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "title_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "excerpt_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 1000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "excerpt_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 1000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "body_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "body_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "featured_image",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "published_at",
+                    "type": "datetime",
+                    "required": false,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "is_published",
+                    "type": "boolean",
+                    "required": false,
+                    "array": false,
+                    "default": false
+                },
+                {
+                    "key": "status",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 20,
+                    "default": "draft",
+                    "encrypt": false
+                },
+                {
+                    "key": "keywords",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "tags",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "author_id",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_slug_ar",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug_ar"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_slug_en",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug_en"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_is_published",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "is_published"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_published_at",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "published_at"
+                    ],
+                    "orders": [
+                        "DESC"
+                    ]
+                },
+                {
+                    "key": "idx_status",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "status"
+                    ],
+                    "orders": []
+                }
+            ]
+        },
+        {
+            "$id": "services",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"any\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "dama_db",
+            "name": "Services",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "slug_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "slug_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "title_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "title_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "description_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 2000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "description_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 2000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "content_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "content_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "icon",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "image",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "order",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807,
+                    "default": 0
+                },
+                {
+                    "key": "is_active",
+                    "type": "boolean",
+                    "required": false,
+                    "array": false,
+                    "default": true
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_slug_ar",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug_ar"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_slug_en",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug_en"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_is_active",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "is_active"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_order",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "order"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "tags",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"any\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "dama_db",
+            "name": "Tags",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "name_ar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "name_en",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "slug",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_slug",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_name_en",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "name_en"
+                    ],
+                    "orders": []
+                }
+            ]
+        },
+        {
+            "$id": "fonts",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"any\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "dama_db",
+            "name": "Fonts",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "name",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 200,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "file_id",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "family",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "weight",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "style",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_family",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "family"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_name",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "name"
+                    ],
+                    "orders": []
+                }
+            ]
+        }
+    ]
+}

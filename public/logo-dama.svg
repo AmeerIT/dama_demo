@@ -1,0 +1,10 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10,35 L30,65 L50,15 L70,65 L90,35 L85,75 L15,75 Z" fill="#5879F2" />
+
+    <circle cx="50" cy="12" r="3" fill="#5879F2" />
+
+    <rect x="15" y="78" width="70" height="8" fill="#5879F2" />
+
+    <text x="50" y="98" font-family="Arial, sans-serif" font-weight="bold" font-size="18"
+        text-anchor="middle" fill="#5879F2">DAMA</text>
+</svg>
