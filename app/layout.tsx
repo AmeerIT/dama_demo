@@ -6,10 +6,14 @@ export const metadata: Metadata = {
   description: "نجاحك الرقمي مع داما - Your Digital Success with Dama",
 };
 
-export default function RootLayout({
+
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return <>
+    {children}
+  </>;
 }

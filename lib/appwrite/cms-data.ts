@@ -3,7 +3,7 @@ import appwriteConfig from "@/appwrite.config.json";
 
 // Client-side Appwrite client for CMS operations
 const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1")
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1")
   .setProject(appwriteConfig.projectId);
 
 const databases = new Databases(client);
@@ -315,12 +315,12 @@ export async function uploadFont(file: File): Promise<MediaFile> {
 }
 
 export function getMediaUrl(fileId: string): string {
-  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   return `${endpoint}/storage/buckets/${BUCKETS.MEDIA}/files/${fileId}/view?project=${appwriteConfig.projectId}`;
 }
 
 export function getFontUrl(fileId: string): string {
-  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   return `${endpoint}/storage/buckets/${BUCKETS.FONTS}/files/${fileId}/view?project=${appwriteConfig.projectId}`;
 }
 

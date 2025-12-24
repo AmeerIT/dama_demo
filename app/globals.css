@@ -40,6 +40,7 @@
   --font-sans: Cairo, ui-sans-serif, sans-serif;
   --font-serif: Amiri, ui-serif, serif;
   --font-mono: Cousine, ui-monospace, monospace;
+  --font-display: Caudex, Georgia, serif;
   --radius: 0.825rem;
   --shadow-x: 0px;
   --shadow-y: 1px;
@@ -95,6 +96,7 @@
   --font-sans: Cairo, ui-sans-serif, sans-serif;
   --font-serif: Amiri, ui-serif, serif;
   --font-mono: Cousine, ui-monospace, monospace;
+  --font-display: Caudex, Georgia, serif;
   --radius: 0.825rem;
   --shadow-x: 0px;
   --shadow-y: 1px;

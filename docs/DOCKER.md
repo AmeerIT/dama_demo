@@ -14,7 +14,7 @@ The application requires the following environment variables:
 
 ### Required (with defaults)
 
-- `NEXT_PUBLIC_APPWRITE_ENDPOINT` - Appwrite endpoint URL (defaults to `https://cloud.appwrite.io/v1`)
+- `NEXT_PUBLIC_APPWRITE_ENDPOINT` - Appwrite endpoint URL (defaults to `https://api.center-phone.com.io/v1`)
 - `NEXT_PUBLIC_APPWRITE_DATABASE_ID` - Appwrite database ID (defaults to `dama_db`)
 
 ### Optional
@@ -27,7 +27,7 @@ You can set environment variables in several ways:
 
 1. **Using a `.env` file** (recommended for local development):
    ```env
-   NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+   NEXT_PUBLIC_APPWRITE_ENDPOINT=https://api.center-phone.com.io/v1
    NEXT_PUBLIC_APPWRITE_DATABASE_ID=dama_db
    APPWRITE_API_KEY=your-api-key-here
    ```
@@ -36,7 +36,7 @@ You can set environment variables in several ways:
 
 3. **Using command line** (for `docker run`):
    ```bash
-   docker run -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1 ...
+   docker run -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://api.center-phone.com.io/v1 ...
    ```
 
 ## Building the Docker Image
@@ -60,7 +60,7 @@ docker-compose build
 ```bash
 docker run -d \
   -p 5589:5589 \
-  -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1 \
+  -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://api.center-phone.com.io/v1 \
   -e NEXT_PUBLIC_APPWRITE_DATABASE_ID=dama_db \
   --name dama-website \
   dama-website

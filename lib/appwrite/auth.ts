@@ -3,7 +3,7 @@ import appwriteConfig from "@/appwrite.config.json";
 
 // Client-side Appwrite client for authentication
 const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1")
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1")
   .setProject(appwriteConfig.projectId);
 
 const account = new Account(client);

@@ -325,7 +325,7 @@ If you prefer automated setup, you can use the setup script:
 ```bash
 # Set required environment variables
 export APPWRITE_API_KEY="your-api-key"
-export NEXT_PUBLIC_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
+export NEXT_PUBLIC_APPWRITE_ENDPOINT="https://api.center-phone.com.io/v1"
 export NEXT_PUBLIC_APPWRITE_DATABASE_ID="dama_db"
 
 # Run the setup script

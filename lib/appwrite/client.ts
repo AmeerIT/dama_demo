@@ -4,7 +4,7 @@ import appwriteConfig from "@/appwrite.config.json";
 // Server-side Appwrite client
 const createAdminClient = () => {
   const client = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1")
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1")
     .setProject(appwriteConfig.projectId);
 
   // Set API key for server-side operations (optional, for admin operations)
@@ -28,7 +28,7 @@ const createAdminClient = () => {
 // Public client for read-only operations
 const createPublicClient = () => {
   const client = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1")
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1")
     .setProject(appwriteConfig.projectId);
 
   return {
@@ -62,7 +62,7 @@ export const BUCKETS = {
 
 // Helper to get image URL
 export const getImageUrl = (fileId: string, width?: number, height?: number): string => {
-  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   const projectId = appwriteConfig.projectId;
 
   let url = `${endpoint}/storage/buckets/${BUCKETS.IMAGES}/files/${fileId}/view?project=${projectId}`;
@@ -75,14 +75,14 @@ export const getImageUrl = (fileId: string, width?: number, height?: number): st
 
 // Helper to get media URL
 export const getMediaUrl = (fileId: string): string => {
-  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   const projectId = appwriteConfig.projectId;
   return `${endpoint}/storage/buckets/${BUCKETS.MEDIA}/files/${fileId}/view?project=${projectId}`;
 };
 
 // Helper to get font URL
 export const getFontUrl = (fileId: string): string => {
-  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   const projectId = appwriteConfig.projectId;
   return `${endpoint}/storage/buckets/${BUCKETS.FONTS}/files/${fileId}/view?project=${projectId}`;
 };
