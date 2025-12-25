@@ -48,8 +48,7 @@ Go to the **Attributes** tab and create the following:
 
 | Attribute ID | Type | Size | Required | Default | Array |
 |-------------|------|------|----------|---------|-------|
-| `slug_ar` | String | 255 | ✓ | - | - |
-| `slug_en` | String | 255 | ✓ | - | - |
+| `slug` | String | 255 | ✓ | - | - |
 | `title_ar` | String | 500 | ✓ | - | - |
 | `title_en` | String | 500 | ✓ | - | - |
 | `excerpt_ar` | String | 1000 | - | - | - |
@@ -72,8 +71,7 @@ Go to the **Indexes** tab and create:
 
 | Index ID | Type | Attributes | Unique |
 |----------|------|------------|--------|
-| `idx_slug_ar` | Unique | `slug_ar` | ✓ |
-| `idx_slug_en` | Unique | `slug_en` | ✓ |
+| `idx_slug` | Unique | `slug` | ✓ |
 | `idx_is_published` | Key | `is_published` | - |
 | `idx_published_at` | Key | `published_at` | - |
 | `idx_status` | Key | `status` | - |
@@ -102,8 +100,7 @@ Same as `posts` table:
 
 | Attribute ID | Type | Size | Required | Default |
 |-------------|------|------|----------|---------|
-| `slug_ar` | String | 255 | ✓ | - |
-| `slug_en` | String | 255 | ✓ | - |
+| `slug` | String | 255 | ✓ | - |
 | `title_ar` | String | 500 | ✓ | - |
 | `title_en` | String | 500 | ✓ | - |
 | `description_ar` | String | 2000 | ✓ | - |
@@ -119,8 +116,7 @@ Same as `posts` table:
 
 | Index ID | Type | Attributes | Unique |
 |----------|------|------------|--------|
-| `idx_slug_ar` | Unique | `slug_ar` | ✓ |
-| `idx_slug_en` | Unique | `slug_en` | ✓ |
+| `idx_slug` | Unique | `slug` | ✓ |
 | `idx_is_active` | Key | `is_active` | - |
 | `idx_order` | Key | `order` | - |
 

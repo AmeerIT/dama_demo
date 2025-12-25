@@ -60,7 +60,7 @@ docker-compose build
 ```bash
 docker run -d \
   -p 5589:5589 \
-  -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://api.center-phone.com.io/v1 \
+  -e NEXT_PUBLIC_APPWRITE_ENDPOINT=https://api.center-phone.com/v1 \
   -e NEXT_PUBLIC_APPWRITE_DATABASE_ID=dama_db \
   --name dama-website \
   dama-website
