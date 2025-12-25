@@ -13,10 +13,10 @@ export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
 
   for (const locale of locales) {
-    for (const { slug_ar, slug_en } of slugs) {
+    for (const slug of slugs) {
       params.push({
         lang: locale,
-        slug: locale === "ar" ? slug_ar : slug_en,
+        slug: slug,
       });
     }
   }
@@ -70,8 +70,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     day: "numeric",
   }).format(new Date(post.published_at));
 
-  // Get the alternate language slug for language switcher
-  const alternateLangSlug = lang === "ar" ? post.slug_en : post.slug_ar;
+  // Get the alternate language for language switcher (same slug, different language)
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
@@ -100,7 +99,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
             {/* Language Switch for this post */}
             <Link
-              href={`/${alternateLang}/blog/${alternateLangSlug}`}
+              href={`/${alternateLang}/blog/${post.slug}`}
               className="text-sm hover:text-primary transition-colors"
             >
               {lang === "ar" ? "Read in English" : "اقرأ بالعربية"}

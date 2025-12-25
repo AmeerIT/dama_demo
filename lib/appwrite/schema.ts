@@ -15,8 +15,7 @@
  * Purpose: Store blog posts with dual-language support
  *
  * Attributes:
- * - slug_ar (string, 255, required, unique) - Arabic URL slug
- * - slug_en (string, 255, required, unique) - English URL slug
+ * - slug (string, 255, required, unique) - URL slug (unified for both languages)
  * - title_ar (string, 500, required) - Arabic title
  * - title_en (string, 500, required) - English title
  * - excerpt_ar (string, 1000, optional) - Arabic excerpt/summary
@@ -32,8 +31,7 @@
  * - author_id (string, 255, optional) - User ID of author
  *
  * Indexes:
- * - slug_ar (unique)
- * - slug_en (unique)
+ * - slug (unique)
  * - is_published (key)
  * - published_at (key, descending)
  * - status (key)
@@ -48,8 +46,7 @@
  * Purpose: Store service pages with dual-language support
  *
  * Attributes:
- * - slug_ar (string, 255, required, unique) - Arabic URL slug
- * - slug_en (string, 255, required, unique) - English URL slug
+ * - slug (string, 255, required, unique) - URL slug (unified for both languages)
  * - title_ar (string, 500, required) - Arabic title
  * - title_en (string, 500, required) - English title
  * - description_ar (string, 2000, required) - Arabic short description
@@ -62,8 +59,7 @@
  * - is_active (boolean, required, default: true) - Active status
  *
  * Indexes:
- * - slug_ar (unique)
- * - slug_en (unique)
+ * - slug (unique)
  * - is_active (key)
  * - order (key, ascending)
  *

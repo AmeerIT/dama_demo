@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { listFonts, createFont, deleteFont, uploadFont, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
 import { Upload, Loader2, Type, Trash2, Copy, Check, Plus, Eye } from "lucide-react";
+import { useAuth } from "@/lib/appwrite/auth-context";
 
 export default function FontsManagementPage() {
   const [fonts, setFonts] = useState<Font[]>([]);
@@ -51,6 +52,8 @@ export default function FontsManagementPage() {
   const [fontWeight, setFontWeight] = useState("400");
   const [fontStyle, setFontStyle] = useState("normal");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { user } = useAuth();
 
   const loadFonts = useCallback(async () => {
     setIsLoading(true);
@@ -85,7 +88,7 @@ export default function FontsManagementPage() {
     setIsUploading(true);
     try {
       // Upload font file
-      const uploaded = await uploadFont(uploadFile);
+      const uploaded = await uploadFont(uploadFile, user!.$id);
 
       // Create font record
       await createFont({
@@ -94,7 +97,7 @@ export default function FontsManagementPage() {
         family: fontFamily,
         weight: fontWeight,
         style: fontStyle,
-      });
+      }, user!.$id);
 
       // Reset form
       setUploadFile(null);
@@ -184,7 +187,7 @@ export default function FontsManagementPage() {
               <CardTitle className="text-sm">Upload New Font</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-b pb-4 mb-4 bg-accent/50 rounded-md p-4">
                 <div className="space-y-2">
                   <Label>Font File (.ttf, .woff, .woff2, .otf)</Label>
                   <Input
@@ -194,7 +197,7 @@ export default function FontsManagementPage() {
                     ref={fileInputRef}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 ">
                   <Label>Font Name</Label>
                   <Input
                     placeholder="e.g., Cairo Bold"

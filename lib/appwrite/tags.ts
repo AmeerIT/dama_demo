@@ -1,5 +1,5 @@
 import { Query } from "node-appwrite";
-import { publicClient, DATABASE_ID, COLLECTIONS } from "./client";
+import { publicClient, DATABASE_ID, TABLES } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
 
 // Types
@@ -13,16 +13,16 @@ export interface Tag {
 // Fetch all tags
 export async function getTags(): Promise<Tag[]> {
   try {
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.TAGS,
+      TABLES.TAGS,
       [
         Query.orderAsc("name_en"),
         Query.limit(100),
       ]
     );
 
-    return response.documents.map((doc) => ({
+    return response.rows.map((doc) => ({
       id: doc.$id,
       name_ar: doc.name_ar,
       name_en: doc.name_en,
@@ -37,20 +37,20 @@ export async function getTags(): Promise<Tag[]> {
 // Fetch single tag by slug
 export async function getTagBySlug(slug: string): Promise<Tag | null> {
   try {
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.TAGS,
+      TABLES.TAGS,
       [
         Query.equal("slug", slug),
         Query.limit(1),
       ]
     );
 
-    if (response.documents.length === 0) {
+    if (response.rows.length === 0) {
       return null;
     }
 
-    const doc = response.documents[0];
+    const doc = response.rows[0];
 
     return {
       id: doc.$id,
@@ -67,16 +67,16 @@ export async function getTagBySlug(slug: string): Promise<Tag | null> {
 // Get all tag slugs for static generation
 export async function getAllTagSlugs(): Promise<string[]> {
   try {
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.TAGS,
+      TABLES.TAGS,
       [
         Query.select(["slug"]),
         Query.limit(100),
       ]
     );
 
-    return response.documents.map((doc) => doc.slug);
+    return response.rows.map((doc) => doc.slug);
   } catch (error) {
     console.error("Error fetching tag slugs:", error);
     return [];

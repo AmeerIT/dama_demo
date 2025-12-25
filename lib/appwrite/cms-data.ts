@@ -1,35 +1,22 @@
-import { Client, Databases, Storage, Query, ID } from "appwrite";
+import { Client, TablesDB, Storage, Query, ID, Permission, Role } from "appwrite";
 import appwriteConfig from "@/appwrite.config.json";
+import { BUCKETS, TABLES } from "./client";
 
 // Client-side Appwrite client for CMS operations
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1")
   .setProject(appwriteConfig.projectId);
 
-const databases = new Databases(client);
+const tablesDb = new TablesDB(client);
 const storage = new Storage(client);
 
 // Database and collection IDs
 const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "dama_db";
 
-export const COLLECTIONS = {
-  POSTS: "posts",
-  SERVICES: "services",
-  TAGS: "tags",
-  FONTS: "fonts",
-} as const;
-
-export const BUCKETS = {
-  IMAGES: "images",
-  MEDIA: "media",
-  FONTS: "fonts",
-} as const;
-
 // Types
 export interface Post {
   $id: string;
-  slug_ar: string;
-  slug_en: string;
+  slug: string;
   title_ar: string;
   title_en: string;
   excerpt_ar?: string;
@@ -50,8 +37,7 @@ export type PostFormData = Omit<Post, "$id" | "$createdAt" | "$updatedAt">;
 
 export interface Service {
   $id: string;
-  slug_ar: string;
-  slug_en: string;
+  slug: string;
   title_ar: string;
   title_en: string;
   description_ar: string;
@@ -109,13 +95,13 @@ export interface DashboardStats {
 export async function getDashboardStats(): Promise<DashboardStats> {
   try {
     const [posts, services, tags, media] = await Promise.all([
-      databases.listDocuments(DATABASE_ID, COLLECTIONS.POSTS, [Query.limit(1000)]),
-      databases.listDocuments(DATABASE_ID, COLLECTIONS.SERVICES, [Query.limit(1000)]),
-      databases.listDocuments(DATABASE_ID, COLLECTIONS.TAGS, [Query.limit(1000)]),
+      tablesDb.listRows(DATABASE_ID, TABLES.POSTS, [Query.limit(1000)]),
+      tablesDb.listRows(DATABASE_ID, TABLES.SERVICES, [Query.limit(1000)]),
+      tablesDb.listRows(DATABASE_ID, TABLES.TAGS, [Query.limit(1000)]),
       storage.listFiles(BUCKETS.MEDIA, [Query.limit(1000)]),
     ]);
 
-    const publishedPosts = posts.documents.filter((p) => p.is_published).length;
+    const publishedPosts = posts.rows.filter((p) => p.is_published).length;
 
     return {
       totalPosts: posts.total,
@@ -164,129 +150,133 @@ export async function listPosts(options?: {
     queries.push(Query.search("title_en", options.search));
   }
 
-  const response = await databases.listDocuments(DATABASE_ID, COLLECTIONS.POSTS, queries);
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.POSTS, queries);
   return {
-    documents: response.documents as unknown as Post[],
+    documents: response.rows as unknown as Post[],
     total: response.total,
   };
 }
 
 export async function getPost(id: string): Promise<Post> {
-  const response = await databases.getDocument(DATABASE_ID, COLLECTIONS.POSTS, id);
+  const response = await tablesDb.getRow(DATABASE_ID, TABLES.POSTS, id);
   return response as unknown as Post;
 }
 
-export async function createPost(data: Omit<Post, "$id" | "$createdAt" | "$updatedAt">): Promise<Post> {
-  const response = await databases.createDocument(
+export async function createPost(data: Omit<Post, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Post> {
+  const response = await tablesDb.createRow(
     DATABASE_ID,
-    COLLECTIONS.POSTS,
+    TABLES.POSTS,
     ID.unique(),
-    data
+    data,
+    defaultPermissions(userId)
   );
   return response as unknown as Post;
 }
 
 export async function updatePost(id: string, data: Partial<Post>): Promise<Post> {
-  const response = await databases.updateDocument(DATABASE_ID, COLLECTIONS.POSTS, id, data);
+  const response = await tablesDb.updateRow(DATABASE_ID, TABLES.POSTS, id, data);
   return response as unknown as Post;
 }
 
 export async function deletePost(id: string): Promise<void> {
-  await databases.deleteDocument(DATABASE_ID, COLLECTIONS.POSTS, id);
+  await tablesDb.deleteRow(DATABASE_ID, TABLES.POSTS, id);
 }
 
 // Services CRUD
 export async function listServices(): Promise<{ documents: Service[]; total: number }> {
-  const response = await databases.listDocuments(DATABASE_ID, COLLECTIONS.SERVICES, [
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.SERVICES, [
     Query.orderAsc("order"),
     Query.limit(100),
   ]);
   return {
-    documents: response.documents as unknown as Service[],
+    documents: response.rows as unknown as Service[],
     total: response.total,
   };
 }
 
 export async function getService(id: string): Promise<Service> {
-  const response = await databases.getDocument(DATABASE_ID, COLLECTIONS.SERVICES, id);
+  const response = await tablesDb.getRow(DATABASE_ID, TABLES.SERVICES, id);
   return response as unknown as Service;
 }
 
-export async function createService(data: Omit<Service, "$id" | "$createdAt" | "$updatedAt">): Promise<Service> {
-  const response = await databases.createDocument(
+export async function createService(data: Omit<Service, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Service> {
+  const response = await tablesDb.createRow(
     DATABASE_ID,
-    COLLECTIONS.SERVICES,
+    TABLES.SERVICES,
     ID.unique(),
-    data
+    data,
+    defaultPermissions(userId)
   );
   return response as unknown as Service;
 }
 
 export async function updateService(id: string, data: Partial<Service>): Promise<Service> {
-  const response = await databases.updateDocument(DATABASE_ID, COLLECTIONS.SERVICES, id, data);
+  const response = await tablesDb.updateRow(DATABASE_ID, TABLES.SERVICES, id, data);
   return response as unknown as Service;
 }
 
 export async function deleteService(id: string): Promise<void> {
-  await databases.deleteDocument(DATABASE_ID, COLLECTIONS.SERVICES, id);
+  await tablesDb.deleteRow(DATABASE_ID, TABLES.SERVICES, id);
 }
 
 // Tags CRUD
 export async function listTags(): Promise<{ documents: Tag[]; total: number }> {
-  const response = await databases.listDocuments(DATABASE_ID, COLLECTIONS.TAGS, [
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.TAGS, [
     Query.orderAsc("name_en"),
     Query.limit(100),
   ]);
   return {
-    documents: response.documents as unknown as Tag[],
+    documents: response.rows as unknown as Tag[],
     total: response.total,
   };
 }
 
-export async function createTag(data: Omit<Tag, "$id" | "$createdAt" | "$updatedAt">): Promise<Tag> {
-  const response = await databases.createDocument(
+export async function createTag(data: Omit<Tag, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Tag> {
+  const response = await tablesDb.createRow(
     DATABASE_ID,
-    COLLECTIONS.TAGS,
+    TABLES.TAGS,
     ID.unique(),
-    data
+    data,
+    defaultPermissions(userId)
   );
   return response as unknown as Tag;
 }
 
 export async function updateTag(id: string, data: Partial<Tag>): Promise<Tag> {
-  const response = await databases.updateDocument(DATABASE_ID, COLLECTIONS.TAGS, id, data);
+  const response = await tablesDb.updateRow(DATABASE_ID, TABLES.TAGS, id, data);
   return response as unknown as Tag;
 }
 
 export async function deleteTag(id: string): Promise<void> {
-  await databases.deleteDocument(DATABASE_ID, COLLECTIONS.TAGS, id);
+  await tablesDb.deleteRow(DATABASE_ID, TABLES.TAGS, id);
 }
 
 // Fonts CRUD
 export async function listFonts(): Promise<{ documents: Font[]; total: number }> {
-  const response = await databases.listDocuments(DATABASE_ID, COLLECTIONS.FONTS, [
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.FONTS, [
     Query.orderAsc("name"),
     Query.limit(100),
   ]);
   return {
-    documents: response.documents as unknown as Font[],
+    documents: response.rows as unknown as Font[],
     total: response.total,
   };
 }
 
-export async function createFont(data: Omit<Font, "$id" | "$createdAt" | "$updatedAt">): Promise<Font> {
-  const response = await databases.createDocument(
+export async function createFont(data: Omit<Font, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Font> {
+  const response = await tablesDb.createRow(
     DATABASE_ID,
-    COLLECTIONS.FONTS,
+    TABLES.FONTS,
     ID.unique(),
-    data
+    data,
+    defaultPermissions(userId)
   );
   return response as unknown as Font;
 }
 
 export async function deleteFont(id: string, fileId: string): Promise<void> {
   await Promise.all([
-    databases.deleteDocument(DATABASE_ID, COLLECTIONS.FONTS, id),
+    tablesDb.deleteRow(DATABASE_ID, TABLES.FONTS, id),
     storage.deleteFile(BUCKETS.FONTS, fileId),
   ]);
 }
@@ -300,17 +290,36 @@ export async function listMedia(): Promise<MediaFile[]> {
   return response.files as unknown as MediaFile[];
 }
 
-export async function uploadMedia(file: File): Promise<MediaFile> {
-  const response = await storage.createFile(BUCKETS.MEDIA, ID.unique(), file);
-  return response as unknown as MediaFile;
-}
-
 export async function deleteMedia(fileId: string): Promise<void> {
   await storage.deleteFile(BUCKETS.MEDIA, fileId);
 }
 
-export async function uploadFont(file: File): Promise<MediaFile> {
-  const response = await storage.createFile(BUCKETS.FONTS, ID.unique(), file);
+export async function uploadMedia(file: File, userId: string): Promise<MediaFile> {
+  const response = await storage.createFile(
+    BUCKETS.MEDIA,
+    ID.unique(),
+    file,
+    defaultPermissions(userId),
+  );
+  return response as unknown as MediaFile;
+}
+
+export const defaultPermissions = (userId: string) => [
+  Permission.read(Role.any()),
+  Permission.update(Role.users()),
+  Permission.delete(Role.users()),
+  Permission.update(Role.users()),
+  Permission.write(Role.user(userId))
+]
+
+
+export async function uploadFont(file: File, userId: string): Promise<MediaFile> {
+  const response = await storage.createFile(
+    BUCKETS.FONTS,
+    ID.unique(),
+    file,
+    defaultPermissions(userId),
+  );
   return response as unknown as MediaFile;
 }
 
@@ -324,5 +333,5 @@ export function getFontUrl(fileId: string): string {
   return `${endpoint}/storage/buckets/${BUCKETS.FONTS}/files/${fileId}/view?project=${appwriteConfig.projectId}`;
 }
 
-export { databases, storage, DATABASE_ID, ID };
+export { tablesDb, storage, DATABASE_ID, ID };
 

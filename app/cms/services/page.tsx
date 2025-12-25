@@ -184,7 +184,7 @@ export default function ServicesListPage() {
                             title="View service"
                           >
                             <a
-                              href={`/en/services/${service.slug_en}`}
+                              href={`/en/services/${service.slug}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

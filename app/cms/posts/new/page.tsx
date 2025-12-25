@@ -5,15 +5,18 @@ import { useRouter } from "next/navigation";
 import { CMSHeader } from "@/components/cms/header";
 import { PostEditorForm } from "@/components/cms/post-editor-form";
 import { createPost, type PostFormData } from "@/lib/appwrite/cms-data";
+import { useAuth } from "@/lib/appwrite/auth-context";
 
 export default function NewPostPage() {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
 
+  const { user } = useAuth();
+
   const handleSave = async (data: PostFormData) => {
     setIsSaving(true);
     try {
-      const post = await createPost(data);
+      const post = await createPost(data, user!.$id);
       router.push(`/cms/posts/${post.$id}`);
     } catch (error) {
       console.error("Failed to create post:", error);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import { listFonts, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
 
 interface LexicalRendererProps {
   content: string;
@@ -16,6 +17,8 @@ interface LexicalNode {
   src?: string;
   alt?: string;
   listType?: string;
+  videoId?: string;
+  style?: string;
 }
 
 interface LexicalContent {
@@ -31,7 +34,7 @@ const IS_STRIKETHROUGH = 4;
 const IS_UNDERLINE = 8;
 const IS_CODE = 16;
 
-function renderText(text: string, format: number = 0): React.ReactNode {
+function renderText(text: string, format: number = 0, style?: string): React.ReactNode {
   let node: React.ReactNode = text;
 
   if (format & IS_CODE) {
@@ -53,18 +56,43 @@ function renderText(text: string, format: number = 0): React.ReactNode {
   return node;
 }
 
+function parseInlineStyles(styleString?: string): React.CSSProperties {
+  if (!styleString) return {};
+
+  const styles: React.CSSProperties = {};
+  const stylePairs = styleString.split(';').filter(Boolean);
+
+  stylePairs.forEach(pair => {
+    const [key, value] = pair.split(':').map(s => s.trim());
+    if (key && value) {
+      // Convert CSS property names to camelCase for React
+      const camelKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+      styles[camelKey as keyof React.CSSProperties] = value as any;
+    }
+  });
+
+  return styles;
+}
+
 function renderNode(node: LexicalNode, index: number): React.ReactNode {
   const key = `${node.type}-${index}`;
 
   switch (node.type) {
     case "text":
-      return <span key={key}>{renderText(node.text || "", node.format)}</span>;
+      const inlineStyles = parseInlineStyles(node.style);
+      const hasStyles = Object.keys(inlineStyles).length > 0;
+
+      return (
+        <span key={key} style={hasStyles ? inlineStyles : undefined}>
+          {renderText(node.text || "", node.format, node.style)}
+        </span>
+      );
 
     case "paragraph":
       return (
-        <p key={key} className="mb-4 leading-relaxed">
+        <div key={key} className="mb-4 leading-relaxed">
           {node.children?.map((child, i) => renderNode(child, i))}
-        </p>
+        </div>
       );
 
     case "heading":
@@ -152,6 +180,26 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
         </figure>
       );
 
+    case "youtube":
+      return (
+        <figure key={key} className="my-6">
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src={`https://www.youtube.com/embed/${node.videoId}`}
+              className="absolute top-0 left-0 w-full h-full rounded-lg"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={node.alt || "YouTube video"}
+            />
+          </div>
+          {node.alt && (
+            <figcaption className="text-center text-sm text-muted-foreground mt-2">
+              {node.alt}
+            </figcaption>
+          )}
+        </figure>
+      );
+
     case "linebreak":
       return <br key={key} />;
 
@@ -169,6 +217,53 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
 }
 
 export function LexicalRenderer({ content }: LexicalRendererProps) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  // Load custom fonts
+  useEffect(() => {
+    const loadFonts = async () => {
+      try {
+        const result = await listFonts();
+
+        // Inject font CSS
+        const fontCSS = result.documents
+          .map((font) => {
+            const url = getFontUrl(font.file_id);
+            return `
+@font-face {
+  font-family: '${font.family}';
+  src: url('${url}') format('woff2');
+  font-weight: ${font.weight};
+  font-style: ${font.style};
+  font-display: swap;
+}`;
+          })
+          .join('\n');
+
+        // Remove existing custom font style if present
+        const existingStyle = document.getElementById('custom-fonts-renderer-style');
+        if (existingStyle) {
+          existingStyle.remove();
+        }
+
+        // Inject new style
+        if (fontCSS.trim()) {
+          const styleElement = document.createElement('style');
+          styleElement.id = 'custom-fonts-renderer-style';
+          styleElement.textContent = fontCSS;
+          document.head.appendChild(styleElement);
+        }
+
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+        setFontsLoaded(true); // Continue rendering even if fonts fail
+      }
+    };
+
+    loadFonts();
+  }, []);
+
   const parsedContent = useMemo(() => {
     try {
       // Try parsing as JSON (Lexical format)

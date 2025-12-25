@@ -41,8 +41,14 @@
     "buckets": [
         {
             "$id": "694c1573001db670c6e6",
-            "$permissions": [],
-            "fileSecurity": false,
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "fileSecurity": true,
             "name": "fonts",
             "enabled": true,
             "maximumFileSize": 300000000,
@@ -77,11 +83,17 @@
         },
         {
             "$id": "media",
-            "$permissions": [],
-            "fileSecurity": false,
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")",
+                "read(\"any\")"
+            ],
+            "fileSecurity": true,
             "name": "media",
             "enabled": true,
-            "maximumFileSize": 52428800,
+            "maximumFileSize": 750000000,
             "allowedFileExtensions": [
                 "jpg",
                 "jpeg",
@@ -111,30 +123,22 @@
             "$id": "posts",
             "$permissions": [
                 "create(\"users\")",
-                "read(\"any\")",
+                "read(\"users\")",
                 "update(\"users\")",
-                "delete(\"users\")"
+                "delete(\"users\")",
+                "read(\"any\")"
             ],
             "databaseId": "dama_db",
             "name": "Posts",
             "enabled": true,
-            "rowSecurity": false,
+            "rowSecurity": true,
             "columns": [
                 {
-                    "key": "slug_ar",
+                    "key": "slug",
                     "type": "string",
                     "required": false,
                     "array": false,
-                    "size": 255,
-                    "default": null,
-                    "encrypt": false
-                },
-                {
-                    "key": "slug_en",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 255,
+                    "size": 100,
                     "default": null,
                     "encrypt": false
                 },
@@ -255,29 +259,20 @@
             ],
             "indexes": [
                 {
-                    "key": "idx_slug_ar",
-                    "type": "unique",
-                    "status": "available",
-                    "columns": [
-                        "slug_ar"
-                    ],
-                    "orders": []
-                },
-                {
-                    "key": "idx_slug_en",
-                    "type": "unique",
-                    "status": "available",
-                    "columns": [
-                        "slug_en"
-                    ],
-                    "orders": []
-                },
-                {
                     "key": "idx_is_published",
                     "type": "key",
                     "status": "available",
                     "columns": [
                         "is_published"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_slug",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "slug"
                     ],
                     "orders": []
                 },
@@ -307,33 +302,16 @@
             "$id": "services",
             "$permissions": [
                 "create(\"users\")",
-                "read(\"any\")",
+                "read(\"users\")",
                 "update(\"users\")",
-                "delete(\"users\")"
+                "delete(\"users\")",
+                "read(\"any\")"
             ],
             "databaseId": "dama_db",
             "name": "Services",
             "enabled": true,
-            "rowSecurity": false,
+            "rowSecurity": true,
             "columns": [
-                {
-                    "key": "slug_ar",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 255,
-                    "default": null,
-                    "encrypt": false
-                },
-                {
-                    "key": "slug_en",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 255,
-                    "default": null,
-                    "encrypt": false
-                },
                 {
                     "key": "title_ar",
                     "type": "string",
@@ -421,24 +399,24 @@
                     "required": false,
                     "array": false,
                     "default": true
+                },
+                {
+                    "key": "slug",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
                 }
             ],
             "indexes": [
                 {
-                    "key": "idx_slug_ar",
+                    "key": "idx_slug",
                     "type": "unique",
                     "status": "available",
                     "columns": [
-                        "slug_ar"
-                    ],
-                    "orders": []
-                },
-                {
-                    "key": "idx_slug_en",
-                    "type": "unique",
-                    "status": "available",
-                    "columns": [
-                        "slug_en"
+                        "slug"
                     ],
                     "orders": []
                 },
@@ -468,14 +446,15 @@
             "$id": "tags",
             "$permissions": [
                 "create(\"users\")",
-                "read(\"any\")",
+                "read(\"users\")",
                 "update(\"users\")",
-                "delete(\"users\")"
+                "delete(\"users\")",
+                "read(\"any\")"
             ],
             "databaseId": "dama_db",
             "name": "Tags",
             "enabled": true,
-            "rowSecurity": false,
+            "rowSecurity": true,
             "columns": [
                 {
                     "key": "name_ar",
@@ -530,14 +509,15 @@
             "$id": "fonts",
             "$permissions": [
                 "create(\"users\")",
-                "read(\"any\")",
+                "read(\"users\")",
                 "update(\"users\")",
-                "delete(\"users\")"
+                "delete(\"users\")",
+                "read(\"any\")"
             ],
             "databaseId": "dama_db",
             "name": "Fonts",
             "enabled": true,
-            "rowSecurity": false,
+            "rowSecurity": true,
             "columns": [
                 {
                     "key": "name",

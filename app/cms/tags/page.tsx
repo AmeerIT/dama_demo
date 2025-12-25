@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { listTags, createTag, updateTag, deleteTag, type Tag } from "@/lib/appwrite/cms-data";
 import { Plus, Loader2, Tags, Edit, Trash2, Check, X } from "lucide-react";
+import { useAuth } from "@/lib/appwrite/auth-context";
 
 export default function TagsManagementPage() {
     const [tags, setTags] = useState<Tag[]>([]);
@@ -36,6 +37,8 @@ export default function TagsManagementPage() {
     const [editNameEn, setEditNameEn] = useState("");
     const [editNameAr, setEditNameAr] = useState("");
     const [editSlug, setEditSlug] = useState("");
+
+    const { user } = useAuth();
 
     const loadTags = useCallback(async () => {
         setIsLoading(true);
@@ -75,7 +78,8 @@ export default function TagsManagementPage() {
                 name_en: newNameEn,
                 name_ar: newNameAr || newNameEn,
                 slug: newSlug,
-            });
+            }, user!.$id);
+
             setNewNameEn("");
             setNewNameAr("");
             setNewSlug("");

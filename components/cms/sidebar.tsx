@@ -44,11 +44,11 @@ export function CMSSidebar() {
       )}
     >
       {/* Logo */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border">
+      <div className="flex items-center justify-between h-16 px-4">
         {!collapsed && (
           <Link href="/cms" className="flex items-center gap-2">
             <img src="/logo-dama.svg" alt="Dama" className="h-8 w-auto invert" />
-            <span className="font-bold text-lg">CMS</span>
+            <span className="font-bold text-lg">Dama Productions</span>
           </Link>
         )}
         <Button
@@ -73,10 +73,10 @@ export function CMSSidebar() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-primary hover:text-background hover:py-5 hover:rounded-none duration-100 ",
                     active
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      ? "bg-secondary text-foreground font-bold"
+                      : "text-sidebar-foreground/70 hover:bg-foreground hover:text-background"
                   )}
                   title={collapsed ? item.label : undefined}
                 >
@@ -89,12 +89,11 @@ export function CMSSidebar() {
         </ul>
       </nav>
 
-      {/* Footer */}
       {!collapsed && (
         <div className="p-4 border-t border-sidebar-border">
           <Link
             href="/"
-            className="text-sm text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors"
+            className="text-sm text-sidebar-foreground hover:text-sidebar-primary transition-all"
           >
             ← Back to website
           </Link>

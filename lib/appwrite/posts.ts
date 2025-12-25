@@ -1,5 +1,5 @@
 import { Query } from "node-appwrite";
-import { publicClient, DATABASE_ID, COLLECTIONS, getImageUrl } from "./client";
+import { publicClient, DATABASE_ID, TABLES, getImageUrl } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
 
 // Types
@@ -12,8 +12,7 @@ export interface Tag {
 
 export interface Post {
   id: string;
-  slug_ar: string;
-  slug_en: string;
+  slug: string;
   title_ar: string;
   title_en: string;
   excerpt_ar?: string;
@@ -46,17 +45,16 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
       Query.offset(offset),
     ];
 
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.POSTS,
+      TABLES.POSTS,
       queries
     );
 
     // Transform documents to Post type
-    const posts: Post[] = response.documents.map((doc) => ({
+    const posts: Post[] = response.rows.map((doc) => ({
       id: doc.$id,
-      slug_ar: doc.slug_ar,
-      slug_en: doc.slug_en,
+      slug: doc.slug,
       title_ar: doc.title_ar,
       title_en: doc.title_en,
       excerpt_ar: doc.excerpt_ar,
@@ -88,28 +86,25 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
 // Fetch single post by slug
 export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | null> {
   try {
-    const slugField = lang === "ar" ? "slug_ar" : "slug_en";
-
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.POSTS,
+      TABLES.POSTS,
       [
-        Query.equal(slugField, slug),
+        Query.equal("slug", slug),
         Query.equal("is_published", true),
         Query.limit(1),
       ]
     );
 
-    if (response.documents.length === 0) {
+    if (response.rows.length === 0) {
       return null;
     }
 
-    const doc = response.documents[0];
+    const doc = response.rows[0];
 
     return {
       id: doc.$id,
-      slug_ar: doc.slug_ar,
-      slug_en: doc.slug_en,
+      slug: doc.slug,
       title_ar: doc.title_ar,
       title_en: doc.title_en,
       excerpt_ar: doc.excerpt_ar,
@@ -129,22 +124,19 @@ export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | 
 }
 
 // Get all post slugs for static generation
-export async function getAllPostSlugs(): Promise<{ slug_ar: string; slug_en: string }[]> {
+export async function getAllPostSlugs(): Promise<string[]> {
   try {
-    const response = await publicClient.databases.listDocuments(
+    const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
-      COLLECTIONS.POSTS,
+      TABLES.POSTS,
       [
         Query.equal("is_published", true),
-        Query.select(["slug_ar", "slug_en"]),
+        Query.select(["slug"]),
         Query.limit(1000), // Adjust based on expected content volume
       ]
     );
 
-    return response.documents.map((doc) => ({
-      slug_ar: doc.slug_ar,
-      slug_en: doc.slug_en,
-    }));
+    return response.rows.map((doc) => doc.slug);
   } catch (error) {
     console.error("Error fetching post slugs:", error);
     return [];

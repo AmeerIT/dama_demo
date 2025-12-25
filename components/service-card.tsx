@@ -20,7 +20,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function ServiceCard({ service, lang }: ServiceCardProps) {
   const title = lang === "ar" ? service.title_ar : service.title_en;
-  const slug = lang === "ar" ? service.slug_ar : service.slug_en;
   const description = lang === "ar" ? service.description_ar : service.description_en;
   const isRTL = lang === "ar";
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
@@ -28,7 +27,7 @@ export function ServiceCard({ service, lang }: ServiceCardProps) {
   const IconComponent = iconMap[service.icon] || BookOpen;
 
   return (
-    <Link href={`/${lang}/services/${slug}`}>
+    <Link href={`/${lang}/services/${service.slug}`}>
       <Card className="group h-full overflow-hidden border-border/50 hover:border-primary/50 transition-all hover:shadow-lg">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-3">

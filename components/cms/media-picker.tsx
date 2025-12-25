@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Upload, Image as ImageIcon, Check, X } from "lucide-react";
+import { useAuth } from "@/lib/appwrite/auth-context";
 
 interface MediaPickerProps {
   open: boolean;
@@ -24,8 +25,9 @@ export function MediaPicker({ open, onOpenChange, onSelect }: MediaPickerProps) 
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
-
+  const { user } = useAuth();
   const loadMedia = useCallback(async () => {
+
     setIsLoading(true);
     try {
       const mediaFiles = await listMedia();
@@ -50,7 +52,7 @@ export function MediaPicker({ open, onOpenChange, onSelect }: MediaPickerProps) 
 
     setIsUploading(true);
     try {
-      const uploaded = await uploadMedia(file);
+      const uploaded = await uploadMedia(file, user!.$id!);
       await loadMedia();
       setSelectedFile(uploaded.$id);
     } catch (error) {
@@ -116,11 +118,10 @@ export function MediaPicker({ open, onOpenChange, onSelect }: MediaPickerProps) 
                   key={file.$id}
                   type="button"
                   onClick={() => setSelectedFile(file.$id)}
-                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedFile === file.$id
-                      ? "border-primary ring-2 ring-primary/20"
-                      : "border-transparent hover:border-border"
-                  }`}
+                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedFile === file.$id
+                    ? "border-primary ring-2 ring-primary/20"
+                    : "border-transparent hover:border-border"
+                    }`}
                 >
                   <img
                     src={getMediaUrl(file.$id)}

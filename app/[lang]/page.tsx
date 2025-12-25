@@ -7,6 +7,8 @@ interface PageProps {
   params: Promise<{ lang: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage({ params }: PageProps) {
   const { lang } = await params;
   const dictionary = await getDictionary(lang as Locale);

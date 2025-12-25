@@ -9,32 +9,26 @@ import { Calendar } from "lucide-react";
 interface BlogCardProps {
   post: Post;
   lang: Locale;
+  formattedDate: string;
 }
 
-export function BlogCard({ post, lang }: BlogCardProps) {
+export function BlogCard({ post, lang, formattedDate }: BlogCardProps) {
   const title = lang === "ar" ? post.title_ar : post.title_en;
-  const slug = lang === "ar" ? post.slug_ar : post.slug_en;
   const excerpt = lang === "ar" ? post.excerpt_ar : post.excerpt_en;
 
-  const formattedDate = new Intl.DateTimeFormat(lang === "ar" ? "ar-IQ" : "en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(post.published_at));
-
   return (
-    <Link href={`/${lang}/blog/${slug}`}>
+    <Link href={`/${lang}/blog/${post.slug}`}>
       <Card className="group h-full overflow-hidden border-border/50 hover:border-primary/50 transition-all hover:shadow-lg">
         {/* Featured Image */}
         {post.featured_image && (
-          <div className="relative aspect-[16/10] overflow-hidden">
+          <div className="relative aspect-16/10 overflow-hidden">
             <Image
               src={post.featured_image}
               alt={title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
           </div>
         )}
 

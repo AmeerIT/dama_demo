@@ -1,4 +1,4 @@
-import { Client, Databases, Storage, Account } from "node-appwrite";
+import { Client, Storage, Account, TablesDB } from "node-appwrite";
 import appwriteConfig from "@/appwrite.config.json";
 
 // Server-side Appwrite client
@@ -16,8 +16,8 @@ const createAdminClient = () => {
     get account() {
       return new Account(client);
     },
-    get databases() {
-      return new Databases(client);
+    get TablesDB() {
+      return new TablesDB(client);
     },
     get storage() {
       return new Storage(client);
@@ -32,8 +32,8 @@ const createPublicClient = () => {
     .setProject(appwriteConfig.projectId);
 
   return {
-    get databases() {
-      return new Databases(client);
+    get tablesDb() {
+      return new TablesDB(client);
     },
     get storage() {
       return new Storage(client);
@@ -46,18 +46,18 @@ export const publicClient = createPublicClient();
 
 // Database and collection IDs
 export const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "dama_db";
-export const COLLECTIONS = {
+export const TABLES = {
   POSTS: "posts",
   SERVICES: "services",
   TAGS: "tags",
-  POST_TAGS: "post_tags",
+  // POST_TAGS: "post_tags",
+  FONTS: "fonts",
 } as const;
 
 // Storage bucket IDs
 export const BUCKETS = {
-  IMAGES: "images",
   MEDIA: "media",
-  FONTS: "fonts",
+  FONTS: "694c1573001db670c6e6",
 } as const;
 
 // Helper to get image URL
@@ -65,7 +65,7 @@ export const getImageUrl = (fileId: string, width?: number, height?: number): st
   const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   const projectId = appwriteConfig.projectId;
 
-  let url = `${endpoint}/storage/buckets/${BUCKETS.IMAGES}/files/${fileId}/view?project=${projectId}`;
+  let url = `${endpoint}/storage/buckets/${BUCKETS.MEDIA}/files/${fileId}/view?project=${projectId}`;
 
   if (width) url += `&width=${width}`;
   if (height) url += `&height=${height}`;

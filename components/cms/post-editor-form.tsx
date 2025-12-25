@@ -19,8 +19,10 @@ import {
   Image as ImageIcon,
   X,
   ArrowLeft,
+  RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
+import slugify from "slugify";
 
 interface PostEditorFormProps {
   post?: Post;
@@ -29,16 +31,14 @@ interface PostEditorFormProps {
 }
 
 function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
+  return slugify(text, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });
 }
 
 export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"en" | "ar">("en");
   const [mediaPickerOpen, setMediaPickerOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,8 +46,7 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
   // Form state
   const [titleEn, setTitleEn] = useState(post?.title_en || "");
   const [titleAr, setTitleAr] = useState(post?.title_ar || "");
-  const [slugEn, setSlugEn] = useState(post?.slug_en || "");
-  const [slugAr, setSlugAr] = useState(post?.slug_ar || "");
+  const [slug, setSlug] = useState(post?.slug || "");
   const [excerptEn, setExcerptEn] = useState(post?.excerpt_en || "");
   const [excerptAr, setExcerptAr] = useState(post?.excerpt_ar || "");
   const [bodyEn, setBodyEn] = useState(post?.body_en || "");
@@ -59,15 +58,25 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
 
   const handleTitleEnChange = (value: string) => {
     setTitleEn(value);
-    if (!post) {
-      setSlugEn(generateSlug(value));
+    // Auto-generate slug from English title if creating new post and slug is empty
+    if (!post && !slug) {
+      setSlug(generateSlug(value));
     }
   };
 
   const handleTitleArChange = (value: string) => {
     setTitleAr(value);
-    if (!post) {
-      setSlugAr(generateSlug(value));
+    // Auto-generate slug from Arabic title if creating new post, slug is empty, and no English title
+    if (!post && !slug && !titleEn) {
+      setSlug(generateSlug(value));
+    }
+  };
+
+  const handleGenerateSlug = () => {
+    // Prefer English title, fallback to Arabic
+    const title = titleEn || titleAr;
+    if (title) {
+      setSlug(generateSlug(title));
     }
   };
 
@@ -88,17 +97,13 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
       return;
     }
 
-    if (!slugEn && !slugAr) {
-      setError("Please enter a slug in at least one language");
-      return;
-    }
+    // Slug will be auto-generated if empty, so no need to validate
 
     try {
       const data: PostFormData = {
         title_en: titleEn,
         title_ar: titleAr,
-        slug_en: slugEn || generateSlug(titleEn),
-        slug_ar: slugAr || generateSlug(titleAr),
+        slug: slug || generateSlug(titleEn || titleAr),
         excerpt_en: excerptEn || "",
         excerpt_ar: excerptAr || "",
         body_en: bodyEn,
@@ -165,6 +170,36 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
+          {/* URL Slug */}
+          <Card>
+            <CardHeader>
+              <CardTitle>URL Slug</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-2">
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="post-url-slug"
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleGenerateSlug}
+                  disabled={!titleEn && !titleAr}
+                  title="Generate slug from title"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Auto-generated from title. Click the refresh button to regenerate.
+              </p>
+            </CardContent>
+          </Card>
+
           {/* Language Tabs */}
           <Card>
             <CardContent className="pt-6">
@@ -197,16 +232,6 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
                       value={titleEn}
                       onChange={(e) => handleTitleEnChange(e.target.value)}
                       placeholder="Enter post title..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="slug-en">Slug (English)</Label>
-                    <Input
-                      id="slug-en"
-                      value={slugEn}
-                      onChange={(e) => setSlugEn(e.target.value)}
-                      placeholder="post-url-slug"
                     />
                   </div>
 
@@ -247,16 +272,6 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="slug-ar">الرابط (عربي)</Label>
-                    <Input
-                      id="slug-ar"
-                      value={slugAr}
-                      onChange={(e) => setSlugAr(e.target.value)}
-                      placeholder="رابط-المقال"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
                     <Label htmlFor="excerpt-ar">الوصف المختصر (عربي)</Label>
                     <Textarea
                       id="excerpt-ar"
@@ -292,11 +307,10 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
               </CardHeader>
               <CardContent>
                 <div
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    post.is_published
-                      ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                      : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                  }`}
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${post.is_published
+                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                    : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                    }`}
                 >
                   {post.is_published ? "Published" : "Draft"}
                 </div>

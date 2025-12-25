@@ -12,10 +12,10 @@ export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
 
   for (const locale of locales) {
-    for (const { slug_ar, slug_en } of slugs) {
+    for (const slug of slugs) {
       params.push({
         lang: locale,
-        slug: locale === "ar" ? slug_ar : slug_en,
+        slug: slug,
       });
     }
   }
@@ -64,8 +64,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const isRTL = lang === "ar";
   const ArrowIcon = isRTL ? ArrowRight : ArrowLeft;
 
-  // Get the alternate language slug for language switcher
-  const alternateLangSlug = lang === "ar" ? service.slug_en : service.slug_ar;
+  // Get the alternate language for language switcher (same slug, different language)
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
@@ -93,7 +92,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           {/* Language Switch for this service */}
           <div className="mt-4">
             <Link
-              href={`/${alternateLang}/services/${alternateLangSlug}`}
+              href={`/${alternateLang}/services/${service.slug}`}
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               {lang === "ar" ? "View in English" : "عرض بالعربية"}
@@ -103,7 +102,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
         {/* Service Image */}
         {service.image && (
-          <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-10">
+          <div className="relative aspect-video rounded-xl overflow-hidden mb-10">
             <Image
               src={service.image}
               alt={title}

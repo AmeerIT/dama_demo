@@ -29,7 +29,9 @@ import {
   Mic2,
   BookOpen,
   Briefcase,
+  RefreshCw,
 } from "lucide-react";
+import slugify from "slugify";
 
 interface ServiceEditorFormProps {
   service?: Service;
@@ -47,12 +49,11 @@ const iconOptions = [
 ];
 
 function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
+  return slugify(text, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });
 }
 
 export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFormProps) {
@@ -63,8 +64,7 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
   // Form state
   const [titleEn, setTitleEn] = useState(service?.title_en || "");
   const [titleAr, setTitleAr] = useState(service?.title_ar || "");
-  const [slugEn, setSlugEn] = useState(service?.slug_en || "");
-  const [slugAr, setSlugAr] = useState(service?.slug_ar || "");
+  const [slug, setSlug] = useState(service?.slug || "");
   const [descriptionEn, setDescriptionEn] = useState(service?.description_en || "");
   const [descriptionAr, setDescriptionAr] = useState(service?.description_ar || "");
   const [contentEn, setContentEn] = useState(service?.content_en || "");
@@ -75,15 +75,25 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
 
   const handleTitleEnChange = (value: string) => {
     setTitleEn(value);
-    if (!service) {
-      setSlugEn(generateSlug(value));
+    // Auto-generate slug from English title if creating new service and slug is empty
+    if (!service && !slug) {
+      setSlug(generateSlug(value));
     }
   };
 
   const handleTitleArChange = (value: string) => {
     setTitleAr(value);
-    if (!service) {
-      setSlugAr(generateSlug(value));
+    // Auto-generate slug from Arabic title if creating new service, slug is empty, and no English title
+    if (!service && !slug && !titleEn) {
+      setSlug(generateSlug(value));
+    }
+  };
+
+  const handleGenerateSlug = () => {
+    // Prefer English title, fallback to Arabic
+    const title = titleEn || titleAr;
+    if (title) {
+      setSlug(generateSlug(title));
     }
   };
 
@@ -108,8 +118,7 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
       const data: ServiceFormData = {
         title_en: titleEn,
         title_ar: titleAr,
-        slug_en: slugEn || generateSlug(titleEn),
-        slug_ar: slugAr || generateSlug(titleAr),
+        slug: slug || generateSlug(titleEn || titleAr),
         description_en: descriptionEn,
         description_ar: descriptionAr,
         content_en: contentEn || "",
@@ -157,6 +166,36 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
+          {/* URL Slug */}
+          <Card>
+            <CardHeader>
+              <CardTitle>URL Slug</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-2">
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="service-url-slug"
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleGenerateSlug}
+                  disabled={!titleEn && !titleAr}
+                  title="Generate slug from title"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Auto-generated from title. Click the refresh button to regenerate.
+              </p>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardContent className="pt-6">
               <div className="flex gap-2 mb-6">
@@ -188,16 +227,6 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
                       value={titleEn}
                       onChange={(e) => handleTitleEnChange(e.target.value)}
                       placeholder="Enter service title..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="slug-en">Slug (English)</Label>
-                    <Input
-                      id="slug-en"
-                      value={slugEn}
-                      onChange={(e) => setSlugEn(e.target.value)}
-                      placeholder="service-url-slug"
                     />
                   </div>
 
@@ -234,16 +263,6 @@ export function ServiceEditorForm({ service, onSave, isSaving }: ServiceEditorFo
                       value={titleAr}
                       onChange={(e) => handleTitleArChange(e.target.value)}
                       placeholder="أدخل عنوان الخدمة..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="slug-ar">الرابط (عربي)</Label>
-                    <Input
-                      id="slug-ar"
-                      value={slugAr}
-                      onChange={(e) => setSlugAr(e.target.value)}
-                      placeholder="رابط-الخدمة"
                     />
                   </div>
 

@@ -29,6 +29,7 @@ import {
     Calendar,
     FileType,
 } from "lucide-react";
+import { useAuth } from "@/lib/appwrite/auth-context";
 
 export default function MediaLibraryPage() {
     const [files, setFiles] = useState<MediaFile[]>([]);
@@ -42,7 +43,7 @@ export default function MediaLibraryPage() {
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
     const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
+    const { user } = useAuth();
     const loadMedia = useCallback(async () => {
         setIsLoading(true);
         try {
@@ -79,7 +80,7 @@ export default function MediaLibraryPage() {
         setIsUploading(true);
         try {
             for (const file of selectedFiles) {
-                await uploadMedia(file);
+                await uploadMedia(file, user!.$id);
             }
             await loadMedia();
         } catch (error) {
@@ -213,8 +214,8 @@ export default function MediaLibraryPage() {
                                                     type="button"
                                                     onClick={() => setSelectedFile(file)}
                                                     className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedFile?.$id === file.$id
-                                                            ? "border-primary ring-2 ring-primary/20"
-                                                            : "border-transparent hover:border-border"
+                                                        ? "border-primary ring-2 ring-primary/20"
+                                                        : "border-transparent hover:border-border"
                                                         }`}
                                                 >
                                                     <img
@@ -231,8 +232,8 @@ export default function MediaLibraryPage() {
                                                 <div
                                                     key={file.$id}
                                                     className={`flex items-center gap-4 py-3 px-2 cursor-pointer rounded transition-colors ${selectedFile?.$id === file.$id
-                                                            ? "bg-primary/10"
-                                                            : "hover:bg-muted"
+                                                        ? "bg-primary/10"
+                                                        : "hover:bg-muted"
                                                         }`}
                                                     onClick={() => setSelectedFile(file)}
                                                 >

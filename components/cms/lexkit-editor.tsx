@@ -10,6 +10,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { listFonts, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
 
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
@@ -24,8 +25,9 @@ import {
   REDO_COMMAND,
   type EditorState,
   type LexicalEditor,
+  $isTextNode,
 } from "lexical";
-import { $setBlocksType } from "@lexical/selection";
+import { $setBlocksType, $patchStyleText } from "@lexical/selection";
 import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
 import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from "@lexical/list";
 import { $createLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
@@ -48,6 +50,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Type,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -209,8 +212,10 @@ function $createImageNode(src: string, alt: string): ImageNode {
 // Toolbar Component
 function ToolbarPlugin({
   onInsertImage,
+  fonts,
 }: {
   onInsertImage: () => void;
+  fonts: Font[];
 }) {
   const [editor] = useLexicalComposerContext();
   const [youtubeDialogOpen, setYoutubeDialogOpen] = useState(false);
@@ -236,6 +241,17 @@ function ToolbarPlugin({
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         $setBlocksType(selection, () => $createQuoteNode());
+      }
+    });
+  };
+
+  const applyFontFamily = (fontFamily: string) => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $patchStyleText(selection, {
+          'font-family': fontFamily,
+        });
       }
     });
   };
@@ -318,6 +334,32 @@ function ToolbarPlugin({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Font Family */}
+        {fonts.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="ghost" size="sm" className="h-8 gap-1">
+                <Type className="h-4 w-4" />
+                <span className="text-xs">Font</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="max-h-60 overflow-y-auto">
+              <DropdownMenuItem onClick={() => applyFontFamily('')}>
+                Default
+              </DropdownMenuItem>
+              {fonts.map((font) => (
+                <DropdownMenuItem
+                  key={font.$id}
+                  onClick={() => applyFontFamily(`'${font.family}'`)}
+                  style={{ fontFamily: `'${font.family}', sans-serif` }}
+                >
+                  {font.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         <div className="w-px h-6 bg-border mx-1" />
 
@@ -532,6 +574,49 @@ export function LexKitEditor({
   onInsertImage,
   placeholder = "Start writing...",
 }: LexKitEditorProps) {
+  const [fonts, setFonts] = useState<Font[]>([]);
+
+  // Load fonts and inject CSS
+  useEffect(() => {
+    const loadFonts = async () => {
+      try {
+        const result = await listFonts();
+        setFonts(result.documents);
+
+        // Inject font CSS
+        const fontCSS = result.documents
+          .map((font) => {
+            const url = getFontUrl(font.file_id);
+            return `
+@font-face {
+  font-family: '${font.family}';
+  src: url('${url}') format('woff2');
+  font-weight: ${font.weight};
+  font-style: ${font.style};
+  font-display: swap;
+}`;
+          })
+          .join('\n');
+
+        // Remove existing custom font style if present
+        const existingStyle = document.getElementById('custom-fonts-style');
+        if (existingStyle) {
+          existingStyle.remove();
+        }
+
+        // Inject new style
+        const styleElement = document.createElement('style');
+        styleElement.id = 'custom-fonts-style';
+        styleElement.textContent = fontCSS;
+        document.head.appendChild(styleElement);
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+      }
+    };
+
+    loadFonts();
+  }, []);
+
   const initialConfig = {
     namespace: "DamaEditor",
     theme,
@@ -570,7 +655,7 @@ export function LexKitEditor({
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="border border-border rounded-lg overflow-hidden">
-        <ToolbarPlugin onInsertImage={handleInsertImage} />
+        <ToolbarPlugin onInsertImage={handleInsertImage} fonts={fonts} />
         <div className="relative min-h-[300px]">
           <RichTextPlugin
             contentEditable={

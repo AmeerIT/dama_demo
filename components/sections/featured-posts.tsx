@@ -40,9 +40,13 @@ export async function FeaturedPostsSection({ dictionary, lang }: FeaturedPostsSe
 
         {/* Posts Grid */}
         {posts.length > 0 ? (
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
-              <BlogCard key={post.id} post={post} lang={lang} />
+              <BlogCard key={post.id} post={post} lang={lang} formattedDate={new Intl.DateTimeFormat(
+                lang === "ar" ? "ar-IQ" : "en-US",
+                { year: "numeric", month: "long", day: "numeric" }
+              ).format(new Date(post.published_at))} />
             ))}
           </div>
         ) : (

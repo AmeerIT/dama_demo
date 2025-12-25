@@ -178,7 +178,7 @@ export default function PostsListPage() {
                           title="View post"
                         >
                           <a
-                            href={`/en/blog/${post.slug_en}`}
+                            href={`/en/blog/${post.slug}`}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
