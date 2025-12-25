@@ -104,8 +104,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { Button } from "@base-ui/react";
+import { Dictionary, Locale } from "@/lib/i18n/dictionaries";
+import { LanguageSwitcher } from "./language-switcher";
 
-export default function ZestyHeader({ lang, dictionary }: any) {
+interface ZestyHeaderProps {
+  lang: Locale;
+  dictionary: Dictionary;
+}
+
+
+export default function ZestyHeader({ lang, dictionary }: ZestyHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const navItems = [
     { href: `/${lang}`, label: dictionary.common.home },
@@ -116,53 +125,50 @@ export default function ZestyHeader({ lang, dictionary }: any) {
 
   return (
     <>
-      {/* 1. COMPACT NAV BAR (Closed State) */}
-      <header className="fixed top-0 left-0 w-full z-[100] p-6 flex justify-between items-center pointer-events-none">
-        <Link href="/" className="pointer-events-auto">
-          <img src="/logo-dama.svg" alt="Logo" className="h-8 invert" />
-        </Link>
-
-        {/* The Store Button + Hamburger from your HTML */}
+      <header className="fixed w-full z-100 p-6 flex justify-between items-center pointer-events-none">
         <div className="flex items-center gap-4 pointer-events-auto">
-          <Link href="/store" className="hidden md:flex items-center gap-2 bg-primary text-black px-6 py-2 rounded-full font-black italic uppercase text-xs hover:scale-105 transition-transform">
-            <StoreIcon />
-            Store
-          </Link>
-
-          <button
+          <LanguageSwitcher lang={lang} variant="button" />
+          <Button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-12 h-12 bg-white rounded-full flex flex-col items-center justify-center gap-1.5"
+            className="w-12 h-12 bg-primary text-white rounded-full flex flex-col items-center justify-center gap-1.5"
           >
-            <motion.span animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }} className="w-6 h-0.5 bg-black" />
-            <motion.span animate={{ opacity: isOpen ? 0 : 1 }} className="w-6 h-0.5 bg-black" />
-            <motion.span animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }} className="w-6 h-0.5 bg-black" />
-          </button>
+            <motion.span animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }} className="w-6 h-0.5 bg-white" />
+            <motion.span animate={{ opacity: isOpen ? 0 : 1 }} className="w-6 h-0.5 bg-white" />
+            <motion.span animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }} className="w-6 h-0.5 bg-white" />
+          </Button>
         </div>
       </header>
 
-      {/* 2. BIG REVEAL MENU (Open State) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ clipPath: "ellipse(0% 0% at 90% 10%)" }}
-            animate={{ clipPath: "ellipse(150% 150% at 90% 10%)" }}
-            exit={{ clipPath: "ellipse(0% 0% at 90% 10%)" }}
-            transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-            className="fixed inset-0 bg-black text-white z-[90] flex items-center justify-center"
+            initial={{
+              clipPath: lang === "ar" ? "circle(0% at 100% 0%)" : "circle(0% at 0% 0%)",
+            }}
+            animate={{
+              clipPath: "circle(150% at 50% 0%)",
+            }}
+            exit={{
+              clipPath: lang === "ar" ? "circle(0% at 100% 0%)" : "circle(0% at 0% 0%)",
+            }}
+            transition={{
+              duration: 0.9,
+              ease: [0.76, 0, 0.24, 1] // High-velocity easing
+            }}
+            className="fixed inset-0 bg-primary z-90 flex items-center justify-center overflow-hidden"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl px-10 items-center">
-
-              {/* LEFT SIDE: The Image Grid (as seen in Lando's site) */}
-              <div className="hidden md:flex gap-4 h-[60vh] overflow-hidden">
-                <VerticalImageColumn images={['/img1.jpg', '/img2.jpg']} speed={-20} />
-                <VerticalImageColumn images={['/img3.jpg', '/img4.jpg']} speed={20} />
-              </div>
-
               {/* RIGHT SIDE: Huge Navigation Links */}
-              <nav className="flex flex-col gap-4">
+              <nav className="flex flex-col gap-4 space-5">
                 {
                   navItems.map((item, i) => (
-                    <NavLink key={item.href} label={item.label} index={i} />
+                    <NavigationItem
+                      href={item.href}
+                      label={item.label}
+                      index={i}
+                      lang={lang}
+                      onClose={() => setIsOpen(false)}
+                    />
                   ))}
               </nav>
             </div>
@@ -173,44 +179,34 @@ export default function ZestyHeader({ lang, dictionary }: any) {
   );
 }
 
-// --- SUB-COMPONENTS ---
+function NavigationItem({
+  href,
+  label,
+  index,
+  lang,
+  onClose
+}: {
+  href: string;
+  label: string;
+  index: number;
+  lang?: string;
+  onClose: () => void;
+}) {
+  return <motion.div
+    initial={{ opacity: 0, x: 50, y: lang === "ar" ? -200 : 200 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: 0.1 + (index * 0.1), duration: 0.5 }}
+    exit={{ opacity: 0, x: 50, y: lang === "ar" ? -200 : 200 }}
+    className="group"
+  >
+    <Link
+      key={href}
+      onClick={onClose}
+      className="text-white text-6xl md:text-8xl font-bold underline-offset-8 decoration-2 hover:text-yellow-500 transition-all"
+      href={href}>
+      {label}
 
-function NavLink({ label, index }: { label: string, index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.3 + (index * 0.1), duration: 0.5 }}
-      className="group"
-    >
-      <Link href={`/${label.toLowerCase()}`} className="text-6xl md:text-8xl font-black italic uppercase hover:text-primary transition-colors inline-block leading-none">
-        {label}
-      </Link>
-    </motion.div>
-  );
-}
+    </Link>
+  </motion.div>
 
-function VerticalImageColumn({ images, speed }: { images: string[], speed: number }) {
-  return (
-    <motion.div
-      animate={{ y: [0, speed] }}
-      transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-      className="flex flex-col gap-4 w-1/2"
-    >
-      {images.map((src, i) => (
-        <div key={i} className="aspect-[3/4] bg-neutral-800 rounded-2xl overflow-hidden grayscale hover:grayscale-0 transition-all">
-          {/* Replace with real images */}
-          <div className="w-full h-full bg-primary/20" />
-        </div>
-      ))}
-    </motion.div>
-  );
-}
-
-function StoreIcon() {
-  return (
-    <svg width="17" height="18" viewBox="0 0 17 18" fill="none" className="w-4 h-4">
-      <path d="m10.931 5.783-.759.812c-1.132 1.212-2.89 1.212-4.022 0l-.76-.812C4.313 4.637 2.568 5.29 2.275 6.928l-1.238 7.18c-.227 1.318.652 2.543 1.838 2.543h10.588c1.185 0 2.064-1.225 1.838-2.544l-1.239-7.179c-.28-1.638-2.037-2.29-3.116-1.145h-.014ZM10.839 3.048 9.84 1.849C8.894.717 7.43.717 6.484 1.85l-1 1.199" stroke="currentColor" strokeWidth="1.949" />
-    </svg>
-  );
 }
