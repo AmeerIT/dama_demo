@@ -144,13 +144,13 @@ export default function ZestyHeader({ lang, dictionary }: ZestyHeaderProps) {
         {isOpen && (
           <motion.div
             initial={{
-              clipPath: lang === "ar" ? "circle(0% at 100% 0%)" : "circle(0% at 0% 0%)",
+              clipPath: "circle(0% at 50% -100%)",
             }}
             animate={{
               clipPath: "circle(150% at 50% 0%)",
             }}
             exit={{
-              clipPath: lang === "ar" ? "circle(0% at 100% 0%)" : "circle(0% at 0% 0%)",
+              clipPath: "circle(0% at 50% -100%)",
             }}
             transition={{
               duration: 0.9,
@@ -160,14 +160,14 @@ export default function ZestyHeader({ lang, dictionary }: ZestyHeaderProps) {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl px-10 items-center">
               {/* RIGHT SIDE: Huge Navigation Links */}
-              <nav className="flex flex-col gap-4 space-5">
+              <p className="text-amber-500 text-6xl md:text-8xl font-bold underline-offset-8 decoration-2">DAMA</p>
+              <nav className="flex flex-col gap-9">
                 {
                   navItems.map((item, i) => (
                     <NavigationItem
                       href={item.href}
                       label={item.label}
                       index={i}
-                      lang={lang}
                       onClose={() => setIsOpen(false)}
                     />
                   ))}
@@ -184,7 +184,6 @@ function NavigationItem({
   href,
   label,
   index,
-  lang,
   onClose
 }: {
   href: string;
@@ -193,20 +192,21 @@ function NavigationItem({
   lang?: string;
   onClose: () => void;
 }) {
-  return <motion.div
-    custom={index}
-    initial={{ y: 20, opacity: 0, scale: 0.95 }}
-    animate={{ y: 0, opacity: 1, scale: 1, transition: { delay: index * 0.1, duration: 0.6 } }}
-    className="group"
-  >
-    <Link
-      key={href}
-      onClick={onClose}
-      className="text-white text-6xl md:text-8xl font-bold underline-offset-8 decoration-2 hover:text-yellow-500 transition-all"
-      href={href}>
-      {label}
+  return (
+    <motion.div
+      custom={index}
+      initial={{ y: 20, opacity: 0, scale: 0.95 }}
+      animate={{ y: 0, opacity: 1, scale: 1, transition: { delay: index * 0.1, duration: 0.6 }, }}
+    >
+      <Link
+        key={href}
+        onClick={onClose}
+        className="text-white text-6xl hover:rounded-0 hover:bg-transparent md:text-8xl font-bold underline-offset-8 decoration-2 hover:text-yellow-500 transition-all hover:no-underline hover:underline-offset-2"
+        href={href}>
+        {label}
 
-    </Link>
-  </motion.div>
+      </Link>
+    </motion.div>
+  )
 
 }

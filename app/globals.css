@@ -3,7 +3,7 @@
 @import "shadcn/tailwind.css";
 
 .EffraRegular-400 {
-  font-family: "EffraRegular", ui-sans-serif, sans-serif;
+  font-family: "EffraRegular";
   font-weight: 400;
   src: url("https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c") format("woff2");
   font-style: normal;
@@ -14,7 +14,7 @@
   font-family: 'EffraBold';
   src: url('https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c') format('woff2');
   font-weight: 700;
-  font-style: normal;
+  font-style: bold;
   font-display: swap;
 }
 
