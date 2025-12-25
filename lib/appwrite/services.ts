@@ -16,6 +16,7 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
   const { limit = 100 } = options;
 
   try {
+    console.log(`[SERVICES] Fetching services with limit: ${limit}`);
     const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
       TABLES.SERVICES,
@@ -26,6 +27,7 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
       ]
     );
 
+    console.log(`[SERVICES] Successfully fetched ${response.rows.length} services`);
     return response.rows.map((doc) => ({
       id: doc.$id,
       slug: doc.slug,
@@ -41,7 +43,8 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
       is_active: doc.is_active,
     }));
   } catch (error) {
-    console.error("Error fetching services:", error);
+    console.error("[SERVICES] Critical error fetching services:", error);
+    console.error("[SERVICES] Error details:", JSON.stringify(error, null, 2));
     return [];
   }
 }
@@ -49,6 +52,7 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
 // Fetch single service by slug
 export async function getServiceBySlug(slug: string, lang: Locale): Promise<Service | null> {
   try {
+    console.log(`[SERVICE] Fetching service with slug: ${slug}`);
     const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
       TABLES.SERVICES,
@@ -60,11 +64,13 @@ export async function getServiceBySlug(slug: string, lang: Locale): Promise<Serv
     );
 
     if (response.rows.length === 0) {
+      console.log(`[SERVICE] Service not found with slug: ${slug}`);
       return null;
     }
 
     const doc = response.rows[0];
 
+    console.log(`[SERVICE] Successfully fetched service: ${slug}`);
     return {
       id: doc.$id,
       slug: doc.slug,
@@ -80,7 +86,8 @@ export async function getServiceBySlug(slug: string, lang: Locale): Promise<Serv
       is_active: doc.is_active,
     };
   } catch (error) {
-    console.error("Error fetching service by slug:", error);
+    console.error(`[SERVICE] Critical error fetching service by slug ${slug}:`, error);
+    console.error(`[SERVICE] Error details:`, JSON.stringify(error, null, 2));
     return null;
   }
 }

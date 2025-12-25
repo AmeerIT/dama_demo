@@ -26,10 +26,17 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
       Query.offset(offset),
     ];
 
-    const [response, allTags] = await Promise.all([
-      publicClient.tablesDb.listRows(DATABASE_ID, TABLES.POSTS, queries),
-      getTags(),
-    ]);
+    // Fetch posts first
+    const response = await publicClient.tablesDb.listRows(DATABASE_ID, TABLES.POSTS, queries);
+
+    // Fetch tags separately to avoid connection issues
+    let allTags: Tag[] = [];
+    try {
+      allTags = await getTags();
+    } catch (tagError) {
+      console.error("[POSTS] Failed to fetch tags, continuing without tag data:", tagError);
+      // Continue without tags rather than failing completely
+    }
 
     // Create a map of tag IDs to tag objects for quick lookup
     const tagMap = new Map(allTags.map((tag) => [tag.id, tag]));
@@ -66,9 +73,11 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
       );
     }
 
+    console.log(`[POSTS] Successfully fetched ${posts.length} posts`);
     return posts;
   } catch (error) {
-    console.error("Error fetching posts:", error);
+    console.error("[POSTS] Critical error fetching posts:", error);
+    console.error("[POSTS] Error details:", JSON.stringify(error, null, 2));
     // Return empty array instead of throwing to handle gracefully during SSG
     return [];
   }
@@ -77,24 +86,31 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
 // Fetch single post by slug
 export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | null> {
   try {
-    const [response, allTags] = await Promise.all([
-      publicClient.tablesDb.listRows(
-        DATABASE_ID,
-        TABLES.POSTS,
-        [
-          Query.equal("slug", slug),
-          Query.equal("is_published", true),
-          Query.limit(1),
-        ]
-      ),
-      getTags(),
-    ]);
+    const response = await publicClient.tablesDb.listRows(
+      DATABASE_ID,
+      TABLES.POSTS,
+      [
+        Query.equal("slug", slug),
+        Query.equal("is_published", true),
+        Query.limit(1),
+      ]
+    );
 
     if (response.rows.length === 0) {
+      console.log(`[POST] Post not found with slug: ${slug}`);
       return null;
     }
 
     const doc = response.rows[0];
+
+    // Fetch tags separately to avoid connection issues
+    let allTags: Tag[] = [];
+    try {
+      allTags = await getTags();
+    } catch (tagError) {
+      console.error(`[POST] Failed to fetch tags for post ${slug}, continuing without tag data:`, tagError);
+      // Continue without tags rather than failing completely
+    }
 
     // Create a map of tag IDs to tag objects for quick lookup
     const tagMap = new Map(allTags.map((tag) => [tag.id, tag]));
@@ -105,6 +121,7 @@ export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | 
       .map((tagId: string) => tagMap.get(tagId))
       .filter((tag: Tag | undefined): tag is Tag => tag !== undefined);
 
+    console.log(`[POST] Successfully fetched post: ${slug}`);
     return {
       id: doc.$id,
       slug: doc.slug,
@@ -121,7 +138,8 @@ export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | 
       tags: postTags,
     };
   } catch (error) {
-    console.error("Error fetching post by slug:", error);
+    console.error(`[POST] Critical error fetching post by slug ${slug}:`, error);
+    console.error(`[POST] Error details:`, JSON.stringify(error, null, 2));
     return null;
   }
 }

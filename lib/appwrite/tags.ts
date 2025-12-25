@@ -9,6 +9,7 @@ export type { Tag } from "./types";
 // Fetch all tags
 export async function getTags(): Promise<Tag[]> {
   try {
+    console.log("[TAGS] Fetching all tags");
     const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
       TABLES.TAGS,
@@ -18,6 +19,7 @@ export async function getTags(): Promise<Tag[]> {
       ]
     );
 
+    console.log(`[TAGS] Successfully fetched ${response.rows.length} tags`);
     return response.rows.map((doc) => ({
       id: doc.$id,
       name_ar: doc.name_ar,
@@ -25,7 +27,8 @@ export async function getTags(): Promise<Tag[]> {
       slug: doc.slug,
     }));
   } catch (error) {
-    console.error("Error fetching tags:", error);
+    console.error("[TAGS] Critical error fetching tags:", error);
+    console.error("[TAGS] Error details:", JSON.stringify(error, null, 2));
     return [];
   }
 }
