@@ -112,6 +112,11 @@ const UnderlineToBackground = ({
       className={cn("relative inline-block cursor-pointer", className)}
       whileHover="target"
       ref={textRef}
+      style={{
+        // Set default values to prevent hydration mismatch
+        '--underline-height': '2px',
+        '--underline-padding': '1px',
+      } as React.CSSProperties}
       {...props}
     >
       <motion.div
