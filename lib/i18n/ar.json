@@ -1,7 +1,8 @@
 {
   "common": {
     "home": "الرئيسية",
-    "blog": "المدونة",
+    "blog": "بلوكز",
+    "insights": " انسايتس",
     "services": "خدماتنا",
     "contact": "تواصل معنا",
     "subscribe": "اشترك معنا",
@@ -27,6 +28,10 @@
     "publishedOn": "نُشر في",
     "tags": "الوسوم",
     "relatedPosts": "مقالات ذات صلة"
+  },
+  "Insights": {
+    "title": "انسايتس",
+    "subtitle": "اكتشف رؤى وأفكار قيمة"
   },
   "services": {
     "title": "خدماتنا",
@@ -54,4 +59,3 @@
     "postsTagged": "المقالات الموسومة بـ"
   }
 }
-

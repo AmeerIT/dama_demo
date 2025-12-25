@@ -35,9 +35,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
       <body className="font-sans antialiased">
         <Header lang={lang as Locale} dictionary={dictionary} />
         <main className="relative min-h-screen z-10" style={{ background: "var(--background)" }}>
-          <div className="relative min-h-screen max-w-7xl mx-auto w-full">
-            {children}
-          </div>
+          {children}
         </main>
         <StickyFooter lang={lang as Locale} dictionary={dictionary} />
       </body>

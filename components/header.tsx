@@ -19,6 +19,7 @@ export default function Header({ lang, dictionary }: HeaderProps) {
 
   const navItems = [
     { href: `/${lang}`, label: dictionary.common.home },
+    { href: `/${lang}/insights`, label: dictionary.common.insights },
     { href: `/${lang}/blog`, label: dictionary.common.blog },
     { href: `/${lang}/services`, label: dictionary.common.services },
   ];
@@ -31,8 +32,8 @@ export default function Header({ lang, dictionary }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
-      <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-screen px-10">
+      <div className="mx-auto flex h-16 items-center justify-between  ">
         {/* Logo */}
         <Link href={`/${lang}`} className="flex items-center gap-2">
           <img
@@ -48,9 +49,9 @@ export default function Header({ lang, dictionary }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors ${isActive(item.href)
+              className={`text-sm font-medium transition-all duration-150 ${isActive(item.href)
                 ? "text-primary"
-                : "text-foreground/70 hover:text-primary"
+                : "text-foreground/70 hover:text-primary hover:bg-primary/10 rounded-md py-1 px-2"
                 }`}
             >
               {item.label}

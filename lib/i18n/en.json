@@ -2,6 +2,7 @@
   "common": {
     "home": "Home",
     "blog": "Blog",
+    "insights": "Insights",
     "services": "Services",
     "contact": "Contact Us",
     "subscribe": "Subscribe",
@@ -27,6 +28,10 @@
     "publishedOn": "Published on",
     "tags": "Tags",
     "relatedPosts": "Related Posts"
+  },
+  "Insights": {
+    "title": "Insights",
+    "subtitle": "Discover valuable insights and ideas"
   },
   "services": {
     "title": "Our Services",
@@ -54,4 +59,3 @@
     "postsTagged": "Posts tagged with"
   }
 }
-

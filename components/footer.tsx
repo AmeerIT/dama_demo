@@ -9,7 +9,14 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
   const { footer, common } = dictionary;
 
   return (
-    <footer className="sticky z-0 bottom-0 left-0 w-full bg-indigo-500 ">
+    <footer className="sticky z-0 bottom-0 left-0 w-full bg-indigo-800 text-white h-150" style={{
+      direction: "ltr"
+    }}>
+      <h2 className="text-4xl md:text-7xl font-black italic tracking-tighter leading-tight uppercase">
+        DAMA <span className="text-white">PRODUCTIONS</span><br />
+        YOUR PARTNER IN SUCCESS
+      </h2>
+
       {/* The "Unique Shape" SVG Mask/Background */}
       <div className="absolute bottom-0 left-0 w-full pointer-events-none">
         <svg
@@ -36,10 +43,7 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
                   <text x="135" y="45" fill="currentColor" className="text-white text-xl italic font-black">4</text>
                 </svg>
               </div>
-              <h2 className="text-4xl md:text-7xl font-black italic tracking-tighter leading-tight uppercase">
-                ALWAYS <span className="text-white">BRINGING</span><br />
-                THE <span className="text-transparent" style={{ WebkitTextStroke: '1px hsl(var(--foreground))' }}>FIGHT.</span>
-              </h2>
+
             </div>
 
             {/* Centered Image (Helmet Placeholder) */}
