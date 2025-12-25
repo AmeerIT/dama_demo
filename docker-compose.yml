@@ -13,9 +13,11 @@ services:
       - NEXT_PUBLIC_APPWRITE_DATABASE_ID=${NEXT_PUBLIC_APPWRITE_DATABASE_ID:-dama_db}
       # Optional: Uncomment if you need admin operations
       # - APPWRITE_API_KEY=${APPWRITE_API_KEY}
-    # Uncomment for development to mount .env.local
-    # volumes:
-    #   - ./.env.local:/app/.env.local:ro
+    volumes:
+      # Persist ISR cache across container restarts
+      - nextjs-cache:/app/.next/cache
+      # Uncomment for development to mount .env.local
+      # - ./.env.local:/app/.env.local:ro
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:5589/ || exit 1"]
       interval: 30s
@@ -23,4 +25,9 @@ services:
       retries: 3
       start_period: 40s
     restart: unless-stopped
+
+volumes:
+  # Named volume for Next.js ISR cache persistence
+  nextjs-cache:
+    driver: local
 

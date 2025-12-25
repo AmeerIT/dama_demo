@@ -2,9 +2,8 @@ import { getDictionary, type Locale, locales } from "@/lib/i18n/dictionaries";
 import { getServices } from "@/lib/appwrite/services";
 import { ServiceCard } from "@/components/service-card";
 
-export async function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ lang: string }>;

@@ -43,6 +43,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Copy public directory (needed for static assets)
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
+# Create cache directory for ISR with proper permissions
+RUN mkdir -p .next/cache && chown -R nextjs:nodejs .next/cache
+
 USER nextjs
 
 EXPOSE 5589

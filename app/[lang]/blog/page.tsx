@@ -5,9 +5,11 @@ import { BlogCard } from "@/components/blog-card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
-export async function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
+// Enable dynamic rendering only for tag filter parameter
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ lang: string }>;

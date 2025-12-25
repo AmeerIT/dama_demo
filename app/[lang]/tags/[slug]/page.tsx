@@ -7,6 +7,10 @@ import { BlogCard } from "@/components/blog-card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Tag } from "lucide-react";
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
+// Generate pages for existing tags, new ones will be generated on-demand
 export async function generateStaticParams() {
   const slugs = await getAllTagSlugs();
   const params: { lang: string; slug: string }[] = [];
@@ -19,6 +23,9 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+// Enable fallback for tags not pre-rendered
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ lang: string; slug: string }>;

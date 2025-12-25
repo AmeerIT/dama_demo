@@ -10,6 +10,10 @@ import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 import { FormattedDate } from "@/components/formatted-date";
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
+// Generate pages for existing posts, new ones will be generated on-demand
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
   const params: { lang: string; slug: string }[] = [];
@@ -25,6 +29,9 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+// Enable fallback for posts not pre-rendered
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ lang: string; slug: string }>;

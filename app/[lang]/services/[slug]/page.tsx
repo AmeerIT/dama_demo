@@ -8,6 +8,10 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
+// Generate pages for existing services, new ones will be generated on-demand
 export async function generateStaticParams() {
   const slugs = await getAllServiceSlugs();
   const params: { lang: string; slug: string }[] = [];
@@ -23,6 +27,9 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+// Enable fallback for services not pre-rendered
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ lang: string; slug: string }>;
