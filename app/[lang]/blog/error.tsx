@@ -25,6 +25,12 @@ export default function BlogError({
           <p className="text-lg text-muted-foreground">
             We couldn't load the blog posts. This might be a temporary connection issue.
           </p>
+
+          {error.digest && (
+            <p className="text-xs text-muted-foreground font-mono">
+              Error ID: {error.digest}
+            </p>
+          )}
         </div>
 
         {process.env.NODE_ENV === 'development' && (
@@ -32,6 +38,11 @@ export default function BlogError({
             <p className="font-mono text-sm text-destructive break-all">
               {error.message}
             </p>
+            {error.digest && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Digest: {error.digest}
+              </p>
+            )}
           </div>
         )}
 
