@@ -43,9 +43,10 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
       is_active: doc.is_active,
     }));
   } catch (error) {
-    console.error("[SERVICES] Critical error fetching services:", error);
+    console.error("[SERVICES] CRITICAL ERROR fetching services:", error);
     console.error("[SERVICES] Error details:", JSON.stringify(error, null, 2));
-    return [];
+    // Throw error to trigger error boundary - don't silently return empty array
+    throw new Error(`Failed to fetch services: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -86,15 +87,17 @@ export async function getServiceBySlug(slug: string, lang: Locale): Promise<Serv
       is_active: doc.is_active,
     };
   } catch (error) {
-    console.error(`[SERVICE] Critical error fetching service by slug ${slug}:`, error);
+    console.error(`[SERVICE] CRITICAL ERROR fetching service ${slug}:`, error);
     console.error(`[SERVICE] Error details:`, JSON.stringify(error, null, 2));
-    return null;
+    // Throw error to trigger error boundary
+    throw new Error(`Failed to fetch service "${slug}": ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 // Get all service slugs for static generation
 export async function getAllServiceSlugs(): Promise<string[]> {
   try {
+    console.log("[SERVICE_SLUGS] Fetching all service slugs for static generation");
     const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
       TABLES.SERVICES,
@@ -105,10 +108,20 @@ export async function getAllServiceSlugs(): Promise<string[]> {
       ]
     );
 
-    return response.rows.map((doc) => doc.slug);
+    const slugs = response.rows.map((doc) => doc.slug).filter(Boolean);
+    console.log(`[SERVICE_SLUGS] Found ${slugs.length} service slugs`);
+
+    // Prevent Next.js 15.2.1+ build failure with empty arrays
+    if (slugs.length === 0) {
+      console.warn("[SERVICE_SLUGS] No services found - returning placeholder to prevent build failure");
+      return ["__no_services_placeholder__"];
+    }
+
+    return slugs;
   } catch (error) {
-    console.error("Error fetching service slugs:", error);
-    return [];
+    console.error("[SERVICE_SLUGS] CRITICAL: Build will fail - cannot fetch service slugs:", error);
+    // Throw error to fail the build - better than silent failure
+    throw new Error(`Build failed: Cannot fetch service slugs - ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 

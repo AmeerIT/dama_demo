@@ -5,8 +5,8 @@ import { BlogCard } from "@/components/blog-card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
-// Revalidate every 60 seconds (ISR)
-export const revalidate = 60;
+// Revalidate every 5 minutes (ISR) - Balance between freshness and server load
+export const revalidate = 300;
 
 // Enable dynamic rendering only for tag filter parameter
 export const dynamicParams = true;

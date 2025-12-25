@@ -27,8 +27,10 @@ export async function getTags(): Promise<Tag[]> {
       slug: doc.slug,
     }));
   } catch (error) {
-    console.error("[TAGS] Critical error fetching tags:", error);
+    console.error("[TAGS] ERROR fetching tags:", error);
     console.error("[TAGS] Error details:", JSON.stringify(error, null, 2));
+    // Return empty array for tags - they're not critical, posts can work without them
+    console.warn("[TAGS] Continuing without tags - posts will display without tag badges");
     return [];
   }
 }

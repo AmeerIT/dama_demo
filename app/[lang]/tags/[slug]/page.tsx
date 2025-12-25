@@ -7,8 +7,8 @@ import { BlogCard } from "@/components/blog-card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Tag } from "lucide-react";
 
-// Revalidate every 60 seconds (ISR)
-export const revalidate = 60;
+// Revalidate every 5 minutes (ISR) - Balance between freshness and server load
+export const revalidate = 300;
 
 // Generate pages for existing tags, new ones will be generated on-demand
 export async function generateStaticParams() {

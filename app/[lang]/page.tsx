@@ -8,8 +8,8 @@ interface PageProps {
   params: Promise<{ lang: string }>;
 }
 
-// Revalidate every 60 seconds (ISR)
-export const revalidate = 60;
+// Revalidate every 5 minutes (ISR) - Balance between freshness and server load
+export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps) {
   const { lang } = await params;

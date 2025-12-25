@@ -76,10 +76,10 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
     console.log(`[POSTS] Successfully fetched ${posts.length} posts`);
     return posts;
   } catch (error) {
-    console.error("[POSTS] Critical error fetching posts:", error);
+    console.error("[POSTS] CRITICAL ERROR fetching posts:", error);
     console.error("[POSTS] Error details:", JSON.stringify(error, null, 2));
-    // Return empty array instead of throwing to handle gracefully during SSG
-    return [];
+    // Throw error to trigger error boundary - don't silently return empty array
+    throw new Error(`Failed to fetch posts: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -138,15 +138,17 @@ export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | 
       tags: postTags,
     };
   } catch (error) {
-    console.error(`[POST] Critical error fetching post by slug ${slug}:`, error);
+    console.error(`[POST] CRITICAL ERROR fetching post ${slug}:`, error);
     console.error(`[POST] Error details:`, JSON.stringify(error, null, 2));
-    return null;
+    // Throw error to trigger error boundary
+    throw new Error(`Failed to fetch post "${slug}": ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 // Get all post slugs for static generation
 export async function getAllPostSlugs(): Promise<string[]> {
   try {
+    console.log("[POST_SLUGS] Fetching all post slugs for static generation");
     const response = await publicClient.tablesDb.listRows(
       DATABASE_ID,
       TABLES.POSTS,
@@ -157,10 +159,20 @@ export async function getAllPostSlugs(): Promise<string[]> {
       ]
     );
 
-    return response.rows.map((doc) => doc.slug);
+    const slugs = response.rows.map((doc) => doc.slug).filter(Boolean);
+    console.log(`[POST_SLUGS] Found ${slugs.length} post slugs`);
+
+    // Prevent Next.js 15.2.1+ build failure with empty arrays
+    if (slugs.length === 0) {
+      console.warn("[POST_SLUGS] No posts found - returning placeholder to prevent build failure");
+      return ["__no_posts_placeholder__"];
+    }
+
+    return slugs;
   } catch (error) {
-    console.error("Error fetching post slugs:", error);
-    return [];
+    console.error("[POST_SLUGS] CRITICAL: Build will fail - cannot fetch post slugs:", error);
+    // Throw error to fail the build - better than silent failure
+    throw new Error(`Build failed: Cannot fetch post slugs - ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
