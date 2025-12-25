@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { type Locale, type Dictionary } from "@/lib/i18n/dictionaries";
 import TopologicalPattern from "./topological-pattern";
 interface FooterProps {
@@ -10,9 +9,9 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
   const { footer, common } = dictionary;
 
   return (
-    <footer className="sticky z-0 bottom-0 left-0 w-full h-80 bg-black/90 .rounded-tab">
+    <footer className="sticky z-0 bottom-0 left-0 w-full bg-indigo-500 ">
       {/* The "Unique Shape" SVG Mask/Background */}
-      <div className="absolute bottom-0 left-0 w-full  pointer-events-none">
+      <div className="absolute bottom-0 left-0 w-full pointer-events-none">
         <svg
           viewBox="0 0 1440 60"
           className="w-full h-full fill-muted"
@@ -23,7 +22,7 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
       </div>
 
       {/* Main Footer Body */}
-      <div className="bg-muted relative overflow-hidden pb-12 pt-8">
+      <div className="relative overflow-hidden pt-8">
         <TopologicalPattern />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -34,11 +33,11 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
               <div className="absolute -top-16 left-1/2 -translate-x-1/2 opacity-80">
                 <svg width="150" height="80" viewBox="0 0 150 80" className="stroke-primary fill-none">
                   <path d="M10,40 Q40,10 70,40 T130,40" strokeWidth="3" strokeLinecap="round" />
-                  <text x="135" y="45" fill="currentColor" className="text-primary text-xl italic font-black">4</text>
+                  <text x="135" y="45" fill="currentColor" className="text-white text-xl italic font-black">4</text>
                 </svg>
               </div>
               <h2 className="text-4xl md:text-7xl font-black italic tracking-tighter leading-tight uppercase">
-                ALWAYS <span className="text-primary">BRINGING</span><br />
+                ALWAYS <span className="text-white">BRINGING</span><br />
                 THE <span className="text-transparent" style={{ WebkitTextStroke: '1px hsl(var(--foreground))' }}>FIGHT.</span>
               </h2>
             </div>
@@ -51,7 +50,7 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
                 alt="Helmet"
                 className="relative w-full h-full object-cover rounded-full border-4 border-primary shadow-[0_0_30px_rgba(204,255,0,0.15)]"
               />
-              <button className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 font-black italic text-sm uppercase tracking-wider hover:scale-105 transition-transform rounded-sm">
+              <button className="absolute left-1/2 -translate-x-1/2 bg-primary text-white-foreground px-6 py-2 font-black italic text-sm uppercase tracking-wider hover:scale-105 transition-transform rounded-sm">
                 Business Enquiries
               </button>
             </div>
@@ -62,19 +61,19 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
             <div className="flex flex-col space-y-4">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Pages</span>
               <ul className="space-y-2 text-2xl md:text-3xl font-black italic uppercase">
-                <li className="hover:text-primary transition-colors cursor-pointer">Home</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">On Track</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">Off Track</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">Calendar</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Home</li>
+                <li className="hover:text-white transition-colors cursor-pointer">On Track</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Off Track</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Calendar</li>
               </ul>
             </div>
             <div className="flex flex-col items-end space-y-4">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Follow On</span>
               <ul className="space-y-2 text-2xl md:text-3xl font-black italic uppercase text-right">
-                <li className="hover:text-primary transition-colors cursor-pointer">Tiktok</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">Instagram</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">Youtube</li>
-                <li className="hover:text-primary transition-colors cursor-pointer">Twitch</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Tiktok</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Instagram</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Youtube</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Twitch</li>
               </ul>
             </div>
           </div>
@@ -86,15 +85,13 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
             <span className="text-lg font-black border-2 border-foreground px-2 italic">L4</span>
             <span className="text-lg font-bold">QUADRANT</span>
             <span className="text-lg font-serif">Ralph Lauren</span>
-            <span className="text-lg font-black text-primary">Android</span>
+            <span className="text-lg font-black text-white">Android</span>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="bg-primary text-primary-foreground py-4 px-6 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest">
-          <div className="mb-4 md:mb-0">
-            © 2025 VELOCITY RACING. ALL RIGHTS RESERVED
-          </div>
+        <div className="bg-black text-white-foreground py-4 px-6 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest">
+          &copy; {new Date().getFullYear()} Dama Productions All rights reserved.
           <div className="flex space-x-8">
             <a href="#" className="hover:underline">Privacy Policy</a>
             <a href="#" className="hover:underline">Terms & Conditions</a>

@@ -31,7 +31,7 @@ export default function Header({ lang, dictionary }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link href={`/${lang}`} className="flex items-center gap-2">
@@ -48,11 +48,10 @@ export default function Header({ lang, dictionary }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                isActive(item.href)
-                  ? "text-primary"
-                  : "text-foreground/70 hover:text-primary"
-              }`}
+              className={`text-sm font-medium transition-colors ${isActive(item.href)
+                ? "text-primary"
+                : "text-foreground/70 hover:text-primary"
+                }`}
             >
               {item.label}
             </Link>
@@ -84,11 +83,10 @@ export default function Header({ lang, dictionary }: HeaderProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors ${
-                  isActive(item.href)
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground/70 hover:bg-muted hover:text-primary"
-                }`}
+                className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors ${isActive(item.href)
+                  ? "bg-primary/10 text-primary"
+                  : "text-foreground/70 hover:bg-muted hover:text-primary"
+                  }`}
               >
                 {item.label}
               </Link>
