@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
-    <article className="py-12 px-4 sm:px-6">
+    <article className="py-12 px-4 sm:px-6 max-w-screen">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <Link href={`/${lang}/blog`}>

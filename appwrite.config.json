@@ -46,7 +46,8 @@
                 "create(\"users\")",
                 "read(\"users\")",
                 "update(\"users\")",
-                "delete(\"users\")"
+                "delete(\"users\")",
+                "read(\"guests\")"
             ],
             "fileSecurity": true,
             "name": "fonts",
@@ -88,7 +89,8 @@
                 "read(\"users\")",
                 "update(\"users\")",
                 "delete(\"users\")",
-                "read(\"any\")"
+                "read(\"any\")",
+                "read(\"guests\")"
             ],
             "fileSecurity": true,
             "name": "media",
@@ -133,15 +135,6 @@
             "enabled": true,
             "rowSecurity": true,
             "columns": [
-                {
-                    "key": "slug",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 100,
-                    "default": null,
-                    "encrypt": false
-                },
                 {
                     "key": "title_ar",
                     "type": "string",
@@ -255,6 +248,15 @@
                     "size": 255,
                     "default": null,
                     "encrypt": false
+                },
+                {
+                    "key": "slug",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null,
+                    "encrypt": false
                 }
             ],
             "indexes": [
@@ -264,15 +266,6 @@
                     "status": "available",
                     "columns": [
                         "is_published"
-                    ],
-                    "orders": []
-                },
-                {
-                    "key": "idx_slug",
-                    "type": "key",
-                    "status": "available",
-                    "columns": [
-                        "slug"
                     ],
                     "orders": []
                 },
@@ -293,6 +286,15 @@
                     "status": "available",
                     "columns": [
                         "status"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_slug",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "slug"
                     ],
                     "orders": []
                 }
@@ -412,15 +414,6 @@
             ],
             "indexes": [
                 {
-                    "key": "idx_slug",
-                    "type": "unique",
-                    "status": "available",
-                    "columns": [
-                        "slug"
-                    ],
-                    "orders": []
-                },
-                {
                     "key": "idx_is_active",
                     "type": "key",
                     "status": "available",
@@ -439,6 +432,15 @@
                     "orders": [
                         "ASC"
                     ]
+                },
+                {
+                    "key": "idx_slug",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "slug"
+                    ],
+                    "orders": []
                 }
             ]
         },
