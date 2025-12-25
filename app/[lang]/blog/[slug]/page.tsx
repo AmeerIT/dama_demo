@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
+import { FormattedDate } from "@/components/formatted-date";
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
@@ -65,12 +66,6 @@ export default async function BlogPostPage({ params }: PageProps) {
   const isRTL = lang === "ar";
   const ArrowIcon = isRTL ? ArrowRight : ArrowLeft;
 
-  const formattedDate = new Intl.DateTimeFormat(lang === "ar" ? "ar-IQ" : "en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(post.published_at));
-
   // Get the alternate language for language switcher (same slug, different language)
   const alternateLang = lang === "ar" ? "en" : "ar";
 
@@ -95,7 +90,9 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              <time dateTime={post.published_at}>{formattedDate}</time>
+              <time dateTime={post.published_at}>
+                <FormattedDate date={post.published_at} locale={lang} />
+              </time>
             </div>
 
             {/* Language Switch for this post */}
