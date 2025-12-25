@@ -19,6 +19,7 @@ interface LexicalNode {
   listType?: string;
   videoId?: string;
   style?: string;
+  direction?: 'ltr' | 'rtl' | null;
 }
 
 interface LexicalContent {
@@ -90,7 +91,11 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
 
     case "paragraph":
       return (
-        <div key={key} className="mb-4 leading-relaxed">
+        <div
+          key={key}
+          className="mb-4 leading-relaxed"
+          dir={node.direction || undefined}
+        >
           {node.children?.map((child, i) => renderNode(child, i))}
         </div>
       );
@@ -106,15 +111,16 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
         h6: "text-sm font-semibold mt-3 mb-2",
       };
       const headingContent = node.children?.map((child, i) => renderNode(child, i));
+      const dirAttr = node.direction || undefined;
 
       switch (tag) {
-        case "h1": return <h1 key={key} className={headingClasses.h1}>{headingContent}</h1>;
-        case "h2": return <h2 key={key} className={headingClasses.h2}>{headingContent}</h2>;
-        case "h3": return <h3 key={key} className={headingClasses.h3}>{headingContent}</h3>;
-        case "h4": return <h4 key={key} className={headingClasses.h4}>{headingContent}</h4>;
-        case "h5": return <h5 key={key} className={headingClasses.h5}>{headingContent}</h5>;
-        case "h6": return <h6 key={key} className={headingClasses.h6}>{headingContent}</h6>;
-        default: return <h2 key={key} className={headingClasses.h2}>{headingContent}</h2>;
+        case "h1": return <h1 key={key} className={headingClasses.h1} dir={dirAttr}>{headingContent}</h1>;
+        case "h2": return <h2 key={key} className={headingClasses.h2} dir={dirAttr}>{headingContent}</h2>;
+        case "h3": return <h3 key={key} className={headingClasses.h3} dir={dirAttr}>{headingContent}</h3>;
+        case "h4": return <h4 key={key} className={headingClasses.h4} dir={dirAttr}>{headingContent}</h4>;
+        case "h5": return <h5 key={key} className={headingClasses.h5} dir={dirAttr}>{headingContent}</h5>;
+        case "h6": return <h6 key={key} className={headingClasses.h6} dir={dirAttr}>{headingContent}</h6>;
+        default: return <h2 key={key} className={headingClasses.h2} dir={dirAttr}>{headingContent}</h2>;
       }
 
     case "link":
@@ -136,7 +142,7 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
         ? "list-decimal list-inside mb-4 space-y-1"
         : "list-disc list-inside mb-4 space-y-1";
       return (
-        <ListTag key={key} className={listClass}>
+        <ListTag key={key} className={listClass} dir={node.direction || undefined}>
           {node.children?.map((child, i) => renderNode(child, i))}
         </ListTag>
       );
@@ -150,7 +156,11 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
 
     case "quote":
       return (
-        <blockquote key={key} className="border-s-4 border-primary ps-4 my-4 italic text-muted-foreground">
+        <blockquote
+          key={key}
+          className="border-s-4 border-primary ps-4 my-4 italic text-muted-foreground"
+          dir={node.direction || undefined}
+        >
           {node.children?.map((child, i) => renderNode(child, i))}
         </blockquote>
       );

@@ -21,11 +21,14 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_TEXT_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
   UNDO_COMMAND,
   REDO_COMMAND,
   type EditorState,
   type LexicalEditor,
   $isTextNode,
+  ElementNode,
+  $isElementNode,
 } from "lexical";
 import { $setBlocksType, $patchStyleText } from "@lexical/selection";
 import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
@@ -51,6 +54,7 @@ import {
   Heading2,
   Heading3,
   Type,
+  ArrowLeftRight,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -222,6 +226,31 @@ function ToolbarPlugin({
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
+  const [currentDirection, setCurrentDirection] = useState<'ltr' | 'rtl'>('ltr');
+
+  // Track current block direction
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const anchor = selection.anchor.getNode();
+          let element = anchor;
+
+          // Get the parent element node if current node is a text node
+          if (!$isElementNode(element)) {
+            element = anchor.getParentOrThrow();
+          }
+
+          // Get direction from the element
+          if ($isElementNode(element)) {
+            const direction = element.getDirection();
+            setCurrentDirection(direction || 'ltr');
+          }
+        }
+      });
+    });
+  }, [editor]);
 
   const formatText = (format: "bold" | "italic" | "underline" | "strikethrough" | "code") => {
     editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
@@ -251,6 +280,30 @@ function ToolbarPlugin({
       if ($isRangeSelection(selection)) {
         $patchStyleText(selection, {
           'font-family': fontFamily,
+        });
+      }
+    });
+  };
+
+  const toggleDirection = () => {
+    const newDirection = currentDirection === 'ltr' ? 'rtl' : 'ltr';
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const nodes = selection.getNodes();
+        const elements = new Set<ElementNode>();
+
+        // Collect all parent elements
+        nodes.forEach((node) => {
+          const element = $isElementNode(node) ? node : node.getParentOrThrow();
+          if ($isElementNode(element) && element.getType() !== 'root') {
+            elements.add(element);
+          }
+        });
+
+        // Apply direction to all unique elements
+        elements.forEach((element) => {
+          element.setDirection(newDirection);
         });
       }
     });
@@ -443,6 +496,21 @@ function ToolbarPlugin({
           onClick={formatQuote}
         >
           <Quote className="h-4 w-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        {/* Text Direction */}
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 gap-1"
+          onClick={toggleDirection}
+          title={`Switch to ${currentDirection === 'ltr' ? 'RTL' : 'LTR'}`}
+        >
+          <ArrowLeftRight className="h-4 w-4" />
+          <span className="text-xs uppercase">{currentDirection}</span>
         </Button>
 
         <div className="w-px h-6 bg-border mx-1" />

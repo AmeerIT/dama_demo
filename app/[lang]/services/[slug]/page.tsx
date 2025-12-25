@@ -6,6 +6,7 @@ import { getServiceBySlug, getAllServiceSlugs } from "@/lib/appwrite/services";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
+import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 
 export async function generateStaticParams() {
   const slugs = await getAllServiceSlugs();
@@ -93,9 +94,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <div className="mt-4">
             <Link
               href={`/${alternateLang}/services/${service.slug}`}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm text-muted-foreground hover:rounded-3xl transition-all"
             >
-              {lang === "ar" ? "View in English" : "عرض بالعربية"}
+              <UnderlineToBackground targetTextColor="var(--color-primary)" >
+                {lang === "ar" ? "View in English" : "عرض بالعربية"}
+              </UnderlineToBackground>
             </Link>
           </div>
         </header>
