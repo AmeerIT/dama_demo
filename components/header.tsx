@@ -107,6 +107,7 @@ import Link from "next/link";
 import { Button } from "@base-ui/react";
 import { Dictionary, Locale } from "@/lib/i18n/dictionaries";
 import { LanguageSwitcher } from "./language-switcher";
+import { ANIMATION } from "@/lib/animation-constants";
 
 interface ZestyHeaderProps {
   lang: Locale;
@@ -193,10 +194,9 @@ function NavigationItem({
   onClose: () => void;
 }) {
   return <motion.div
-    initial={{ opacity: 0, x: 50, y: lang === "ar" ? -200 : 200 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay: 0.1 + (index * 0.1), duration: 0.5 }}
-    exit={{ opacity: 0, x: 50, y: lang === "ar" ? -200 : 200 }}
+    custom={index}
+    initial={{ y: 20, opacity: 0, scale: 0.95 }}
+    animate={{ y: 0, opacity: 1, scale: 1, transition: { delay: index * 0.1, duration: 0.6 } }}
     className="group"
   >
     <Link

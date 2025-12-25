@@ -23,9 +23,21 @@ export const ANIMATION = {
                 transition: { duration: 0.75, ease: [0.65, 0.05, 0, 1] }
             }
         },
+        dropInVars: {
+            initial: { y: -50, opacity: 0, scale: 1.1 },
+            animate: (i: number) => ({
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                transition: {
+                    delay: 0.3 + (i * 0.1),
+                    duration: 0.6,
+                    ease: [0.215, 0.61, 0.355, 1] // Cubic Out for a "settling" feel
+                }
+            })
+        },
         clipReveal: {
             initial: { clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' },
-
             animate: {
                 clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
 
