@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
+import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
@@ -100,9 +101,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             {/* Language Switch for this post */}
             <Link
               href={`/${alternateLang}/blog/${post.slug}`}
-              className="text-sm hover:text-primary transition-colors"
+              className="text-sm text-muted-foreground hover:rounded-3xl transition-all"
             >
-              {lang === "ar" ? "Read in English" : "اقرأ بالعربية"}
+              <UnderlineToBackground targetTextColor="var(--color-primary)" >
+                {lang === "ar" ? "Read in English" : "اقرأ بالعربية"}
+              </UnderlineToBackground>
             </Link>
           </div>
 
