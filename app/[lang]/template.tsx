@@ -1,36 +1,57 @@
 "use client"
 
 import { ANIMATION } from '@/lib/animation-constants'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
+import { usePathname } from 'next/navigation'
 
 export default function Template({ children }: { children: React.ReactNode }) {
-    return (
-        <div className="relative overflow-hidden">
-            {/* 1. THE COLOR PANEL (The "Curtain") */}
-            <motion.div
-                className="fixed inset-0 z-50 bg-red-600 pointer-events-none"
-                initial={{ scaleY: 1 }}
-                animate={{ scaleY: 0 }}
-                exit={{ scaleY: 0 }}
-                transition={{
-                    duration: ANIMATION.duration.default,
-                    ease: ANIMATION.ease.default
-                }}
-                style={{ originY: 0 }} // Animates upward
-            />
+    const pathname = usePathname()
 
-            {/* 2. THE CONTENT (Revealing underneath) */}
-            <motion.main
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                    delay: 0.2, // Wait a bit for the red curtain to start moving
-                    duration: ANIMATION.duration.default,
-                    ease: ANIMATION.ease.default
-                }}
-            >
-                {children}
-            </motion.main>
-        </div>
+    return (
+        /* mode="wait" ensures the exit animation finishes before the new page enters */
+        <AnimatePresence mode="wait">
+            <div key={pathname} className="relative w-full min-h-screen overflow-hidden">
+                {/* 1. Black Panel (The Chaser) */}
+                <motion.div
+                    className="fixed inset-0 z-50 bg-secondary pointer-events-none"
+                    style={{ width: '120vw', left: '-10%' }}
+                    initial={{ x: '-110%', skewX: '-15deg' }}
+                    animate={{ x: '150%', skewX: '-15deg' }}
+                    transition={{ duration: 1, ease: ANIMATION.ease.default }}
+                    exit={{ x: '-110%', skewX: '15deg' }}
+                >
+
+                </motion.div>
+
+                {/* 2. Red Panel (The Leader) */}
+                <motion.div
+                    className="fixed inset-0 z-60 bg-primary pointer-events-none"
+                    style={{ width: '120vw', left: '-10%' }}
+                    initial={{ x: '-110%', skewX: '-15deg' }}
+                    animate={{ x: '150%', skewX: '-15deg' }}
+                    transition={{
+                        duration: 1,
+                        ease: ANIMATION.ease.default,
+                        delay: 0.05
+                    }}
+                    exit={{ x: '-110%', skewX: '15deg' }}
+                >
+                </motion.div>
+
+                {/* 3. THE CHILDREN (The Reveal) */}
+                <motion.div
+                    initial={{ opacity: 0, x: -200 }} // Start slightly to the left
+                    animate={{ opacity: 1, x: 0 }}    // Move to center
+                    transition={{
+                        duration: 0.6,
+                        delay: 0.45, // <--- CRITICAL: This waits for the panels to be mid-screen
+                        ease: "anticipate"
+                    }}
+                    exit={{ x: '-110%', skewX: '15deg' }}
+                >
+                    {children}
+                </motion.div>
+            </div>
+        </AnimatePresence >
     )
 }

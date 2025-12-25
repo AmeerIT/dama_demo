@@ -31,6 +31,20 @@ export const ANIMATION = {
 
                 transition: { duration: 0.75, ease: [0.65, 0.05, 0, 1] }
             }
+        },
+        woosh: {
+            initial: {
+                x: '-110%',
+                skewX: '-15deg'
+            },
+            animate: {
+                x: '110%',
+                skewX: '-15deg',
+                transition: {
+                    duration: 0.8,
+                    ease: [0.65, 0.05, 0, 1]
+                }
+            }
         }
     }
 }
