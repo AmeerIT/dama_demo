@@ -4,7 +4,7 @@ import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { CMSHeader } from "@/components/cms/header";
 import { ServiceEditorForm } from "@/components/cms/service-editor-form";
-import { getService, updateService, type Service, type ServiceFormData } from "@/lib/appwrite/cms-data";
+import { getService, updateService, type CMSService, type ServiceFormData } from "@/lib/appwrite/cms-data";
 import { Loader2 } from "lucide-react";
 
 interface PageProps {
@@ -14,7 +14,7 @@ interface PageProps {
 export default function EditServicePage({ params }: PageProps) {
   const { id } = use(params);
   const router = useRouter();
-  const [service, setService] = useState<Service | null>(null);
+  const [service, setService] = useState<CMSService | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 

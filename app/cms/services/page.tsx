@@ -16,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { listServices, deleteService, updateService, type Service } from "@/lib/appwrite/cms-data";
+import { listServices, deleteService, updateService, type CMSService } from "@/lib/appwrite/cms-data";
 import {
   Plus,
   Loader2,
@@ -29,7 +29,7 @@ import {
 
 export default function ServicesListPage() {
   const router = useRouter();
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<CMSService[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -65,7 +65,7 @@ export default function ServicesListPage() {
     }
   };
 
-  const handleToggleActive = async (service: Service) => {
+  const handleToggleActive = async (service: CMSService) => {
     try {
       await updateService(service.$id, { is_active: !service.is_active });
       await loadServices();

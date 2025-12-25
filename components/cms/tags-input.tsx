@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { listTags, type Tag } from "@/lib/appwrite/cms-data";
+import { listTags, type CMSTag } from "@/lib/appwrite/cms-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,7 @@ interface TagsInputProps {
 }
 
 export function TagsInput({ value, onChange }: TagsInputProps) {
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<CMSTag[]>([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

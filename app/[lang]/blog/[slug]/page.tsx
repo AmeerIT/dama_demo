@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
-              {post.tags.map((tag) => (
+              {post.tags && post.tags.map((tag) => (
                 <Link key={tag.id} href={`/${lang}/blog?tag=${tag.slug}`}>
                   <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer">
                     {lang === "ar" ? tag.name_ar : tag.name_en}

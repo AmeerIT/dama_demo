@@ -15,12 +15,12 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { listTags, createTag, updateTag, deleteTag, type Tag } from "@/lib/appwrite/cms-data";
+import { listTags, createTag, updateTag, deleteTag, type CMSTag } from "@/lib/appwrite/cms-data";
 import { Plus, Loader2, Tags, Edit, Trash2, Check, X } from "lucide-react";
 import { useAuth } from "@/lib/appwrite/auth-context";
 
 export default function TagsManagementPage() {
-    const [tags, setTags] = useState<Tag[]>([]);
+    const [tags, setTags] = useState<CMSTag[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -92,7 +92,7 @@ export default function TagsManagementPage() {
         }
     };
 
-    const startEditing = (tag: Tag) => {
+    const startEditing = (tag: CMSTag) => {
         setEditingId(tag.$id);
         setEditNameEn(tag.name_en);
         setEditNameAr(tag.name_ar);

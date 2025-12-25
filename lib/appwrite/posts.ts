@@ -1,30 +1,10 @@
 import { Query } from "node-appwrite";
 import { publicClient, DATABASE_ID, TABLES, getImageUrl } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
+import type { Post, Tag } from "./types";
 
-// Types
-export interface Tag {
-  id: string;
-  name_ar: string;
-  name_en: string;
-  slug: string;
-}
-
-export interface Post {
-  id: string;
-  slug: string;
-  title_ar: string;
-  title_en: string;
-  excerpt_ar?: string;
-  excerpt_en?: string;
-  body_ar: string;
-  body_en: string;
-  featured_image?: string;
-  published_at: string;
-  is_published: boolean;
-  author_id?: string;
-  tags?: Tag[];
-}
+// Re-export for backward compatibility
+export type { Post, Tag } from "./types";
 
 interface GetPostsOptions {
   lang: Locale;

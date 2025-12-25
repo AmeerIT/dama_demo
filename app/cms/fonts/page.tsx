@@ -30,18 +30,19 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { listFonts, createFont, deleteFont, uploadFont, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
+import { listFonts, createFont, deleteFont, uploadFont, getFontUrl, type CMSFont } from "@/lib/appwrite/cms-data";
 import { Upload, Loader2, Type, Trash2, Copy, Check, Plus, Eye } from "lucide-react";
 import { useAuth } from "@/lib/appwrite/auth-context";
+import { Font } from "@/lib/appwrite";
 
 export default function FontsManagementPage() {
-  const [fonts, setFonts] = useState<Font[]>([]);
+  const [fonts, setFonts] = useState<CMSFont[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteFileId, setDeleteFileId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [previewFont, setPreviewFont] = useState<Font | null>(null);
+  const [previewFont, setPreviewFont] = useState<CMSFont | null>(null);
 
   // Upload form state
   const [showUploadForm, setShowUploadForm] = useState(false);
@@ -134,7 +135,7 @@ export default function FontsManagementPage() {
     }
   };
 
-  const generateCSS = (font: Font): string => {
+  const generateCSS = (font: CMSFont): string => {
     const url = getFontUrl(font.file_id);
     return `@font-face {
   font-family: '${font.family}';
@@ -145,7 +146,7 @@ export default function FontsManagementPage() {
 }`;
   };
 
-  const handleCopyCSS = async (font: Font) => {
+  const handleCopyCSS = async (font: CMSFont) => {
     const css = generateCSS(font);
     await navigator.clipboard.writeText(css);
     setCopiedId(font.$id);

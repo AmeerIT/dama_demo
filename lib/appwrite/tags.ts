@@ -1,14 +1,10 @@
 import { Query } from "node-appwrite";
 import { publicClient, DATABASE_ID, TABLES } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
+import type { Tag } from "./types";
 
-// Types
-export interface Tag {
-  id: string;
-  name_ar: string;
-  name_en: string;
-  slug: string;
-}
+// Re-export for backward compatibility
+export type { Tag } from "./types";
 
 // Fetch all tags
 export async function getTags(): Promise<Tag[]> {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { type Locale } from "@/lib/i18n/dictionaries";
-import { type Post } from "@/lib/appwrite/posts";
+import { type Post } from "@/lib/appwrite/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
@@ -48,8 +48,8 @@ export function BlogCard({ post, lang, formattedDate }: BlogCardProps) {
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
-              {post.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag.id} variant="secondary" className="text-xs">
+              {post.tags.slice(0, 3).map((tag, index) => (
+                <Badge key={tag.id || index} variant="secondary" className="text-xs">
                   {lang === "ar" ? tag.name_ar : tag.name_en}
                 </Badge>
               ))}

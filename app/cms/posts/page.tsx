@@ -24,7 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { listPosts, deletePost, type Post } from "@/lib/appwrite/cms-data";
+import { listPosts, deletePost, type CMSPost } from "@/lib/appwrite/cms-data";
 import {
   Plus,
   Search,
@@ -38,7 +38,7 @@ import {
 
 export default function PostsListPage() {
   const router = useRouter();
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<CMSPost[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -152,11 +152,10 @@ export default function PostsListPage() {
                           )}
                           <div className="flex items-center gap-3 mt-2">
                             <span
-                              className={`text-xs px-2 py-0.5 rounded-full ${
-                                post.is_published
-                                  ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                  : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                              }`}
+                              className={`text-xs px-2 py-0.5 rounded-full ${post.is_published
+                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                }`}
                             >
                               {post.is_published ? "Published" : "Draft"}
                             </span>

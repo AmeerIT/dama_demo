@@ -1,6 +1,29 @@
 import { Client, TablesDB, Storage, Query, ID, Permission, Role } from "appwrite";
 import appwriteConfig from "@/appwrite.config.json";
 import { BUCKETS, TABLES } from "./client";
+import type {
+  CMSPost,
+  CMSService,
+  CMSTag,
+  CMSFont,
+  PostFormData,
+  ServiceFormData,
+  MediaFile,
+  DashboardStats,
+  Post,
+} from "./types";
+
+// Re-export for backward compatibility
+export type {
+  CMSPost,
+  CMSService,
+  CMSTag,
+  CMSFont,
+  PostFormData,
+  ServiceFormData,
+  MediaFile,
+  DashboardStats,
+} from "./types";
 
 // Client-side Appwrite client for CMS operations
 const client = new Client()
@@ -12,85 +35,6 @@ const storage = new Storage(client);
 
 // Database and collection IDs
 const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "dama_db";
-
-// Types
-export interface Post {
-  $id: string;
-  slug: string;
-  title_ar: string;
-  title_en: string;
-  excerpt_ar?: string;
-  excerpt_en?: string;
-  body_ar: string;
-  body_en: string;
-  featured_image?: string;
-  published_at: string;
-  is_published: boolean;
-  status: "draft" | "published";
-  keywords?: string[];
-  tags?: string[];
-  $createdAt: string;
-  $updatedAt: string;
-}
-
-export type PostFormData = Omit<Post, "$id" | "$createdAt" | "$updatedAt">;
-
-export interface Service {
-  $id: string;
-  slug: string;
-  title_ar: string;
-  title_en: string;
-  description_ar: string;
-  description_en: string;
-  content_ar?: string;
-  content_en?: string;
-  icon: string;
-  image?: string;
-  order: number;
-  is_active: boolean;
-  $createdAt: string;
-  $updatedAt: string;
-}
-
-export type ServiceFormData = Omit<Service, "$id" | "$createdAt" | "$updatedAt">;
-
-export interface Tag {
-  $id: string;
-  name_ar: string;
-  name_en: string;
-  slug: string;
-  $createdAt: string;
-  $updatedAt: string;
-}
-
-export interface Font {
-  $id: string;
-  name: string;
-  file_id: string;
-  family: string;
-  weight: string;
-  style: string;
-  $createdAt: string;
-  $updatedAt: string;
-}
-
-export interface MediaFile {
-  $id: string;
-  name: string;
-  mimeType: string;
-  sizeOriginal: number;
-  $createdAt: string;
-}
-
-// Dashboard Stats
-export interface DashboardStats {
-  totalPosts: number;
-  publishedPosts: number;
-  draftPosts: number;
-  totalServices: number;
-  totalTags: number;
-  totalMedia: number;
-}
 
 export async function getDashboardStats(): Promise<DashboardStats> {
   try {
@@ -130,7 +74,7 @@ export async function listPosts(options?: {
   search?: string;
   limit?: number;
   offset?: number;
-}): Promise<{ documents: Post[]; total: number }> {
+}): Promise<{ documents: CMSPost[]; total: number }> {
   const queries: string[] = [
     Query.orderDesc("$createdAt"),
     Query.limit(options?.limit || 25),
@@ -152,17 +96,17 @@ export async function listPosts(options?: {
 
   const response = await tablesDb.listRows(DATABASE_ID, TABLES.POSTS, queries);
   return {
-    documents: response.rows as unknown as Post[],
+    documents: response.rows as unknown as CMSPost[],
     total: response.total,
   };
 }
 
-export async function getPost(id: string): Promise<Post> {
+export async function getPost(id: string): Promise<CMSPost> {
   const response = await tablesDb.getRow(DATABASE_ID, TABLES.POSTS, id);
-  return response as unknown as Post;
+  return response as unknown as CMSPost;
 }
 
-export async function createPost(data: Omit<Post, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Post> {
+export async function createPost(data: Omit<CMSPost, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Post> {
   const response = await tablesDb.createRow(
     DATABASE_ID,
     TABLES.POSTS,
@@ -173,9 +117,9 @@ export async function createPost(data: Omit<Post, "$id" | "$createdAt" | "$updat
   return response as unknown as Post;
 }
 
-export async function updatePost(id: string, data: Partial<Post>): Promise<Post> {
+export async function updatePost(id: string, data: Partial<CMSPost>): Promise<CMSPost> {
   const response = await tablesDb.updateRow(DATABASE_ID, TABLES.POSTS, id, data);
-  return response as unknown as Post;
+  return response as unknown as CMSPost;
 }
 
 export async function deletePost(id: string): Promise<void> {
@@ -183,23 +127,23 @@ export async function deletePost(id: string): Promise<void> {
 }
 
 // Services CRUD
-export async function listServices(): Promise<{ documents: Service[]; total: number }> {
+export async function listServices(): Promise<{ documents: CMSService[]; total: number }> {
   const response = await tablesDb.listRows(DATABASE_ID, TABLES.SERVICES, [
     Query.orderAsc("order"),
     Query.limit(100),
   ]);
   return {
-    documents: response.rows as unknown as Service[],
+    documents: response.rows as unknown as CMSService[],
     total: response.total,
   };
 }
 
-export async function getService(id: string): Promise<Service> {
+export async function getService(id: string): Promise<CMSService> {
   const response = await tablesDb.getRow(DATABASE_ID, TABLES.SERVICES, id);
-  return response as unknown as Service;
+  return response as unknown as CMSService;
 }
 
-export async function createService(data: Omit<Service, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Service> {
+export async function createService(data: Omit<CMSService, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<CMSService> {
   const response = await tablesDb.createRow(
     DATABASE_ID,
     TABLES.SERVICES,
@@ -207,12 +151,12 @@ export async function createService(data: Omit<Service, "$id" | "$createdAt" | "
     data,
     defaultPermissions(userId)
   );
-  return response as unknown as Service;
+  return response as unknown as CMSService;
 }
 
-export async function updateService(id: string, data: Partial<Service>): Promise<Service> {
+export async function updateService(id: string, data: Partial<CMSService>): Promise<CMSService> {
   const response = await tablesDb.updateRow(DATABASE_ID, TABLES.SERVICES, id, data);
-  return response as unknown as Service;
+  return response as unknown as CMSService;
 }
 
 export async function deleteService(id: string): Promise<void> {
@@ -220,18 +164,18 @@ export async function deleteService(id: string): Promise<void> {
 }
 
 // Tags CRUD
-export async function listTags(): Promise<{ documents: Tag[]; total: number }> {
+export async function listTags(): Promise<{ documents: CMSTag[]; total: number }> {
   const response = await tablesDb.listRows(DATABASE_ID, TABLES.TAGS, [
     Query.orderAsc("name_en"),
     Query.limit(100),
   ]);
   return {
-    documents: response.rows as unknown as Tag[],
+    documents: response.rows as unknown as CMSTag[],
     total: response.total,
   };
 }
 
-export async function createTag(data: Omit<Tag, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Tag> {
+export async function createTag(data: Omit<CMSTag, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<CMSTag> {
   const response = await tablesDb.createRow(
     DATABASE_ID,
     TABLES.TAGS,
@@ -239,12 +183,12 @@ export async function createTag(data: Omit<Tag, "$id" | "$createdAt" | "$updated
     data,
     defaultPermissions(userId)
   );
-  return response as unknown as Tag;
+  return response as unknown as CMSTag;
 }
 
-export async function updateTag(id: string, data: Partial<Tag>): Promise<Tag> {
+export async function updateTag(id: string, data: Partial<CMSTag>): Promise<CMSTag> {
   const response = await tablesDb.updateRow(DATABASE_ID, TABLES.TAGS, id, data);
-  return response as unknown as Tag;
+  return response as unknown as CMSTag;
 }
 
 export async function deleteTag(id: string): Promise<void> {
@@ -252,18 +196,18 @@ export async function deleteTag(id: string): Promise<void> {
 }
 
 // Fonts CRUD
-export async function listFonts(): Promise<{ documents: Font[]; total: number }> {
+export async function listFonts(): Promise<{ documents: CMSFont[]; total: number }> {
   const response = await tablesDb.listRows(DATABASE_ID, TABLES.FONTS, [
     Query.orderAsc("name"),
     Query.limit(100),
   ]);
   return {
-    documents: response.rows as unknown as Font[],
+    documents: response.rows as unknown as CMSFont[],
     total: response.total,
   };
 }
 
-export async function createFont(data: Omit<Font, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<Font> {
+export async function createFont(data: Omit<CMSFont, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<CMSFont> {
   const response = await tablesDb.createRow(
     DATABASE_ID,
     TABLES.FONTS,
@@ -271,7 +215,7 @@ export async function createFont(data: Omit<Font, "$id" | "$createdAt" | "$updat
     data,
     defaultPermissions(userId)
   );
-  return response as unknown as Font;
+  return response as unknown as CMSFont;
 }
 
 export async function deleteFont(id: string, fileId: string): Promise<void> {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CMSHeader } from "@/components/cms/header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getDashboardStats, listPosts, type DashboardStats, type Post } from "@/lib/appwrite/cms-data";
+import { getDashboardStats, listPosts, type DashboardStats, type CMSPost } from "@/lib/appwrite/cms-data";
 import {
   FileText,
   Briefcase,
@@ -19,7 +19,7 @@ import {
 
 export default function CMSDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [recentPosts, setRecentPosts] = useState<Post[]>([]);
+  const [recentPosts, setRecentPosts] = useState<CMSPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -156,11 +156,10 @@ export default function CMSDashboardPage() {
                       <p className="font-medium truncate">{post.title_en || post.title_ar}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <span
-                          className={`text-xs px-2 py-0.5 rounded-full ${
-                            post.is_published
-                              ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                              : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                          }`}
+                          className={`text-xs px-2 py-0.5 rounded-full ${post.is_published
+                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                            : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                            }`}
                         >
                           {post.is_published ? "Published" : "Draft"}
                         </span>

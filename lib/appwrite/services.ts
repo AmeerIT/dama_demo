@@ -1,22 +1,10 @@
 import { Query } from "node-appwrite";
 import { publicClient, DATABASE_ID, TABLES, getImageUrl } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
+import type { Service } from "./types";
 
-// Types
-export interface Service {
-  id: string;
-  slug: string;
-  title_ar: string;
-  title_en: string;
-  description_ar: string;
-  description_en: string;
-  content_ar?: string;
-  content_en?: string;
-  icon: string;
-  image?: string;
-  order: number;
-  is_active: boolean;
-}
+// Re-export for backward compatibility
+export type { Service } from "./types";
 
 interface GetServicesOptions {
   lang: Locale;

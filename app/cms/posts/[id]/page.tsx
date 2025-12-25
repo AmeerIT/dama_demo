@@ -4,7 +4,7 @@ import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { CMSHeader } from "@/components/cms/header";
 import { PostEditorForm } from "@/components/cms/post-editor-form";
-import { getPost, updatePost, type Post, type PostFormData } from "@/lib/appwrite/cms-data";
+import { getPost, updatePost, type CMSPost, type PostFormData } from "@/lib/appwrite/cms-data";
 import { Loader2 } from "lucide-react";
 
 interface PageProps {
@@ -14,7 +14,7 @@ interface PageProps {
 export default function EditPostPage({ params }: PageProps) {
   const { id } = use(params);
   const router = useRouter();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<CMSPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 

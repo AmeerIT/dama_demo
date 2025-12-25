@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { LexKitEditor } from "@/components/cms/lexkit-editor";
 import { MediaPicker } from "@/components/cms/media-picker";
-import { type Service, type ServiceFormData, getMediaUrl } from "@/lib/appwrite/cms-data";
+import { type CMSService, type ServiceFormData, getMediaUrl } from "@/lib/appwrite/cms-data";
 import {
   Loader2,
   Save,
@@ -34,7 +34,7 @@ import {
 import slugify from "slugify";
 
 interface ServiceEditorFormProps {
-  service?: Service;
+  service?: CMSService;
   onSave: (data: ServiceFormData) => Promise<void>;
   isSaving: boolean;
 }

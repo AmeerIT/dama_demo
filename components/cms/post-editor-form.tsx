@@ -7,11 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LexKitEditor } from "@/components/cms/lexkit-editor";
 import { MediaPicker } from "@/components/cms/media-picker";
 import { TagsInput } from "@/components/cms/tags-input";
-import { type Post, type PostFormData, getMediaUrl } from "@/lib/appwrite/cms-data";
+import { CMSPost, type PostFormData, getMediaUrl } from "@/lib/appwrite/cms-data";
 import {
   Loader2,
   Save,
@@ -25,7 +24,7 @@ import Link from "next/link";
 import slugify from "slugify";
 
 interface PostEditorFormProps {
-  post?: Post;
+  post?: CMSPost;
   onSave: (data: PostFormData) => Promise<void>;
   isSaving: boolean;
 }

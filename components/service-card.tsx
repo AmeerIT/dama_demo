@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type Locale } from "@/lib/i18n/dictionaries";
-import { type Service } from "@/lib/appwrite/services";
+import { type Service } from "@/lib/appwrite/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Stethoscope, GraduationCap, Megaphone, Mic2, BookOpen } from "lucide-react";
 

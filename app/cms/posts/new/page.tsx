@@ -17,7 +17,7 @@ export default function NewPostPage() {
     setIsSaving(true);
     try {
       const post = await createPost(data, user!.$id);
-      router.push(`/cms/posts/${post.$id}`);
+      router.push(`/cms/posts/${post.id}`);
     } catch (error) {
       console.error("Failed to create post:", error);
       throw error;

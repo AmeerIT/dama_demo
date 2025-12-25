@@ -10,7 +10,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { listFonts, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
+import { listFonts, getFontUrl, CMSFont, } from "@/lib/appwrite/cms-data";
 
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
@@ -219,7 +219,7 @@ function ToolbarPlugin({
   fonts,
 }: {
   onInsertImage: () => void;
-  fonts: Font[];
+  fonts: CMSFont[];
 }) {
   const [editor] = useLexicalComposerContext();
   const [youtubeDialogOpen, setYoutubeDialogOpen] = useState(false);
@@ -642,7 +642,7 @@ export function LexKitEditor({
   onInsertImage,
   placeholder = "Start writing...",
 }: LexKitEditorProps) {
-  const [fonts, setFonts] = useState<Font[]>([]);
+  const [fonts, setFonts] = useState<CMSFont[]>([]);
 
   // Load fonts and inject CSS
   useEffect(() => {

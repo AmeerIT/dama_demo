@@ -3,7 +3,7 @@ import { type Locale, type Dictionary } from "@/lib/i18n/dictionaries";
 import { Button } from "@/components/ui/button";
 import { ServiceCard } from "@/components/service-card";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { type Service } from "@/lib/appwrite/services";
+import { type Service } from "@/lib/appwrite/types";
 
 interface ServicesSectionProps {
   dictionary: Dictionary;

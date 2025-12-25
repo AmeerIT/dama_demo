@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useEffect, useState } from "react";
-import { listFonts, getFontUrl, type Font } from "@/lib/appwrite/cms-data";
+import { listFonts, getFontUrl } from "@/lib/appwrite/cms-data";
 
 interface LexicalRendererProps {
   content: string;
