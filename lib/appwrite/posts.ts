@@ -2,6 +2,7 @@ import { Query } from "node-appwrite";
 import { publicClient, DATABASE_ID, TABLES, getImageUrl } from "./client";
 import { type Locale } from "@/lib/i18n/dictionaries";
 import type { Post, Tag } from "./types";
+import { getTags } from "./tags";
 
 // Re-export for backward compatibility
 export type { Post, Tag } from "./types";
@@ -25,28 +26,38 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
       Query.offset(offset),
     ];
 
-    const response = await publicClient.tablesDb.listRows(
-      DATABASE_ID,
-      TABLES.POSTS,
-      queries
-    );
+    const [response, allTags] = await Promise.all([
+      publicClient.tablesDb.listRows(DATABASE_ID, TABLES.POSTS, queries),
+      getTags(),
+    ]);
+
+    // Create a map of tag IDs to tag objects for quick lookup
+    const tagMap = new Map(allTags.map((tag) => [tag.id, tag]));
 
     // Transform documents to Post type
-    const posts: Post[] = response.rows.map((doc) => ({
-      id: doc.$id,
-      slug: doc.slug,
-      title_ar: doc.title_ar,
-      title_en: doc.title_en,
-      excerpt_ar: doc.excerpt_ar,
-      excerpt_en: doc.excerpt_en,
-      body_ar: doc.body_ar,
-      body_en: doc.body_en,
-      featured_image: doc.featured_image ? getImageUrl(doc.featured_image, 800, 500) : undefined,
-      published_at: doc.published_at,
-      is_published: doc.is_published,
-      author_id: doc.author_id,
-      tags: doc.tags || [],
-    }));
+    const posts: Post[] = response.rows.map((doc) => {
+      // Map tag IDs to tag objects
+      const tagIds = doc.tags || [];
+      const postTags = tagIds
+        .map((tagId: string) => tagMap.get(tagId))
+        .filter((tag: Tag | undefined): tag is Tag => tag !== undefined);
+
+      return {
+        id: doc.$id,
+        slug: doc.slug,
+        title_ar: doc.title_ar,
+        title_en: doc.title_en,
+        excerpt_ar: doc.excerpt_ar,
+        excerpt_en: doc.excerpt_en,
+        body_ar: doc.body_ar,
+        body_en: doc.body_en,
+        featured_image: doc.featured_image ? getImageUrl(doc.featured_image, 800, 500) : undefined,
+        published_at: doc.published_at,
+        is_published: doc.is_published,
+        author_id: doc.author_id,
+        tags: postTags,
+      };
+    });
 
     // Filter by tag if specified
     if (tagSlug) {
@@ -66,21 +77,33 @@ export async function getPosts(options: GetPostsOptions): Promise<Post[]> {
 // Fetch single post by slug
 export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | null> {
   try {
-    const response = await publicClient.tablesDb.listRows(
-      DATABASE_ID,
-      TABLES.POSTS,
-      [
-        Query.equal("slug", slug),
-        Query.equal("is_published", true),
-        Query.limit(1),
-      ]
-    );
+    const [response, allTags] = await Promise.all([
+      publicClient.tablesDb.listRows(
+        DATABASE_ID,
+        TABLES.POSTS,
+        [
+          Query.equal("slug", slug),
+          Query.equal("is_published", true),
+          Query.limit(1),
+        ]
+      ),
+      getTags(),
+    ]);
 
     if (response.rows.length === 0) {
       return null;
     }
 
     const doc = response.rows[0];
+
+    // Create a map of tag IDs to tag objects for quick lookup
+    const tagMap = new Map(allTags.map((tag) => [tag.id, tag]));
+
+    // Map tag IDs to tag objects
+    const tagIds = doc.tags || [];
+    const postTags = tagIds
+      .map((tagId: string) => tagMap.get(tagId))
+      .filter((tag: Tag | undefined): tag is Tag => tag !== undefined);
 
     return {
       id: doc.$id,
@@ -95,7 +118,7 @@ export async function getPostBySlug(slug: string, lang: Locale): Promise<Post | 
       published_at: doc.published_at,
       is_published: doc.is_published,
       author_id: doc.author_id,
-      tags: doc.tags || [],
+      tags: postTags,
     };
   } catch (error) {
     console.error("Error fetching post by slug:", error);

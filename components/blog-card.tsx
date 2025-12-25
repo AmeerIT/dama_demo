@@ -5,14 +5,14 @@ import { type Post } from "@/lib/appwrite/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
+import { FormattedDate } from "@/components/formatted-date";
 
 interface BlogCardProps {
   post: Post;
   lang: Locale;
-  formattedDate: string;
 }
 
-export function BlogCard({ post, lang, formattedDate }: BlogCardProps) {
+export function BlogCard({ post, lang }: BlogCardProps) {
   const title = lang === "ar" ? post.title_ar : post.title_en;
   const excerpt = lang === "ar" ? post.excerpt_ar : post.excerpt_en;
 
@@ -59,7 +59,9 @@ export function BlogCard({ post, lang, formattedDate }: BlogCardProps) {
           {/* Date */}
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground pt-2 border-t border-border/50">
             <Calendar className="h-3.5 w-3.5" />
-            <time dateTime={post.published_at}>{formattedDate}</time>
+            <time dateTime={post.published_at}>
+              <FormattedDate date={post.published_at} locale={lang} />
+            </time>
           </div>
         </CardContent>
       </Card>
