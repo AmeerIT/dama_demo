@@ -289,7 +289,7 @@ export function LexicalRenderer({ content }: LexicalRendererProps) {
     // Fallback: render as HTML or plain text
     return (
       <div
-        className="prose prose-lg max-w-none dark:prose-invert"
+        className="prose prose-lg max-w-screen overflow-wrap break-words dark:prose-invert"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     );
