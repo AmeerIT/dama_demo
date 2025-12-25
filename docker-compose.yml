@@ -9,7 +9,7 @@ services:
       - NODE_ENV=production
       - PORT=5589
       # Appwrite configuration
-      - NEXT_PUBLIC_APPWRITE_ENDPOINT=${NEXT_PUBLIC_APPWRITE_ENDPOINT:-https://api.center-phone.com.io/v1}
+      - NEXT_PUBLIC_APPWRITE_ENDPOINT=${NEXT_PUBLIC_APPWRITE_ENDPOINT:-https://api.center-phone.com/v1}
       - NEXT_PUBLIC_APPWRITE_DATABASE_ID=${NEXT_PUBLIC_APPWRITE_DATABASE_ID:-dama_db}
       # Optional: Uncomment if you need admin operations
       # - APPWRITE_API_KEY=${APPWRITE_API_KEY}
