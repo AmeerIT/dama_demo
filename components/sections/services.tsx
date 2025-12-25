@@ -53,51 +53,45 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
 
         {/* Stacking Cards */}
         {featuredServices.length > 0 ? (
-          <StackingCards
-            totalCards={featuredServices.length}
-            scaleMultiplier={0.05}
-            className="min-h-[600px]"
-          >
-            {featuredServices.map((service, index) => {
-              const title = lang === "ar" ? service.title_ar : service.title_en;
-              const description = lang === "ar" ? service.description_ar : service.description_en;
-              const IconComponent = iconMap[service.icon] || BookOpen;
+          featuredServices.map((service, index) => {
+            const title = lang === "ar" ? service.title_ar : service.title_en;
+            const description = lang === "ar" ? service.description_ar : service.description_en;
+            const IconComponent = iconMap[service.icon] || BookOpen;
 
-              return (
-                <StackingCardItem key={service.id} index={index}>
-                  <Link href={`/${lang}/services/${service.slug}`}>
-                    <Card className="group h-full border-border/50 hover:border-primary/50 transition-all hover:shadow-2xl bg-background/95 backdrop-blur">
-                      <CardHeader className="pb-4">
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            <IconComponent className="h-8 w-8" />
-                          </div>
-                          <div>
-                            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                              {title}
-                            </h3>
-                          </div>
+            return (
+              <StackingCardItem key={service.id} index={index}>
+                <Link href={`/${lang}/services/${service.slug}`}>
+                  <Card className="group h-full border-border/50 hover:border-primary/50 transition-all hover:shadow-2xl bg-background/95 backdrop-blur">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <IconComponent className="h-8 w-8" />
                         </div>
-                      </CardHeader>
-
-                      <CardContent className="space-y-6">
-                        {description && (
-                          <p className="text-base text-muted-foreground leading-relaxed">
-                            {description}
-                          </p>
-                        )}
-
-                        <div className="flex items-center text-base font-medium text-primary group-hover:underline pt-4">
-                          <span>{lang === "ar" ? "اقرأ المزيد" : "Learn more"}</span>
-                          <ArrowIcon className="ms-2 h-5 w-5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                        <div>
+                          <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
+                            {title}
+                          </h3>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </StackingCardItem>
-              );
-            })}
-          </StackingCards>
+                      </div>
+                    </CardHeader>
+
+                    <CardContent className="space-y-6">
+                      {description && (
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          {description}
+                        </p>
+                      )}
+
+                      <div className="flex items-center text-base font-medium text-primary group-hover:underline pt-4">
+                        <span>{lang === "ar" ? "اقرأ المزيد" : "Learn more"}</span>
+                        <ArrowIcon className="ms-2 h-5 w-5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </StackingCardItem>
+            );
+          })
         ) : (
           <div className="text-center py-12 text-muted-foreground">
             {dictionary.services.noServicesFound}
