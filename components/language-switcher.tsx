@@ -63,9 +63,7 @@ export function LanguageSwitcher({ lang, variant = "button" }: LanguageSwitcherP
               className="flex items-center justify-between w-full"
             >
               <span>{language.name}</span>
-              {lang === language.code && (
-                <Check className="h-4 w-4 text-primary" />
-              )}
+              {lang === language.code}
             </Link>
           </DropdownMenuItem>
         ))}

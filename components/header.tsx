@@ -142,15 +142,17 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@base-ui/react";
+import { ModeToggle } from "./mode-toggle";
+import { LanguageSwitcher } from "./language-switcher";
 
 export default function Header({ lang, dictionary }: any) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems = [
-    { href: `/${lang}`, label: "Home" },
-    { href: `/${lang}/insights`, label: "Insights" },
-    { href: `/${lang}/blog`, label: "Blog" },
-    { href: `/${lang}/services`, label: "Services" },
+    { href: `/${lang}`, label: dictionary.common.home, subtitle: dictionary.common.home.subtitle },
+    { href: `/${lang}/insights`, label: dictionary.common.insights, subtitle: dictionary.common.insights.subtitle },
+    { href: `/${lang}/blog`, label: dictionary.common.blog, subtitle: dictionary.common.insights.subtitle },
+    { href: `/${lang}/services`, label: dictionary.common.services, subtitle: dictionary.common.insights.subtitle },
   ];
 
   return (
@@ -190,24 +192,35 @@ export default function Header({ lang, dictionary }: any) {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-              className="overflow-hidden "
+              className="overflow-hidden"
             >
-              <nav className="flex flex-col md:flex-row items-stretch md:items-center py-12 md:py-20 gap-4">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsExpanded(false)}
-                    className="group relative flex-1 text-center py-6 pb-10
-                               bg-transparent hover:bg-primary border border-transparent
-                               hover:border-black/10 rounded-xl transition-all duration-300"
-                  >
-                    {/* The Nav Text */}
-                    <span className="relative z-10 text-4xl md:text-5xl font-black italic uppercase tracking-tighter transition-colors group-hover:text-black">
-                      {item.label}
-                    </span>
-                  </Link>
-                ))}
+              <nav className="">
+                <div className="flex flex-row w-full justify-center my-50 scale-350 ">
+                  <ModeToggle />
+                  <LanguageSwitcher lang={lang} />
+                </div>
+                <div className="relative grid grid-cols-2 overflow-hidden">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsExpanded(false)}
+                      className="flex-1 text-center my-6
+                  p-6
+                  font-black uppercase transition-all hover:text-background
+                  bg-transparent hover:bg-primary
+                  hover:rounded-xl duration-300 "
+                    >
+                      {/* The Nav Text */}
+                      <span className="relative z-10 text-4xl md:text-5xl  ">
+                        {item.label}
+                      </span>
+                      <p className="mt-2 text-sm md:text-base italic font-semibold opacity-70">
+                        {item.subtitle ?? "NOTHING"}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
               </nav>
             </motion.div>
           )}
