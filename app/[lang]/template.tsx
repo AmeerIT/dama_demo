@@ -8,44 +8,63 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
 
     return (
-        <AnimatePresence mode="wait">
-            <div key={pathname} className="relative w-full min-h-screen overflow-hidden scale-100">
-                <motion.div
-                    className="fixed inset-0 z-50 bg-secondary pointer-events-none"
-                    style={{ width: '120vw', left: '-10%' }}
-                    initial={{ x: '-110%', skewX: '-15deg' }}
-                    animate={{ x: '150%', skewX: '-15deg' }}
-                    transition={{ duration: 1, ease: ANIMATION.ease.default }}
-                    exit={{ x: '150%', skewX: '-15deg' }}
-                >
-                    {children}
-                </motion.div>
+        <AnimatePresence mode="wait"
+            presenceAffectsLayout={true}
+            onExitComplete={() => {
+                window.scrollTo(0, 0);
+            }}
+            propagate={true}
+        >
+            <div className="fixed inset-0 pointer-events-none z-100 flex flex-col">
 
+                {/* TOP BLADE */}
                 <motion.div
-                    className="fixed inset-0 z-60 bg-primary pointer-events-none scale-150 "
-                    style={{ width: '120vw', left: '-10%' }}
-                    initial={{ x: '-110%', skewX: '-15deg' }}
-                    animate={{ x: '150%', skewX: '-15deg' }}
+                    initial={{ scaleY: 1, opacity: 0 }}
+                    animate={{ scaleY: 0, opacity: 1 }}
+                    exit={{ scaleY: 1 }}
+                    style={{ originY: 0 }} // Scales from the top
                     transition={{
-                        duration: 1,
-                        ease: ANIMATION.ease.default,
-                        delay: 0.05
+                        duration: 0.8,
+                        ease: [0.76, 0, 0.24, 1], // The high-speed "Expo" ease
                     }}
-                >
-                </motion.div>
+                    className="flex-1 w-full bg-secondary"
+                />
 
+                {/* BOTTOM BLADE */}
                 <motion.div
-                    initial={{ opacity: 0, x: -200 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ scaleY: 1, opacity: 0 }}
+                    animate={{ scaleY: 0, opacity: 1 }}
+                    exit={{ scaleY: 1 }}
+                    style={{ originY: 1 }} // Scales from the bottom
                     transition={{
-                        duration: 0.6,
-                        delay: 0.45,
-                        ease: "anticipate"
+                        duration: 0.8,
+                        ease: [0.76, 0, 0.24, 1],
                     }}
-                >
-                    {children}
-                </motion.div>
+                    className="flex-1 w-full bg-secondary"
+                />
             </div>
+
+            {/* THE PRIMARY "FLASH" (Optional: Adds a kick of color) */}
+            <motion.div
+                initial={{ scaleY: 1, opacity: 0 }}
+                animate={{ scaleY: 0, opacity: 1 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
+                className="fixed inset-0 z-99 bg-primary pointer-events-none"
+            />
+
+            {/* CONTENT REVEAL */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.6,
+                    delay: 0.4,
+                    ease: "easeOut"
+                }}
+                className="relative z-10"
+            >
+                {children}
+            </motion.div>
         </AnimatePresence >
     )
 }

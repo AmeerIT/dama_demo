@@ -21,8 +21,10 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <div className="flex flex-col">
       <HeroSection dictionary={dictionary} lang={lang as Locale} />
-      <ServicesSection dictionary={dictionary} lang={lang as Locale} services={services} />
-      <FeaturedPostsSection dictionary={dictionary} lang={lang as Locale} />
+      <div className="flex flex-col pt-20">
+        <ServicesSection dictionary={dictionary} lang={lang as Locale} services={services} />
+        <FeaturedPostsSection dictionary={dictionary} lang={lang as Locale} />
+      </div>
     </div>
   );
 }

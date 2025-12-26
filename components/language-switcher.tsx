@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 interface LanguageSwitcherProps {
   lang: Locale;
@@ -34,12 +34,11 @@ export function LanguageSwitcher({ lang, variant = "button" }: LanguageSwitcherP
 
   if (variant === "button") {
     const otherLang = lang === "ar" ? "en" : "ar";
-    const otherLangLabel = lang === "ar" ? "EN" : "عربي";
+    const otherLangLabel = lang === "ar" ? "EN" : "ع";
 
     return (
       <Link href={getLanguagePath(otherLang)}>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
+        <Button variant="ghost" >
           <span>{otherLangLabel}</span>
         </Button>
       </Link>
@@ -52,12 +51,11 @@ export function LanguageSwitcher({ lang, variant = "button" }: LanguageSwitcherP
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
+        <Button >
           <span>{currentLang?.name}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[140px]">
+      <DropdownMenuContent align="end" >
         {languages.map((language) => (
           <DropdownMenuItem key={language.code} asChild>
             <Link

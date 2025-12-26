@@ -9,7 +9,7 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
   const { footer, common } = dictionary;
 
   return (
-    <footer className="sticky z-0 bottom-0 left-0 w-full bg-indigo-800 text-white h-150" style={{
+    <footer className=" z-0 bottom-0 left-0 w-full bg-indigo-800 text-white h-150" style={{
       direction: "ltr"
     }}>
       <h2 className="text-4xl md:text-7xl font-black italic tracking-tighter leading-tight uppercase">
@@ -65,32 +65,32 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
             <div className="flex flex-col space-y-4">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Pages</span>
               <ul className="space-y-2 text-2xl md:text-3xl font-black italic uppercase">
-                <li className="hover:text-white transition-colors cursor-pointer">Home</li>
-                <li className="hover:text-white transition-colors cursor-pointer">On Track</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Off Track</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Calendar</li>
+                <li className="text-foreground">Home</li>
+                <li className="text-foreground">On Track</li>
+                <li className="text-foreground">Off Track</li>
+                <li className="text-foreground">Calendar</li>
               </ul>
             </div>
             <div className="flex flex-col items-end space-y-4">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Follow On</span>
               <ul className="space-y-2 text-2xl md:text-3xl font-black italic uppercase text-right">
-                <li className="hover:text-white transition-colors cursor-pointer">Tiktok</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Instagram</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Youtube</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Twitch</li>
+                <li className="text-foreground">Tiktok</li>
+                <li className="text-foreground">Instagram</li>
+                <li className="text-foreground">Youtube</li>
+                <li className="text-foreground">Twitch</li>
               </ul>
             </div>
           </div>
 
-          {/* Partner Bar */}
+          {/* Partner Bar
           <div className="border-t border-border pt-10 pb-20 flex flex-wrap justify-center items-center gap-12 opacity-60 hover:opacity-100 transition-opacity">
             <span className="text-lg font-bold italic tracking-tighter">McLaren</span>
             <span className="text-lg font-bold tracking-widest uppercase">Uber</span>
             <span className="text-lg font-black border-2 border-foreground px-2 italic">L4</span>
             <span className="text-lg font-bold">QUADRANT</span>
-            <span className="text-lg font-serif">Ralph Lauren</span>
-            <span className="text-lg font-black text-white">Android</span>
-          </div>
+            <span className="text-lg font-serif text-foreground">Ralph Lauren</span>
+            <span className="text-lg font-black text-foreground">Android</span>
+          </div> */}
         </div>
 
         {/* Bottom Bar */}
