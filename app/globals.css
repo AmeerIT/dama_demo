@@ -29,7 +29,7 @@
   --popover-foreground: #161a1d;
   --primary: #615fff;
   --primary-foreground: #ffffff;
-  --secondary: #813d9c;
+  --secondary: #615fff;
   --secondary-foreground: #ffffff;
   --muted: #e5e5e6;
   --muted-foreground: #161a1d;
@@ -84,7 +84,7 @@
   --popover-foreground: #e8e9e9;
   --primary: #615fff;
   --primary-foreground: #000000;
-  --secondary: #fabf47;
+  --secondary: #615fff;
   --secondary-foreground: #000000;
   --muted: #181818;
   --muted-foreground: #747678;

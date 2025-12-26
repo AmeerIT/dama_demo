@@ -250,6 +250,8 @@ export async function uploadMedia(file: File, userId: string): Promise<MediaFile
 
 export const defaultPermissions = (userId: string) => [
   Permission.read(Role.any()),
+  Permission.read(Role.guests()),
+  Permission.read(Role.users()),
   Permission.update(Role.users()),
   Permission.delete(Role.users()),
   Permission.update(Role.users()),
@@ -263,6 +265,7 @@ export async function uploadFont(file: File, userId: string): Promise<MediaFile>
     ID.unique(),
     file,
     defaultPermissions(userId),
+
   );
   return response as unknown as MediaFile;
 }

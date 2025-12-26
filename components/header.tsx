@@ -158,7 +158,7 @@ export default function Header({ lang, dictionary }: any) {
   return (
     /* We use 'relative' or 'sticky' here so it stays in the document flow
        and physically pushes the body content down when it grows */
-    <header className={`z-50 w-full   text-foreground sticky top-0`}>
+    <header className={`z-50 w-full  text-foreground sticky top-0`}>
       <div className="mx-auto max-w-7xl px-6">
         {/* 1. THE TOP BAR (Always Transparent) */}
         <div className="flex h-20 items-center justify-between ">
@@ -196,7 +196,7 @@ export default function Header({ lang, dictionary }: any) {
                 height: 0,
                 opacity: 0,
               }}
-              className="bg-background backdrop-blur-md rounded-3xl mb-8 overflow-hidden p-10"
+              className="bg-background/60 backdrop-blur-lg shadow-2xs rounded-3xl mb-8 overflow-hidden p-10"
             >
               <nav className="">
                 <div className="flex flex-row w-full justify-center my-5 scale-350 ">
