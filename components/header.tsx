@@ -56,9 +56,9 @@
 //               onClick={() => setIsOpen(!isOpen)}
 //               className="w-12 h-12 bg-primary text-white rounded-full flex flex-col items-center justify-center gap-1.5"
 //             >
-//               <motion.span animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }} className="w-6 h-0.5 bg-white" />
-//               <motion.span animate={{ opacity: isOpen ? 0 : 1 }} className="w-6 h-0.5 bg-white" />
-//               <motion.span animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }} className="w-6 h-0.5 bg-white" />
+//               <motion.span animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }} className="w-6 bg-white" />
+//               <motion.span animate={{ opacity: isOpen ? 0 : 1 }} className="w-6 bg-white" />
+//               <motion.span animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }} className="w-6 bg-white" />
 //             </Button>
 //           </motion.div>
 
@@ -149,27 +149,26 @@ export default function Header({ lang, dictionary }: any) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems = [
-    { href: `/${lang}`, label: dictionary.common.home, subtitle: dictionary.common.home.subtitle },
-    { href: `/${lang}/insights`, label: dictionary.common.insights, subtitle: dictionary.common.insights.subtitle },
-    { href: `/${lang}/blog`, label: dictionary.common.blog, subtitle: dictionary.common.insights.subtitle },
-    { href: `/${lang}/services`, label: dictionary.common.services, subtitle: dictionary.common.insights.subtitle },
+    { href: `/${lang}`, label: dictionary.common.home, subtitle: undefined },
+    { href: `/${lang}/insights`, label: dictionary.common.insights, subtitle: dictionary.Insights.subtitle },
+    { href: `/${lang}/blog`, label: dictionary.common.blog, subtitle: dictionary.blog.subtitle },
+    { href: `/${lang}/services`, label: dictionary.common.services, subtitle: dictionary.services.subtitle },
   ];
 
   return (
     /* We use 'relative' or 'sticky' here so it stays in the document flow
        and physically pushes the body content down when it grows */
-    <header className="relative z-50 w-full bg-transparent text-foreground ">
+    <header className={`z-50 w-full   text-foreground sticky top-0`}>
       <div className="mx-auto max-w-7xl px-6">
-
         {/* 1. THE TOP BAR (Always Transparent) */}
         <div className="flex h-20 items-center justify-between ">
-          <Link href="/" className="hover:opacity-80 transition-opacity">
-            <img src="/logo-dama.svg" alt="Logo" className="h-6 dark:invert" />
+          <Link href="/" className="transition-opacity backdrop-blur-3xl text-7xl p-5 rounded-full">
+            <img src="/logo-dama.svg" alt="Logo" className="h-10" />
           </Link>
 
           <Button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-4 group uppercase font-black italic text-xs tracking-widest"
+            className="flex items-center gap-4 group uppercase font-black italic text-7xl  p-5 rounded-full "
           >
             <div className="relative w-6 h-6 flex items-center justify-center">
               <motion.div
@@ -185,17 +184,22 @@ export default function Header({ lang, dictionary }: any) {
         </div>
 
         {/* 2. THE DROP (Accordion Content) */}
-        <AnimatePresence>
+        <AnimatePresence key="HEADER">
           {isExpanded && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-              className="overflow-hidden"
+              initial={{ height: 0, opacity: 1 }}
+              animate={{
+                height: "auto",
+                opacity: 1,
+              }}
+              exit={{
+                height: 0,
+                opacity: 0,
+              }}
+              className="bg-background backdrop-blur-md rounded-3xl mb-8 overflow-hidden p-10"
             >
               <nav className="">
-                <div className="flex flex-row w-full justify-center my-50 scale-350 ">
+                <div className="flex flex-row w-full justify-center my-5 scale-350 ">
                   <ModeToggle />
                   <LanguageSwitcher lang={lang} />
                 </div>
@@ -205,19 +209,19 @@ export default function Header({ lang, dictionary }: any) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsExpanded(false)}
-                      className="flex-1 text-center my-6
-                  p-6
-                  font-black uppercase transition-all hover:text-background
-                  bg-transparent hover:bg-primary
-                  hover:rounded-xl duration-300 "
-                    >
-                      {/* The Nav Text */}
-                      <span className="relative z-10 text-4xl md:text-5xl  ">
+                      className=
+                      {`text-center m-6 py-6
+                        rounded-4xl
+                      font-black uppercase transition-all text-primary hover:text-background hover:bg-primary
+                        duration-300 ${item.subtitle ?? 'items-center '}`}>
+                      <span className={`z-10 text-4xl md:text-5xl`}>
                         {item.label}
                       </span>
-                      <p className="mt-2 text-sm md:text-base italic font-semibold opacity-70">
-                        {item.subtitle ?? "NOTHING"}
-                      </p>
+                      {item.subtitle &&
+                        (<p className="mt-8 text-sm md:text-base text-foreground/muted-foreground font-normal">
+                          {item.subtitle ?? "NOTHING"}
+                        </p>)
+                      }
                     </Link>
                   ))}
                 </div>
@@ -225,7 +229,7 @@ export default function Header({ lang, dictionary }: any) {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </header>
+      </div >
+    </header >
   );
 }
