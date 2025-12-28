@@ -37,7 +37,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
         {/* Posts Grid */}
         {posts.length > 0 ? (
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-lg">
             {posts.map((post) => (
               <BlogCard key={post.id} post={post} lang={lang} />
             ))}
