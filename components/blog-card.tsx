@@ -28,7 +28,6 @@ export function BlogCard({ post, lang }: BlogCardProps) {
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />}
         <div className="absolute inset-0 bg-linear-to-t from-primary via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
-
         <div className="absolute top-5 left-5 flex flex-wrap gap-2 z-10">
           {
             post.tags &&
@@ -40,8 +39,6 @@ export function BlogCard({ post, lang }: BlogCardProps) {
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end min-h-[50%] z-20">
           <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end min-h-[50%] z-20">
-            {/* Spacer for transition */}
-            {/* <div className="flex items-center gap-2 mb-3 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"></div> */}
 
             <h2 className="relative text-2xl md:text-3xl text-white group-hover:py-3 group-hover:px-6
             group-hover:rounded-3xl line-clamp-2
@@ -51,7 +48,7 @@ export function BlogCard({ post, lang }: BlogCardProps) {
 
               {/* --- MOVING BLURRY GRADIENT BLOBS --- */}
               <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <AnimatedGradient colors={["#ff6ec4", "#7873f5", "#4ade80", "#22d3ee"]} speed={Math.random()} blur="heavy" />
+                <AnimatedGradient colors={["#ff6ec4f0", "#7873f50f", "#4ade8000", "#22d3ee00"]} speed={Math.random()} blur="heavy" />
               </div>
 
               <span className="relative z-10 ease-in" style={{
