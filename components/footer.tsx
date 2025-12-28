@@ -14,6 +14,8 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
       <p className="relative text-white select-none pointer-events-none max-w-2xl text-start pt-20 px-2"
         style={{
           fontSize: "clamp(10vw, 12vw, 13vw)",
+          fontFamily: "Effra, sans-serif",
+          fontWeight: 800,
         }}>
         {footer.title}
       </p>

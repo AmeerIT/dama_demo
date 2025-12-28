@@ -60,8 +60,7 @@ export function LanguageSwitcher({ lang, variant = "button" }: LanguageSwitcherP
           <DropdownMenuItem key={language.code} asChild>
             <Link
               href={getLanguagePath(language.code)}
-              className="flex items-center justify-between w-full"
-            >
+              className="flex items-center justify-between w-full">
               <span>{language.name}</span>
               {lang === language.code}
             </Link>

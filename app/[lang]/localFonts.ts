@@ -9,8 +9,8 @@ export const Effra = localFont({
         },
         {
             path: './efmd.ttf',
-            weight: '400',
-            style: 'italic',
+            weight: '500',
+            style: 'normal',
         },
         {
             path: './efbd.ttf',

@@ -8,12 +8,9 @@ import { LanguageSwitcher } from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
 import Image from 'next/image'
 import { DefaultProps } from "@/lib/default-props";
-import TopologicalPattern from "./topological-pattern";
 
 export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
-
-
 
   const navItems = [
     { href: `/${lang}/cast`, label: dictionary.common.cast },
@@ -46,7 +43,10 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             exit={{ height: 0, y: -200, decelerate: "easeInOut" }}
             transition={{ duration: 0.7, ease: "anticipate", height: { delay: 0.2 }, delay: 0.2 }}
             className="flex flex-row-reverse px-10 my-5 w-full justify-between items-center pointer-events-auto z-50 ">
-            <div className="flex flex-row items-center bg-primary/80 text-white animate-accordion-up gap-5 backdrop-blur-3xl drop-shadow-md rounded-4xl scale-120 p-2">
+            <div className="flex flex-row
+            items-center bg-primary/80 text-white
+            justify-center
+            gap-5 backdrop-blur-3xl drop-shadow-md rounded-4xl scale-120 p-2">
               <LanguageSwitcher lang={lang} />
               <ModeToggle />
             </div>
@@ -91,7 +91,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             className="fixed inset-0 z-40 flex items-center justify-center overflow-hidden bg-primary animate-accordion-up backdrop-blur-3xl drop-shadow-md "
           >
             <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl px-10 items-center ">
-              <Link className="flex flex-col items-center text-amber-500 text-6xl md:text-8xl font-bold undSerline-offset-8 decoration-2"
+              <Link className="flex flex-col items-center text-amber-500 text-6xl md:text-8xl font-bold underline-offset-8 decoration-2"
                 href={`/${lang}`}
                 onClick={() => setIsOpen(false)}>
                 <Image src="/logo.png"

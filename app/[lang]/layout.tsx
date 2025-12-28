@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import Header from "@/components/header";
 import { Effra } from "./localFonts";
+import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -29,7 +30,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
 
 
   return (
-    <html lang={lang} dir={direction} className={Effra.className}>
+    <html lang={lang} dir={direction} className={cn(`${Effra.className}-400`)}>
       <head>
       </head>
       <body >
