@@ -43,9 +43,6 @@ export async function getServices(options: GetServicesOptions): Promise<Service[
       is_active: doc.is_active,
     }));
   } catch (error) {
-    console.error("[SERVICES] CRITICAL ERROR fetching services:", error);
-    console.error("[SERVICES] Error details:", JSON.stringify(error, null, 2));
-    // Throw error to trigger error boundary - don't silently return empty array
     throw new Error(`Failed to fetch services: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
