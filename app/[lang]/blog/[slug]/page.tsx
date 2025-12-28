@@ -147,8 +147,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         )}
 
         {/* Article Body */}
-        <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-primary">
-          <LexicalRenderer content={body} />
+        <div className="max-w-screen ">
+          <LexicalRenderer content={body} key={post.id} />
         </div>
 
         {/* Footer */}

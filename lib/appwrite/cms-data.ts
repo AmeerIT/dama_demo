@@ -260,12 +260,12 @@ export const defaultPermissions = (userId: string) => [
 
 
 export async function uploadFont(file: File, userId: string): Promise<MediaFile> {
+
   const response = await storage.createFile(
     BUCKETS.FONTS,
     ID.unique(),
     file,
     defaultPermissions(userId),
-
   );
   return response as unknown as MediaFile;
 }

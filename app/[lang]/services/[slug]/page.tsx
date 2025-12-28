@@ -82,7 +82,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
-    <div className="py-12 px-4 sm:px-6">
+    <div className="px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <Link href={`/${lang}/services`}>

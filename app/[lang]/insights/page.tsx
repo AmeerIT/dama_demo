@@ -22,7 +22,7 @@ export default async function ServicesPage({ params }: PageProps) {
     const { lang } = await params;
     const dictionary = await getDictionary(lang as Locale);
     return (
-        <div className="m-auto flex items-center justify-center min-h-screen text-3xl font-bold">
+        <div className="px-4 sm:px-6">
             COMING SOON
         </div>
     );

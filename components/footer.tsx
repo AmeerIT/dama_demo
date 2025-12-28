@@ -9,8 +9,13 @@ export default function StickyFooter({ lang, dictionary }: FooterProps) {
   const { footer, common } = dictionary;
 
   return (
-    <footer className=" left-0 w-full bg-primary justify-center flex h-screen" >
-      <p className="text-foreground text-9xl sticky top-0 EffraBold-700 w-screen text-center select-none pointer-events-none pt-20 inline-block">
+    <footer className="bg-primary h-screen w-screen container-type-inline-size">
+      <TopologicalPattern />
+
+      <p className="text-white select-none pointer-events-none max-w-2xl text-start pt-20 px-2"
+        style={{
+          fontSize: "clamp(10vw, 12vw, 13vw)",
+        }}>
         {footer.title}
       </p>
     </footer>

@@ -217,7 +217,11 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
       // Handle unknown node types by rendering children if they exist
       if (node.children) {
         return (
-          <div key={key}>
+          <div key={key}
+            style={{
+              fontSize: "clamp(10vw, 14vw, 15vw)",
+            }}
+          >
             {node.children.map((child, i) => renderNode(child, i))}
           </div>
         );
@@ -289,9 +293,18 @@ export function LexicalRenderer({ content }: LexicalRendererProps) {
     // Fallback: render as HTML or plain text
     return (
       <div
-        className="prose prose-lg max-w-screen overflow-wrap break-words dark:prose-invert"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+        style={{
+          containerType: "inline-size",
+        }}>
+
+        <div
+          className="prose prose-lg max-w-screen overflow-wrap"
+          dangerouslySetInnerHTML={{ __html: content }}
+          style={{
+            fontSize: "clamp(10vw, 14vw, 15vw)",
+          }}
+        />
+      </div>
     );
   }
 

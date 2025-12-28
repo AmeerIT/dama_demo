@@ -37,7 +37,7 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
   ]);
 
   return (
-    <div className="py-12 px-4 sm:px-6">
+    <div className="px-4 sm:px-6">
       {/* Page Header */}
       <div className="max-w-7xl mx-auto mb-10">
         <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">

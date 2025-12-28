@@ -1,21 +1,17 @@
 import Link from "next/link";
-import { type Locale, type Dictionary } from "@/lib/i18n/dictionaries";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { DefaultProps } from "@/lib/default-props";
 
-interface HeroSectionProps {
-  dictionary: Dictionary;
-  lang: Locale;
-}
 
-export function HeroSection({ dictionary, lang }: HeroSectionProps) {
+export function HeroSection({ dictionary, lang }: DefaultProps) {
   const isRTL = lang === "ar";
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
     <>
       <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-background to-transparent" />
-      <link href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c" rel="stylesheet" />
+      <link href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/download?project=694beec300098b09a52c" rel="stylesheet" />
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden EffraRegular-4400">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5" />

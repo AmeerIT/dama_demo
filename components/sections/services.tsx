@@ -1,22 +1,17 @@
-import Link from "next/link";
-import { type Locale, type Dictionary } from "@/lib/i18n/dictionaries";
-import { Button } from "@/components/ui/button";
-import { ServiceCard } from "@/components/service-card";
+"use client"
+
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { type Service } from "@/lib/appwrite/types";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { ServiceCard } from "../service-card";
+import { DefaultProps } from "@/lib/default-props";
 
-interface ServicesSectionProps {
-  dictionary: Dictionary;
-  lang: Locale;
+interface ServicesSectionProps extends DefaultProps {
   services: Service[];
 }
 
 export function ServicesSection({ dictionary, lang, services }: ServicesSectionProps) {
-  const isRTL = lang === "ar";
-  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
-
-  // Limit to first 3 services for homepage
-  const featuredServices = services.slice(0, 3);
 
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 bg-muted/30">
@@ -34,15 +29,18 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
           <Link href={`/${lang}/services`}>
             <Button variant="outline" className="group">
               {dictionary.common.viewAll}
-              <ArrowIcon className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+              {
+                lang === "ar" ?
+                  <ArrowLeft className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /> :
+                  <ArrowRight className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+              }
             </Button>
           </Link>
         </div>
-
         {/* Services Grid */}
-        {featuredServices.length > 0 ? (
+        {services.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredServices.map((service) => (
+            {services.map((service) => (
               <ServiceCard key={service.id} service={service} lang={lang} />
             ))}
           </div>
@@ -55,3 +53,4 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
     </section>
   );
 }
+

@@ -4,13 +4,9 @@ import { Button } from "@/components/ui/button";
 import { BlogCard } from "@/components/blog-card";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getPosts } from "@/lib/appwrite/posts";
+import { DefaultProps } from "@/lib/default-props";
 
-interface FeaturedPostsSectionProps {
-  dictionary: Dictionary;
-  lang: Locale;
-}
-
-export async function FeaturedPostsSection({ dictionary, lang }: FeaturedPostsSectionProps) {
+export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
   const isRTL = lang === "ar";
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 

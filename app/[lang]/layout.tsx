@@ -4,6 +4,7 @@ import StickyFooter from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import Header from "@/components/header";
+import { Effra } from "./localFonts";
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -21,14 +22,15 @@ export default async function LangLayout({ children, params }: LayoutProps) {
     notFound();
   }
 
+
   const direction = getDirection(lang as Locale);
   const dictionary = await getDictionary(lang as Locale);
 
+
+
   return (
-    <html lang={lang} dir={direction}>
+    <html lang={lang} dir={direction} className={Effra.className}>
       <head>
-        <link rel="stylesheet" href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c" />
-        <link rel="stylesheet" href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c" />
       </head>
       <body >
         <SmoothScroll>
@@ -36,9 +38,10 @@ export default async function LangLayout({ children, params }: LayoutProps) {
             attribute="class"
             defaultTheme="light"
             disableTransitionOnChange>
-            <Header lang={lang as Locale} dictionary={dictionary} />
+            <div className="top-0 sticky z-100 py-2">
+              <Header lang={lang as Locale} dictionary={dictionary} />
+            </div>
             <main className="relative min-h-screen z-10" style={{ background: "var(--background)" }}>
-
               {children}
             </main>
             <StickyFooter lang={lang as Locale} dictionary={dictionary} />
@@ -48,4 +51,3 @@ export default async function LangLayout({ children, params }: LayoutProps) {
     </html >
   );
 }
-

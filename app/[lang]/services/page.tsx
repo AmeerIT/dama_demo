@@ -2,7 +2,6 @@ import { getDictionary, type Locale, locales } from "@/lib/i18n/dictionaries";
 import { getServices } from "@/lib/appwrite/services";
 import { ServiceCard } from "@/components/service-card";
 
-// Revalidate every 5 minutes (ISR) - Balance between freshness and server load
 export const revalidate = 300;
 
 interface PageProps {
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${dictionary.services.title} | Dama Productions`,
     description: dictionary.services.subtitle,
-  };
+  }; 1
 }
 
 export default async function ServicesPage({ params }: PageProps) {
@@ -25,6 +24,7 @@ export default async function ServicesPage({ params }: PageProps) {
   const services = await getServices({ lang: lang as Locale });
 
   return (
+
     <div className="py-12 px-4 sm:px-6">
       {/* Page Header */}
       <div className="max-w-7xl mx-auto mb-10">
@@ -52,6 +52,7 @@ export default async function ServicesPage({ params }: PageProps) {
           </div>
         )}
       </div>
+
     </div>
   );
 }
