@@ -12,6 +12,8 @@ import {
   Type,
   ChevronLeft,
   ChevronRight,
+  MicVocal,
+  BookCopy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -23,6 +25,8 @@ const navItems = [
   { href: "/cms/tags", label: "Tags", icon: Tags },
   { href: "/cms/media", label: "Media", icon: Image },
   { href: "/cms/fonts", label: "Fonts", icon: Type },
+  { href: "/cms/podcast", label: "Podcast", icon: MicVocal },
+  { href: "/cms/courses", label: "Courses", icon: BookCopy },
 ];
 
 export function CMSSidebar() {
@@ -39,7 +43,7 @@ export function CMSSidebar() {
   return (
     <aside
       className={cn(
-        "flex flex-col h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300",
+        "sticky top-0 flex flex-col min-h-screen h-screen max-h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300",
         collapsed ? "w-16" : "w-64"
       )}
     >
@@ -48,7 +52,7 @@ export function CMSSidebar() {
         {!collapsed && (
           <Link href="/cms" className="flex items-center gap-2">
             <img src="/logo-dama.svg" alt="Dama" className="h-8 w-auto invert" />
-            <span className="font-bold text-lg">Dama Productions</span>
+            <span className="font-bold text-lg">ADMIN CMS</span>
           </Link>
         )}
         <Button

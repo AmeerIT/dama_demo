@@ -51,9 +51,9 @@ function CMSLayoutContent({ children }: { children: React.ReactNode }) {
 
   // Authenticated - show CMS layout
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex max-h-screen bg-background overflow-y-scroll">
       <CMSSidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 ">
         {children}
       </main>
     </div>
@@ -62,19 +62,15 @@ function CMSLayoutContent({ children }: { children: React.ReactNode }) {
 
 export default function CMSLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <head>
-          <link rel="stylesheet" href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c" />
-          <link rel="stylesheet" href="https://api.center-phone.com/v1/storage/buckets/694c1573001db670c6e6/files/694db3a1003327ebc2ad/view?project=694beec300098b09a52c" />
-        </head>
-      </head>
-      <body className="font-sans antialiased">
+    <html>
+      <head />
+      <body >
         <AuthProvider>
           <CMSLayoutContent>{children}</CMSLayoutContent>
         </AuthProvider>
       </body>
     </html>
+
   );
 }
 

@@ -5,7 +5,7 @@ import { CMSHeader } from "@/components/cms/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -31,9 +31,87 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { listFonts, createFont, deleteFont, uploadFont, getFontUrl, type CMSFont } from "@/lib/appwrite/cms-data";
-import { Upload, Loader2, Type, Trash2, Copy, Check, Plus, Eye } from "lucide-react";
+import { Upload, Loader2, Type, Trash2, Copy, Check, Plus, Expand } from "lucide-react";
 import { useAuth } from "@/lib/appwrite/auth-context";
-import { Font } from "@/lib/appwrite";
+
+// FontCard component for individual font display
+function FontCard({
+  font,
+  onDelete,
+  onCopyCSS,
+  onExpand,
+  isCopied,
+  testString,
+}: {
+  font: CMSFont;
+  onDelete: () => void;
+  onCopyCSS: () => void;
+  onExpand: () => void;
+  isCopied: boolean;
+  testString: string;
+}) {
+  return (
+    <Card className="group relative overflow-hidden">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-medium line-clamp-1">{font.name}</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-2 space-y-3">
+        <div
+          style={{ fontFamily: `'${font.family}', sans-serif` }}
+          className="flex flex-col min-h-50 items-center justify-center p-3 bg-muted/80 rounded-md border-2 border-dashed group-hover:border-primary transition-all space-y-5"
+        >
+          <p className="text-2xl leading-tight truncate">Aa Bb Cc</p>
+          <p className="text-lg leading-tight truncate">أبجد هوز حطي كلمن</p>
+          <p className="text-lg leading-tight truncate">1234567890</p>
+          <p className="text-xs text-muted-foreground mt-2 truncate font-sans text-wrap">
+            The quick brown fox
+          </p>
+          <p className="text-md text-muted-foreground mt-1 px-2 text-center break-all">
+            {testString}
+          </p>
+        </div>
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground line-clamp-1">
+            {font.family} · {font.weight} · {font.style}
+          </p>
+          <div className="flex gap-1 shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7"
+              onClick={onExpand}
+              title="Expand preview"
+            >
+              <Expand className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7"
+              onClick={onCopyCSS}
+              title="Copy CSS"
+            >
+              {isCopied ? (
+                <Check className="h-3.5 w-3.5 text-green-500" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-destructive hover:text-destructive"
+              onClick={onDelete}
+              title="Delete font"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function FontsManagementPage() {
   const [fonts, setFonts] = useState<CMSFont[]>([]);
@@ -54,6 +132,8 @@ export default function FontsManagementPage() {
   const [fontStyle, setFontStyle] = useState("normal");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [testString, setTestString] = useState("");
+
   const { user } = useAuth();
 
   const loadFonts = useCallback(async () => {
@@ -71,6 +151,20 @@ export default function FontsManagementPage() {
   useEffect(() => {
     loadFonts();
   }, [loadFonts]);
+
+  const generateCSS = (font: CMSFont): string => {
+    const url = getFontUrl(font.file_id);
+    return `@font-face {
+  font-family: '${font.family}';
+  src: url('${url}') format('woff2');
+  font-weight: ${font.weight};
+  font-style: ${font.style};
+  font-display: swap;
+}`;
+  };
+
+  // Generate all font-face rules for inline previews
+  const allFontStyles = fonts.map((font) => generateCSS(font)).join("\n\n");
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -135,17 +229,6 @@ export default function FontsManagementPage() {
     }
   };
 
-  const generateCSS = (font: CMSFont): string => {
-    const url = getFontUrl(font.file_id);
-    return `@font-face {
-  font-family: '${font.family}';
-  src: url('${url}') format('woff2');
-  font-weight: ${font.weight};
-  font-style: ${font.style};
-  font-display: swap;
-}`;
-  };
-
   const handleCopyCSS = async (font: CMSFont) => {
     const css = generateCSS(font);
     await navigator.clipboard.writeText(css);
@@ -168,6 +251,11 @@ export default function FontsManagementPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <CMSHeader title="Fonts" />
+
+      {/* Inject all font-face styles for live previews */}
+      {fonts.length > 0 && (
+        <style dangerouslySetInnerHTML={{ __html: allFontStyles }} />
+      )}
 
       <div className="flex-1 p-6 space-y-6">
         {/* Actions Bar */}
@@ -268,12 +356,17 @@ export default function FontsManagementPage() {
           </Card>
         )}
 
-        {/* Fonts List */}
+        {/* Fonts Grid */}
         <Card>
           <CardHeader className="pb-3">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-muted-foreground space-y-1.5">
               {fonts.length} font{fonts.length !== 1 ? "s" : ""} uploaded
+              <Input
+                className="mt-2 text-2xl"
+                placeholder="Type here to test fonts..."
+                value={testString} onChange={(e) => setTestString(e.target.value)} />
             </div>
+
           </CardHeader>
           <CardContent>
             {isLoading ? (
@@ -281,63 +374,24 @@ export default function FontsManagementPage() {
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : fonts.length > 0 ? (
-              <div className="divide-y divide-border">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {fonts.map((font) => (
-                  <div
+                  <FontCard
                     key={font.$id}
-                    className="flex items-center justify-between py-4 gap-4"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium">{font.name}</h3>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                        <span>Family: {font.family}</span>
-                        <span>Weight: {font.weight}</span>
-                        <span>Style: {font.style}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPreviewFont(font)}
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        Preview
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleCopyCSS(font)}
-                      >
-                        {copiedId === font.$id ? (
-                          <>
-                            <Check className="mr-2 h-4 w-4" />
-                            Copied!
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="mr-2 h-4 w-4" />
-                            Copy CSS
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                          setDeleteId(font.$id);
-                          setDeleteFileId(font.file_id);
-                        }}
-                        className="text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+                    font={font}
+                    onDelete={() => {
+                      setDeleteId(font.$id);
+                      setDeleteFileId(font.file_id);
+                    }}
+                    testString={testString}
+                    onCopyCSS={() => handleCopyCSS(font)}
+                    onExpand={() => setPreviewFont(font)}
+                    isCopied={copiedId === font.$id}
+                  />
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-muted-foreground">
+              <div className="text-center py-12 text-muted-foreground col-span-full">
                 <Type className="h-12 w-12 mx-auto mb-3 opacity-50" />
                 <p>No fonts uploaded yet</p>
                 <Button
@@ -382,7 +436,7 @@ export default function FontsManagementPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Font Preview Dialog */}
+      {/* Expanded Font Preview Dialog */}
       <Dialog open={!!previewFont} onOpenChange={() => setPreviewFont(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -390,14 +444,9 @@ export default function FontsManagementPage() {
           </DialogHeader>
           {previewFont && (
             <div className="space-y-4">
-              <style
-                dangerouslySetInnerHTML={{
-                  __html: generateCSS(previewFont),
-                }}
-              />
               <div
                 style={{ fontFamily: `'${previewFont.family}', sans-serif` }}
-                className="space-y-4 p-4 border rounded-lg"
+                className="flex flex-col space-y-4 p-4 border rounded-lg"
               >
                 <p className="text-4xl">
                   The quick brown fox jumps over the lazy dog

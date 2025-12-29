@@ -147,7 +147,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         )}
 
         {/* Article Body */}
-        <div className="max-w-screen ">
+        <div className="max-w-screen wrap-break-word">
           <LexicalRenderer content={body} key={post.id} />
         </div>
 

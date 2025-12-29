@@ -293,15 +293,18 @@ export function LexicalRenderer({ content }: LexicalRendererProps) {
     // Fallback: render as HTML or plain text
     return (
       <div
+        className="w-full overflow-hidden"
         style={{
           containerType: "inline-size",
         }}>
 
         <div
-          className="prose prose-lg max-w-screen overflow-wrap"
+          className="max-w-full break-all overflow-hidden"
           dangerouslySetInnerHTML={{ __html: content }}
           style={{
             fontSize: "clamp(10vw, 14vw, 15vw)",
+            overflowWrap: "break-word",
+            wordBreak: "break-all",
           }}
         />
       </div>

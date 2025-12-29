@@ -60,5 +60,24 @@
   "tags": {
     "title": "Tags",
     "postsTagged": "Posts tagged with"
+  },
+  "podcast": {
+    "title": "Dama Cast",
+    "subtitle": "Listen to the latest episodes",
+    "showAll": "Show All",
+    "episodes": "Episodes",
+    "episode": "Episode",
+    "season": "Season",
+    "nowPlaying": "Now Playing",
+    "duration": "Duration",
+    "play": "Play",
+    "pause": "Pause",
+    "listen": "Listen Now",
+    "watchVideo": "Watch Video",
+    "publishedOn": "Published on",
+    "minutes": "min",
+    "allEpisodes": "All Episodes",
+    "latestEpisode": "Latest Episode",
+    "relatedEpisodes": "Related Episodes"
   }
 }

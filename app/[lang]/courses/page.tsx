@@ -1,9 +1,10 @@
 "use client"
 
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { DefaultProps } from "@/lib/default-props";
 import { Button } from "@base-ui/react";
 
-export default function Page() {
+export default function Page({ lang, dictionary }: DefaultProps) {
     return (
         <div className="px-4 sm:px-6">
             <Empty className="border">

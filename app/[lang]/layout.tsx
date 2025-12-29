@@ -7,13 +7,11 @@ import Header from "@/components/header";
 import { Effra } from "./localFonts";
 import { cn } from "@/lib/utils";
 
+import { LayoutProps } from "@/lib/default-props";
+
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
-}
-
-interface LayoutProps {
-  children: React.ReactNode;
-  params: Promise<{ lang: string }>;
 }
 
 export default async function LangLayout({ children, params }: LayoutProps) {
@@ -23,11 +21,8 @@ export default async function LangLayout({ children, params }: LayoutProps) {
     notFound();
   }
 
-
   const direction = getDirection(lang as Locale);
   const dictionary = await getDictionary(lang as Locale);
-
-
 
   return (
     <html lang={lang} dir={direction} className={cn(`${Effra.className}-400`)}>

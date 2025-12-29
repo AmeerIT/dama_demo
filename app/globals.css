@@ -211,7 +211,7 @@ body {
   }
 }
 
-j .animate-blob {
+.animate-blob {
   animation: blob-float 7s infinite ease-in-out;
 }
 

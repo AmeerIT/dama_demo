@@ -57,6 +57,62 @@ export const ANIMATION = {
                     ease: [0.65, 0.05, 0, 1]
                 }
             }
+        },
+        // Blur-to-clear reveal for scroll-triggered text
+        blurReveal: {
+            initial: {
+                opacity: 0,
+                filter: 'blur(8px)'
+            },
+            animate: {
+                opacity: 1,
+                filter: 'blur(0px)',
+                transition: {
+                    duration: 0.8,
+                    ease: [0.65, 0.05, 0, 1]
+                }
+            }
+        },
+        // Clip-path reveal for LTR reading direction
+        clipRevealLTR: {
+            initial: {
+                clipPath: 'polygon(0 0, 0 0, 0 100%, 0 100%)'
+            },
+            animate: {
+                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                transition: {
+                    duration: 1,
+                    ease: [0.65, 0.05, 0, 1]
+                }
+            }
+        },
+        // Clip-path reveal for RTL reading direction
+        clipRevealRTL: {
+            initial: {
+                clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)'
+            },
+            animate: {
+                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                transition: {
+                    duration: 1,
+                    ease: [0.65, 0.05, 0, 1]
+                }
+            }
+        }
+    },
+
+    // Spring physics for sidebar expansion
+    spring: {
+        sidebar: {
+            type: "spring" as const,
+            stiffness: 300,
+            damping: 30,
+            mass: 1
+        },
+        gentle: {
+            type: "spring" as const,
+            stiffness: 120,
+            damping: 20
         }
     }
 }

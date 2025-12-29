@@ -45,6 +45,60 @@ export interface Tag {
     slug: string;
 }
 
+export interface Podcast {
+    id: string;
+    slug: string;
+    title_ar: string;
+    title_en: string;
+    author_ar: string;
+    author_en: string;
+    excerpt_ar?: string;
+    excerpt_en?: string;
+    body_ar: string;
+    body_en: string;
+    cover_image: string;
+    audio_url?: string;
+    video_url?: string;
+    duration?: number;
+    published_at: string;
+    is_published: boolean;
+    guest_ids?: string[];
+    tags?: Tag[];
+}
+
+export interface Guest {
+    id: string;
+    slug: string;
+    name_ar: string;
+    name_en: string;
+    bio_ar?: string;
+    bio_en?: string;
+    avatar?: string;
+    title_ar?: string;
+    title_en?: string;
+    social_links?: string[];
+    is_active: boolean;
+}
+export interface Episode {
+    id: string;
+    slug: string;
+    title_ar: string;
+    title_en: string;
+    description_ar?: string;
+    description_en?: string;
+    body_ar?: string;
+    body_en?: string;
+    cover_image?: string;
+    audio_url?: string;
+    video_url?: string;
+    duration: number; // in seconds
+    episode_number: number;
+    season?: number;
+    published_at: string;
+    is_published: boolean;
+    tags?: Tag[];
+}
+
 export interface Font {
     id: string;
     name: string;
@@ -103,6 +157,67 @@ export interface CMSTag {
     $updatedAt: string;
 }
 
+export interface CMSPodcast {
+    $id: string;
+    slug: string;
+    title_ar: string;
+    title_en: string;
+    author_ar: string;
+    author_en: string;
+    excerpt_ar?: string;
+    excerpt_en?: string;
+    body_ar: string;
+    body_en: string;
+    cover_image: string;
+    audio_url?: string;
+    video_url?: string;
+    duration?: number;
+    published_at: string;
+    is_published: boolean;
+    guest_ids?: string[];
+    tags?: string[];
+    $createdAt: string;
+    $updatedAt: string;
+}
+
+export interface CMSGuest {
+    $id: string;
+    slug: string;
+    name_ar: string;
+    name_en: string;
+    bio_ar?: string;
+    bio_en?: string;
+    avatar?: string;
+    title_ar?: string;
+    title_en?: string;
+    social_links?: string[];
+    is_active: boolean;
+    $createdAt: string;
+    $updatedAt: string;
+}
+
+export interface CMSEpisode {
+    $id: string;
+    slug: string;
+    title_ar: string;
+    title_en: string;
+    description_ar?: string;
+    description_en?: string;
+    body_ar?: string;
+    body_en?: string;
+    cover_image?: string;
+    audio_url?: string;
+    video_url?: string;
+    duration: number;
+    episode_number: number;
+    season?: number;
+    published_at: string;
+    is_published: boolean;
+    tags?: string[];
+    $createdAt: string;
+    $updatedAt: string;
+}
+
 export interface CMSFont {
     $id: string;
     name: string;
@@ -114,12 +229,16 @@ export interface CMSFont {
     $updatedAt: string;
 }
 
+
 // ============================================================================
 // FORM DATA TYPES (For creating/updating in CMS)
 // ============================================================================
 
 export type PostFormData = Omit<CMSPost, "$id" | "$createdAt" | "$updatedAt">;
 export type ServiceFormData = Omit<CMSService, "$id" | "$createdAt" | "$updatedAt">;
+
+export type PodcastFormData = Omit<CMSPodcast, "$id" | "$createdAt" | "$updatedAt">;
+export type GuestFormData = Omit<CMSGuest, "$id" | "$createdAt" | "$updatedAt">;
 
 // ============================================================================
 // UTILITY TYPES

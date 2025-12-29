@@ -50,9 +50,11 @@ export const TABLES = {
   POSTS: "posts",
   SERVICES: "services",
   TAGS: "tags",
-  // POST_TAGS: "post_tags",
   FONTS: "fonts",
+  PODCASTS: "podcasts",
+  GUESTS: "guests",
 } as const;
+
 
 // Storage bucket IDs
 export const BUCKETS = {

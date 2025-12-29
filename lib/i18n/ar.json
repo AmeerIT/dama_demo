@@ -60,5 +60,24 @@
   "tags": {
     "title": "الوسوم",
     "postsTagged": "المقالات الموسومة بـ"
+  },
+  "podcast": {
+    "title": "داما كاست",
+    "subtitle": "استمع إلى أحدث الحلقات",
+    "showAll": "عرض الكل",
+    "episodes": "الحلقات",
+    "episode": "الحلقة",
+    "season": "الموسم",
+    "nowPlaying": "يتم التشغيل الآن",
+    "duration": "المدة",
+    "play": "تشغيل",
+    "pause": "إيقاف",
+    "listen": "استمع الآن",
+    "watchVideo": "شاهد الفيديو",
+    "publishedOn": "نُشر في",
+    "minutes": "دقيقة",
+    "allEpisodes": "جميع الحلقات",
+    "latestEpisode": "أحدث حلقة",
+    "relatedEpisodes": "حلقات ذات صلة"
   }
 }

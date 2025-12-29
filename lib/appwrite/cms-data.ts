@@ -11,6 +11,8 @@ import type {
   MediaFile,
   DashboardStats,
   Post,
+  CMSGuest,
+  CMSPodcast,
 } from "./types";
 
 // Re-export for backward compatibility
@@ -250,11 +252,9 @@ export async function uploadMedia(file: File, userId: string): Promise<MediaFile
 
 export const defaultPermissions = (userId: string) => [
   Permission.read(Role.any()),
-  Permission.read(Role.guests()),
   Permission.read(Role.users()),
   Permission.update(Role.users()),
   Permission.delete(Role.users()),
-  Permission.update(Role.users()),
   Permission.write(Role.user(userId))
 ]
 
@@ -278,6 +278,120 @@ export function getMediaUrl(fileId: string): string {
 export function getFontUrl(fileId: string): string {
   const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://api.center-phone.com/v1";
   return `${endpoint}/storage/buckets/${BUCKETS.FONTS}/files/${fileId}/view?project=${appwriteConfig.projectId}`;
+}
+
+// Podcasts CRUD
+export async function listPodcasts(options?: {
+  status?: "draft" | "published";
+  search?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ documents: CMSPodcast[]; total: number }> {
+  const queries: string[] = [
+    Query.orderDesc("$createdAt"),
+    Query.limit(options?.limit || 25),
+  ];
+
+  if (options?.offset) {
+    queries.push(Query.offset(options.offset));
+  }
+
+  if (options?.status === "published") {
+    queries.push(Query.equal("is_published", true));
+  } else if (options?.status === "draft") {
+    queries.push(Query.equal("is_published", false));
+  }
+
+  if (options?.search) {
+    queries.push(Query.search("title_en", options.search));
+  }
+
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.PODCASTS, queries);
+  return {
+    documents: response.rows as unknown as CMSPodcast[],
+    total: response.total,
+  };
+}
+
+export async function getPodcast(id: string): Promise<CMSPodcast> {
+  const response = await tablesDb.getRow(DATABASE_ID, TABLES.PODCASTS, id);
+  return response as unknown as CMSPodcast;
+}
+
+export async function createPodcast(data: Omit<CMSPodcast, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<CMSPodcast> {
+  const response = await tablesDb.createRow(
+    DATABASE_ID,
+    TABLES.PODCASTS,
+    ID.unique(),
+    data,
+    defaultPermissions(userId)
+  );
+  return response as unknown as CMSPodcast;
+}
+
+export async function updatePodcast(id: string, data: Partial<CMSPodcast>): Promise<CMSPodcast> {
+  const response = await tablesDb.updateRow(DATABASE_ID, TABLES.PODCASTS, id, data);
+  return response as unknown as CMSPodcast;
+}
+
+export async function deletePodcast(id: string): Promise<void> {
+  await tablesDb.deleteRow(DATABASE_ID, TABLES.PODCASTS, id);
+}
+
+// Guests CRUD
+export async function listGuests(options?: {
+  active?: boolean;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ documents: CMSGuest[]; total: number }> {
+  const queries: string[] = [
+    Query.orderAsc("name_en"),
+    Query.limit(options?.limit || 100),
+  ];
+
+  if (options?.offset) {
+    queries.push(Query.offset(options.offset));
+  }
+
+  if (options?.active !== undefined) {
+    queries.push(Query.equal("is_active", options.active));
+  }
+
+  if (options?.search) {
+    queries.push(Query.search("name_en", options.search));
+  }
+
+  const response = await tablesDb.listRows(DATABASE_ID, TABLES.GUESTS, queries);
+  return {
+    documents: response.rows as unknown as CMSGuest[],
+    total: response.total,
+  };
+}
+
+export async function getGuest(id: string): Promise<CMSGuest> {
+  const response = await tablesDb.getRow(DATABASE_ID, TABLES.GUESTS, id);
+  return response as unknown as CMSGuest;
+}
+
+export async function createGuest(data: Omit<CMSGuest, "$id" | "$createdAt" | "$updatedAt">, userId: string): Promise<CMSGuest> {
+  const response = await tablesDb.createRow(
+    DATABASE_ID,
+    TABLES.GUESTS,
+    ID.unique(),
+    data,
+    defaultPermissions(userId)
+  );
+  return response as unknown as CMSGuest;
+}
+
+export async function updateGuest(id: string, data: Partial<CMSGuest>): Promise<CMSGuest> {
+  const response = await tablesDb.updateRow(DATABASE_ID, TABLES.GUESTS, id, data);
+  return response as unknown as CMSGuest;
+}
+
+export async function deleteGuest(id: string): Promise<void> {
+  await tablesDb.deleteRow(DATABASE_ID, TABLES.GUESTS, id);
 }
 
 export { tablesDb, storage, DATABASE_ID, ID };
