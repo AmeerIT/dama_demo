@@ -51,6 +51,7 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
   const [bodyEn, setBodyEn] = useState(post?.body_en || "");
   const [bodyAr, setBodyAr] = useState(post?.body_ar || "");
   const [featuredImage, setFeaturedImage] = useState(post?.featured_image || "");
+  const [videoUrl, setVideoUrl] = useState(post?.video_url || "");
   const [tags, setTags] = useState<string[]>(post?.tags || []);
   const [keywords, setKeywords] = useState<string[]>(post?.keywords || []);
   const [keywordsInput, setKeywordsInput] = useState(post?.keywords?.join(", ") || "");
@@ -108,6 +109,7 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
         body_en: bodyEn,
         body_ar: bodyAr,
         featured_image: featuredImage || "",
+        video_url: videoUrl || undefined,
         tags,
         keywords,
         is_published: publish,
@@ -356,6 +358,24 @@ export function PostEditorForm({ post, onSave, isSaving }: PostEditorFormProps) 
                   <span className="text-sm">Select Image</span>
                 </Button>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Video URL */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Featured Video</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Input
+                type="url"
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                placeholder="https://youtube.com/watch?v=..."
+              />
+              <p className="text-xs text-muted-foreground mt-2">
+                YouTube URL (supports regular videos and shorts)
+              </p>
             </CardContent>
           </Card>
 

@@ -531,6 +531,15 @@
                     "encrypt": false
                 },
                 {
+                    "key": "video_url",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
                     "key": "published_at",
                     "type": "datetime",
                     "required": false,

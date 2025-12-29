@@ -6,8 +6,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return (
         <AnimatePresence mode="wait"
             key={Math.random()}
+            initial={true}
             presenceAffectsLayout={true}>
-            <div className="fixed inset-0 pointer-events-none z-100 flex flex-col">
+            <div className="fixed inset-0 pointer-events-none z-110 flex flex-col">
                 <motion.div
                     key={"TOP_BOTTOM_BARS"}
                     initial={{ scaleY: 1, opacity: 0 }}
@@ -34,9 +35,14 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <motion.div
                 key={"TOP_BARS"}
                 initial={{ scaleY: 1, opacity: 0 }}
-                animate={{ scaleY: 0, opacity: 1 }}
+                animate={{ scaleY: 0, opacity: 1, animationDuration: '8s' }}
                 className="fixed inset-0 z-99 bg-primary pointer-events-none"
-            />
+            >
+                <p className='text-white text-9xl'>
+                    hello
+                </p>
+            </motion.div>
+
             <motion.div
                 key={"Content"}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -48,6 +54,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                 }}
                 className="relative z-10"
             >
+
                 {children}
             </motion.div>
         </AnimatePresence >

@@ -8,11 +8,14 @@ import { LanguageSwitcher } from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
 import Image from 'next/image'
 import { DefaultProps } from "@/lib/default-props";
+import { cn } from "@/lib/utils";
+import { Effra } from "@/app/[lang]/localFonts";
 
 export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
+    { href: `/${lang}/`, label: dictionary.common.home },
     { href: `/${lang}/cast`, label: dictionary.common.cast },
     { href: `/${lang}/courses`, label: dictionary.common.courses },
     { href: `/${lang}/insights`, label: dictionary.common.insights },
@@ -21,7 +24,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   ];
 
   return (
-    <>
+    <div lang={lang} className={cn(`${Effra.className}`)}>
       {!isOpen &&
         <motion.div
           initial={{ height: 0, y: -20, opacity: 0 }}
@@ -75,48 +78,31 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{
-              clipPath: "circle(0% at 50% -100%)",
-            }}
-            animate={{
-              clipPath: "circle(150% at 50% 0%)",
-            }}
-            exit={{
-              clipPath: "circle(0% at 50% -100%)",
-            }}
+            initial={{ clipPath: "circle(0% at 50% -100%)", }}
+            animate={{ clipPath: "circle(150% at 50% 0%)", }}
+            exit={{ clipPath: "circle(0% at 50% -100%)", }}
             transition={{
               duration: 0.9,
               ease: [0.76, 0, 0.24, 1]
             }}
-            className="fixed inset-0 z-40 flex items-center justify-center overflow-hidden bg-primary animate-accordion-up backdrop-blur-3xl drop-shadow-md "
+            className="fixed inset-0 z-100 items-center justify-center pt-10 overflow-y-auto bg-primary animate-accordion-up backdrop-blur-3xl drop-shadow-md "
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl px-10 items-center ">
-              <Link className="flex flex-col items-center text-amber-500 text-6xl md:text-8xl font-bold underline-offset-8 decoration-2"
-                href={`/${lang}`}
-                onClick={() => setIsOpen(false)}>
-                <Image src="/logo.png"
-                  className="relative self-center bg-amber-600 rounded-full p-12"
-                  alt="Home page"
-                  width={250}
-                  height={250}
+            <nav className="flex flex-col gap-20">
+
+              {navItems.map((item, i) => (
+                <NavigationItem
+                  href={item.href}
+                  label={item.label}
+                  key={item.href}
+                  index={i}
+                  onClose={() => setIsOpen(false)}
                 />
-              </Link>
-              <nav className="flex flex-col gap-20">
-                {navItems.map((item, i) => (
-                  <NavigationItem
-                    href={item.href}
-                    label={item.label}
-                    key={item.href}
-                    index={i}
-                    onClose={() => setIsOpen(false)}
-                  />
-                ))}
-              </nav>
-            </div>
+              ))}
+            </nav>
           </motion.div>
         )}
       </AnimatePresence >
-    </>
+    </div>
   );
 }
 

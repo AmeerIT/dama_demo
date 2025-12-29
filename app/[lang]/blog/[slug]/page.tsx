@@ -9,6 +9,7 @@ import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 import { FormattedDate } from "@/components/formatted-date";
+import { extractYouTubeId } from "@/lib/utils/youtube";
 
 // Revalidate every 5 minutes (ISR) - Balance between freshness and server load
 export const revalidate = 300;
@@ -145,6 +146,25 @@ export default async function BlogPostPage({ params }: PageProps) {
             />
           </div>
         )}
+
+        {/* Featured Video */}
+        {post.video_url && (() => {
+          const videoId = extractYouTubeId(post.video_url);
+          if (videoId) {
+            return (
+              <div className="relative w-full mb-10" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  className="absolute top-0 left-0 w-full h-full rounded-xl"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={title}
+                />
+              </div>
+            );
+          }
+          return null;
+        })()}
 
         {/* Article Body */}
         <div className="max-w-screen wrap-break-word">

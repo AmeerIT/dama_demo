@@ -2,6 +2,7 @@
 
 import { useMemo, useEffect, useState } from "react";
 import { listFonts, getFontUrl } from "@/lib/appwrite/cms-data";
+import { extractYouTubeId, isYouTubeUrl } from "@/lib/utils/youtube";
 
 interface LexicalRendererProps {
   content: string;
@@ -124,6 +125,27 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
       }
 
     case "link":
+      // Check if link is a YouTube URL and convert to embed
+      if (node.url && isYouTubeUrl(node.url)) {
+        const videoId = extractYouTubeId(node.url);
+        if (videoId) {
+          return (
+            <figure key={key} className="my-6">
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  className="absolute top-0 left-0 w-full h-full rounded-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="YouTube video"
+                />
+              </div>
+            </figure>
+          );
+        }
+      }
+
+      // Regular link
       return (
         <a
           key={key}

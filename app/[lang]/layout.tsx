@@ -25,7 +25,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
   const dictionary = await getDictionary(lang as Locale);
 
   return (
-    <html lang={lang} dir={direction} className={cn(`${Effra.className}-400`)}>
+    <html lang={lang} dir={direction} className={cn(`${Effra.className}`)}>
       <head>
       </head>
       <body >

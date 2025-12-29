@@ -17,6 +17,7 @@ export interface Post {
     body_ar: string;
     body_en: string;
     featured_image?: string;
+    video_url?: string;
     published_at: string;
     is_published: boolean;
     author_id?: string;
@@ -122,6 +123,7 @@ export interface CMSPost {
     body_ar: string;
     body_en: string;
     featured_image?: string;
+    video_url?: string;
     published_at: string;
     is_published: boolean;
     status: "draft" | "published";
