@@ -105,7 +105,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" />
+          {/* <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" /> */}
           <div className="absolute inset-0 bg-linear-to-b from-background to-transparent top-0" />
 
           {/* Hero Content */}

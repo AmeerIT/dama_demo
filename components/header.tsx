@@ -49,8 +49,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
       >
         <div className="flex justify-between items-center w-full">
           {/* Logo/Brand */}
-          <Link href={`/${lang}`} className="text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-colors">
-            {dictionary.common.dama}
+          <Link href={`/${lang}`} className="text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-all block backdrop-blur-2xl px-3 py-1 rounded-4xl shadow-2xl">
           </Link>
 
           {/* Right Side: Language + Theme + Menu */}
@@ -92,26 +91,25 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-50 bg-transparent text-background flex flex-col p-8"
+            className="fixed top-0 left-0 right-0 gap-10 w-screen h-full z-110 bg-primary"
           >
             {/* Header inside Menu */}
-            <div className="flex justify-between items-center mb-16">
+            <div className="flex justify-between items-center mb-10">
               <div className="text-2xl font-black tracking-tighter">
-                {dictionary.common.dama}<span className="text-background">.</span>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:rotate-90 transition-transform duration-300"
                 aria-label="Close Menu"
               >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex flex-col gap-4">
+            <nav className="gap-10  w-screen h-screen px-10 flex flex-col text-white">
               {navItems.map((item, idx) => (
                 <motion.div
                   key={item.href}
@@ -122,7 +120,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
                   <Link
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-5xl md:text-6xl font-black tracking-tighter hover:opacity-70 transition-opacity block"
+                    className="text-5xl md:text-6xl font-black hover:text-amber-500 transition-all block"
                   >
                     {item.label}
                   </Link>
