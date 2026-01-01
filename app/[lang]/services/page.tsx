@@ -1,6 +1,7 @@
 import { getDictionary, type Locale, locales } from "@/lib/i18n/dictionaries";
 import { getServices } from "@/lib/appwrite/services";
 import { ServiceCard } from "@/components/service-card";
+import sectionTheme from "@/lib/appwrite/default-font";
 
 export const revalidate = 300;
 
@@ -25,7 +26,7 @@ export default async function ServicesPage({ params }: PageProps) {
 
   return (
 
-    <div className="py-12 px-4 sm:px-6">
+    <div className={sectionTheme}>
       {/* Page Header */}
       <div className="max-w-7xl mx-auto mb-10">
         <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">

@@ -42,7 +42,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
         className={cn(
           "fixed top-0 left-0 w-full z-40 transition-all duration-300 px-6 md:px-10 py-4",
           scrolled
-            ? "bg-background/80 backdrop-blur-md border-b border-border"
+            ? "bg-transparent"
             : "bg-transparent"
         )}
       >
@@ -91,7 +91,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-50 bg-primary text-background flex flex-col p-8"
+            className="fixed inset-0 z-50 bg-transparent text-background flex flex-col p-8"
           >
             {/* Header inside Menu */}
             <div className="flex justify-between items-center mb-16">

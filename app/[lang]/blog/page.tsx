@@ -4,6 +4,7 @@ import { getTags } from "@/lib/appwrite/tags";
 import { BlogCard } from "@/components/blog-card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import sectionTheme from "@/lib/appwrite/default-font";
 
 // Revalidate every 5 minutes (ISR) - Balance between freshness and server load
 export const revalidate = 300;
@@ -37,7 +38,7 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
   ]);
 
   return (
-    <div className="px-4 sm:px-6">
+    <div className={sectionTheme}>
       {/* Page Header */}
       <div className="max-w-7xl mx-auto mb-10">
         <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">
