@@ -43,18 +43,18 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
               <ul className="space-y-2">
                 <li>
                   <a
-                    href="mailto:hello@damapro.com"
+                    href="mailto:admin@dama.com"
                     className="text-foreground hover:text-primary transition-colors cursor-pointer"
                   >
-                    hello@damapro.com
+                    admin@dama.com
                   </a>
                 </li>
                 <li>
                   <a
-                    href="tel:+966123456789"
+                    href="tel:+964123456789"
                     className="text-foreground hover:text-primary transition-colors cursor-pointer"
                   >
-                    +966 123 456 789
+                    +964 123 456 789
                   </a>
                 </li>
               </ul>
@@ -64,9 +64,10 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
                 {dictionary.footer.mainStudio}
               </h4>
               <p className="text-foreground leading-relaxed">
-                Business Bay, <br />
+                الدورة <br />
                 Dubai, <br />
-                United Arab Emirates
+                حي الصحة 12345 <br />
+                شمال ابو دشير
               </p>
             </div>
           </div>
