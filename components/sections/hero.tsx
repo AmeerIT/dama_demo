@@ -7,6 +7,7 @@ import { DefaultProps } from "@/lib/default-props";
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import SimpleMarquee from "../fancy/blocks/simple-marquee";
+import { GlowingBlobs } from "../fancy/background/glowing-blobs";
 
 export function HeroSection({ dictionary, lang }: DefaultProps) {
   const isRTL = lang === "ar";
@@ -14,49 +15,59 @@ export function HeroSection({ dictionary, lang }: DefaultProps) {
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-background to-transparent" />
-      <section className={cn(`relative min-h-[90vh] flex items-center justify-center overflow-hidden`)}
+      <section className={cn(`relative min-h-screen flex items-center justify-center overflow-hidden bg-primary text-background`)}
         style={{
           fontFamily: "Effra, sans-serif",
           fontWeight: 700,
         }}
       >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5" />
-        <div
-          className="absolute inset-0 opacity-[0.13]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e0486e' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        >
-
-        </div>
+        {/* Glowing Blobs */}
+        <GlowingBlobs variant="hero" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <div className="space-y-6">
+        <div className="relative z-10 text-center w-full max-w-7xl mx-auto px-6">
+          <div className="space-y-8 md:space-y-12">
             {/* Main Title */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight EffraBold-400">
-              <span className="text-foreground">{dictionary.hero.title}</span>
+            <h1 className="text-5xl sm:text-7xl md:text-[10rem] lg:text-[12rem] font-black tracking-tighter leading-[0.9] sm:leading-[0.85]">
+              {dictionary.hero.title}
               <br />
-              <span className="text-primary">{dictionary.hero.subtitle}</span>
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-background via-background to-background/70">
+                {dictionary.hero.subtitle}
+              </span>
             </h1>
 
             {/* Description */}
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-3xl font-medium opacity-80 max-w-3xl mx-auto leading-snug sm:leading-tight px-4 sm:px-0">
               {dictionary.hero.description}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href={`/${lang}/services`}>
-                <Button size="lg" className="group text-base px-8">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-6 sm:px-0">
+              <Link href={`/${lang}/services`} className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="outline"
+
+                  className="w-full sm:w-auto px-10 py-6
+                  bg-background
+                  text-foreground
+                  uppercase
+                  sm:text-sm hover:scale-105 transition-all shadow-2xl"
+                >
                   {dictionary.common.services}
-                  <ArrowIcon className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </Button>
               </Link>
-              <Link href={`/${lang}/blog`}>
-                <Button variant="outline" size="lg" className="text-base px-8">
+              <Link href={`/${lang}/blog`} className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto px-10 py-6
+                  bg-transparent border-2
+                  border-background/30
+                  rounded-full
+                  font-black uppercase
+                  sm:text-sm hover:bg-background/10 transition-all backdrop-blur-sm"
+                >
                   {dictionary.common.blog}
                 </Button>
               </Link>
@@ -64,9 +75,11 @@ export function HeroSection({ dictionary, lang }: DefaultProps) {
           </div>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-background to-transparent" />
+        {/* Scroll Indicator */}
+        {/* <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Scroll</span>
+          <div className="w-px h-8 md:h-12 bg-linear-to-b from-background to-transparent" />
+        </div> */}
 
       </section>
     </>

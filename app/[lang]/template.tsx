@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'motion/react'
 export default function Template({ children }: { children: React.ReactNode }) {
     return (
         <AnimatePresence mode="wait"
-            key={Math.random()}
             initial={true}
             presenceAffectsLayout={true}>
             <div className="fixed inset-0 pointer-events-none z-110 flex flex-col">

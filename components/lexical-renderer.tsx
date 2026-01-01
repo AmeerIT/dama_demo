@@ -94,7 +94,7 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
       return (
         <div
           key={key}
-          className="mb-4 leading-relaxed"
+          className="mb-6 leading-[1.8] text-lg text-foreground"
           dir={node.direction || undefined}
         >
           {node.children?.map((child, i) => renderNode(child, i))}
@@ -104,12 +104,12 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
     case "heading":
       const tag = node.tag || "h2";
       const headingClasses: Record<string, string> = {
-        h1: "text-3xl font-bold mt-8 mb-4",
-        h2: "text-2xl font-bold mt-6 mb-3",
-        h3: "text-xl font-semibold mt-5 mb-2",
-        h4: "text-lg font-semibold mt-4 mb-2",
-        h5: "text-base font-semibold mt-3 mb-2",
-        h6: "text-sm font-semibold mt-3 mb-2",
+        h1: "text-4xl md:text-5xl font-bold mt-12 mb-6",
+        h2: "text-3xl md:text-4xl font-bold mt-10 mb-5",
+        h3: "text-2xl md:text-3xl font-semibold mt-8 mb-4",
+        h4: "text-xl md:text-2xl font-semibold mt-6 mb-3",
+        h5: "text-lg md:text-xl font-semibold mt-5 mb-2",
+        h6: "text-base md:text-lg font-semibold mt-4 mb-2",
       };
       const headingContent = node.children?.map((child, i) => renderNode(child, i));
       const dirAttr = node.direction || undefined;

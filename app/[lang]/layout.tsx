@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, getDirection, isValidLocale, locales, type Locale } from "@/lib/i18n/dictionaries";
-import StickyFooter from "@/components/footer";
+import { MegaFooter } from "@/components/footer/mega-footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import Header from "@/components/header";
@@ -25,22 +25,20 @@ export default async function LangLayout({ children, params }: LayoutProps) {
   const dictionary = await getDictionary(lang as Locale);
 
   return (
-    <html lang={lang} dir={direction} className={cn(`${Effra.className}-[400]`)}>
+    <html lang={lang} dir={direction} className={Effra.className}>
       <head>
       </head>
-      <body >
+      <body className="font-normal">
         <SmoothScroll>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
             disableTransitionOnChange>
-            <div className="top-0 sticky z-100 py-2">
-              <Header lang={lang as Locale} dictionary={dictionary} />
-            </div>
+            <Header lang={lang as Locale} dictionary={dictionary} />
             <main className="relative min-h-screen z-10" >
               {children}
             </main>
-            <StickyFooter lang={lang as Locale} dictionary={dictionary} />
+            <MegaFooter lang={lang as Locale} dictionary={dictionary} />
           </ThemeProvider>
         </SmoothScroll>
       </body>

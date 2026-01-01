@@ -13,9 +13,18 @@ import { Effra } from "@/app/[lang]/localFonts";
 export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    // Handle scroll for header transparency
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navItems = [
@@ -28,126 +37,109 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   ];
 
   return (
-    <div lang={lang} className={cn(`${Effra.className}`)}>
-      {!isOpen &&
-        <motion.div
-          initial={{ height: 0, y: -20, opacity: 0 }}
-          animate={{ height: "auto", y: 0, opacity: 1 }}
-          exit={{ height: 0, y: -20, opacity: 0 }}
-          transition={{
-            duration: 1.6,
-            ease: "easeInOut", height: { delay: 0.2 }
-          }}
-        >
-          <div className="bg-linear-to-b from-background to-transparent pointer-events-none z-50" />
-        </motion.div>
-      }
-      <header >
-        {!isOpen &&
-          <motion.div
-            initial={{ height: 0, y: -200 }}
-            animate={{ height: "auto", y: 0, }}
-            exit={{ height: 0, y: -200, decelerate: "easeInOut" }}
-            transition={{ duration: 0.7, ease: "anticipate", height: { delay: 0.2 }, delay: 0.2 }}
-            className="flex flex-row-reverse px-10 my-5 w-full justify-between items-center pointer-events-auto z-50 ">
-            <div className="flex flex-row
-            items-center bg-primary/80 text-white
-            justify-center
-            gap-5
-            m-10
-            backdrop-blur-3xl drop-shadow-md rounded-4xl scale-120">
-              <LanguageSwitcher lang={lang} />
-              {mounted && <ModeToggle />}
-            </div>
+    <div lang={lang} className={cn(Effra.className)}>
+      <header
+        className={cn(
+          "fixed top-0 left-0 w-full z-40 transition-all duration-300 px-6 md:px-10 py-4",
+          scrolled
+            ? "bg-background/80 backdrop-blur-md border-b border-border"
+            : "bg-transparent"
+        )}
+      >
+        <div className="flex justify-between items-center w-full">
+          {/* Logo/Brand */}
+          <Link href={`/${lang}`} className="text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-colors">
+            {dictionary.common.dama}
+          </Link>
 
-            <Button
+          {/* Right Side: Language + Theme + Menu */}
+          <div className="flex items-center gap-4">
+            {mounted && (
+              <>
+                <LanguageSwitcher lang={lang} />
+                <ModeToggle />
+              </>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
               onClick={() => setIsOpen(!isOpen)}
-              className="w-20 h-20 bg-primary/80 backdrop-blur-3xl rounded-full flex flex-col items-center justify-center"
+              className="flex flex-col gap-1.5 p-2"
+              aria-label={isOpen ? "Close Menu" : "Open Menu"}
             >
-              <div className="relative w-6 h-6 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 1 : -4 }}
-                  className="absolute w-full h-0.5 bg-amber-500 transition-all"
-                />
-
-                <motion.div
-                  animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? 1 : 4 }}
-                  className="absolute w-full h-0.5 bg-amber-500 transition-all"
-                />
-              </div>
-            </Button>
-          </motion.div>
-
-        }
+              <motion.div
+                animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 4 : 0, width: isOpen ? "32px" : "32px" }}
+                className="h-0.5 bg-foreground rounded-full transition-all"
+              />
+              {/* <motion.div
+                animate={{ opacity: isOpen ? 0 : 1 }}
+                className="w-8 h-0.5 bg-foreground rounded-full"
+              /> */}
+              <motion.div
+                animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -4 : 0, width: isOpen ? "32px" : "20px" }}
+                className="h-0.5 bg-foreground rounded-full ml-auto transition-all"
+              />
+            </button>
+          </div>
+        </div>
       </header>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ clipPath: "circle(0% at 50% -100%)", }}
-            animate={{ clipPath: "circle(150% at 50% 0%)", }}
-            exit={{ clipPath: "circle(0% at 50% -100%)", }}
-            transition={{
-              duration: 0.9,
-              ease: [0.76, 0, 0.24, 1],
-            }}
-            className="fixed inset-0 z-100
-            flex flex-col
-            overflow-y-auto
-            py-20
-            bg-primary
-            backdrop-blur-3xl drop-shadow-md "
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-50 bg-primary text-background flex flex-col p-8"
           >
-            <nav className="flex flex-col gap-10 space-y-5 mx-20">
-              {navItems.map((item, i) => (
-                <NavigationItem
-                  href={item.href}
-                  label={item.label}
+            {/* Header inside Menu */}
+            <div className="flex justify-between items-center mb-16">
+              <div className="text-2xl font-black tracking-tighter">
+                {dictionary.common.dama}<span className="text-background">.</span>
+              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 hover:rotate-90 transition-transform duration-300"
+                aria-label="Close Menu"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Navigation Links */}
+            <nav className="flex flex-col gap-4">
+              {navItems.map((item, idx) => (
+                <motion.div
                   key={item.href}
-                  index={i}
-                  onClose={() => setIsOpen(false)}
-                />
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.05, duration: 0.5 }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-5xl md:text-6xl font-black tracking-tighter hover:opacity-70 transition-opacity block"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
+
+            {/* Bottom Footer Section in Menu */}
+            <div className="mt-auto flex justify-between items-end">
+              <div className="text-xs font-bold uppercase tracking-widest opacity-50">
+                © Dama {new Date().getFullYear()}
+              </div>
+            </div>
           </motion.div>
         )}
-      </AnimatePresence >
+      </AnimatePresence>
     </div>
   );
-}
-
-function NavigationItem({
-  href,
-  label,
-  index,
-  onClose
-}: {
-  href: string;
-  label: string;
-  index: number;
-  lang?: string;
-  onClose: () => void;
-}) {
-  return (
-    <motion.div
-      custom={index}
-      initial={{ y: 20, opacity: 0, scale: 0.95 }}
-      animate={{ y: 0, opacity: 1, scale: 1, transition: { delay: index * 0.1, duration: 0.6 }, }}
-    >
-      <Link
-        key={href}
-        onClick={onClose}
-        className="text-white text-6xl hover:rounded-0 hover:bg-transparent
-        md:text-8xl font-bold underline-offset-8
-        hover:text-yellow-500
-        transition-all"
-        href={href}>
-        {label}
-
-      </Link>
-    </motion.div>
-  )
-
 }
 // "use client";
 
