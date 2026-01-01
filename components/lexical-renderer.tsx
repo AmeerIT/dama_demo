@@ -69,6 +69,7 @@ function parseInlineStyles(styleString?: string): React.CSSProperties {
     if (key && value) {
       // Convert CSS property names to camelCase for React
       const camelKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       styles[camelKey as keyof React.CSSProperties] = value as any;
     }
   });

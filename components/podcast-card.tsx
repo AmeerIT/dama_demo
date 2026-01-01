@@ -4,6 +4,7 @@ import { type Locale } from "@/lib/i18n/dictionaries";
 import { type Podcast } from "@/lib/appwrite/types";
 import { Headphones, Video, Clock } from "lucide-react";
 import AnimatedGradient from "./fancy/background/animated-gradient-with-svg";
+import { useMemo } from "react";
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -27,6 +28,8 @@ export function PodcastCard({ podcast, lang }: PodcastCardProps) {
   const title = lang === "ar" ? podcast.title_ar : podcast.title_en;
   const author = lang === "ar" ? podcast.author_ar : podcast.author_en;
   const excerpt = lang === "ar" ? podcast.excerpt_ar : podcast.excerpt_en;
+
+  const randomSpeed = useMemo(() => Math.random(), []);
 
   return (
     <Link href={`/${lang}/cast/${podcast.slug}`}>
@@ -76,7 +79,7 @@ export function PodcastCard({ podcast, lang }: PodcastCardProps) {
               <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                 <AnimatedGradient
                   colors={["#ff6ec4f0", "#7873f50f", "#4ade8000", "#22d3ee00"]}
-                  speed={Math.random()}
+                  speed={randomSpeed}
                   blur="heavy"
                 />
               </div>

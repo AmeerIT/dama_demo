@@ -1,7 +1,13 @@
 "use client"
-import { motion } from 'motion/react'
+import { motion, Variants } from 'motion/react'
+import { ReactNode } from 'react'
 
-export const FramerWrapper = ({ children, variants }: any) => (
+interface FramerWrapperProps {
+  children: ReactNode;
+  variants: Variants;
+}
+
+export const FramerWrapper = ({ children, variants }: FramerWrapperProps) => (
     <motion.div initial="initial" animate="animate" variants={variants}>
         {children}
     </motion.div>

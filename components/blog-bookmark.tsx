@@ -12,14 +12,6 @@ export function BlogBookmark({ postSlug }: BlogBookmarkProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-    // Read from cookie
-    const bookmarks = getBookmarks();
-    setIsBookmarked(bookmarks.includes(postSlug));
-  }, [postSlug]);
-
   const getBookmarks = (): string[] => {
     if (typeof window === "undefined") return [];
     const cookie = document.cookie
@@ -39,6 +31,15 @@ export function BlogBookmark({ postSlug }: BlogBookmarkProps) {
     expires.setFullYear(expires.getFullYear() + 1);
     document.cookie = `bookmarks=${encodeURIComponent(JSON.stringify(bookmarks))}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
   };
+
+  // Avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+    // Read from cookie
+    const bookmarks = getBookmarks();
+    setIsBookmarked(bookmarks.includes(postSlug));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postSlug]);
 
   const toggleBookmark = () => {
     const bookmarks = getBookmarks();

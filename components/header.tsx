@@ -16,6 +16,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
 
     // Handle scroll for header transparency

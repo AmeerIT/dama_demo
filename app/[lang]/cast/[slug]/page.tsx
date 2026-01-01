@@ -134,7 +134,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
             {/* Excerpt */}
             {excerpt && (
               <p className="text-xl md:text-2xl text-foreground font-light max-w-3xl mx-auto leading-relaxed italic">
-                "{excerpt}"
+                &ldquo;{excerpt}&rdquo;
               </p>
             )}
 

@@ -23,7 +23,7 @@ export default function ServicesError({
             Error Loading Services
           </h2>
           <p className="text-lg text-muted-foreground">
-            We couldn't load the services. This might be a temporary connection issue.
+            We couldn&apos;t load the services. This might be a temporary connection issue.
           </p>
         </div>
 

@@ -23,7 +23,7 @@ export default function BlogError({
             Error Loading Blog
           </h2>
           <p className="text-lg text-muted-foreground">
-            We couldn't load the blog posts. This might be a temporary connection issue.
+            We couldn&apos;t load the blog posts. This might be a temporary connection issue.
           </p>
 
           {error.digest && (
