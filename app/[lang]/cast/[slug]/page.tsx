@@ -163,7 +163,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
 
         {/* Cover Image */}
         {podcast.cover_image && (
-          <div className="relative aspect-square rounded-xl overflow-hidden mb-10">
+          <div className="relative aspect-video rounded-xl overflow-hidden mb-10">
             <Image
               src={podcast.cover_image}
               alt={title}

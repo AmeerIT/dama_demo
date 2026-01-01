@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@base-ui/react";
 import { LanguageSwitcher } from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
-import Image from 'next/image'
 import { DefaultProps } from "@/lib/default-props";
 import { cn } from "@/lib/utils";
 import { Effra } from "@/app/[lang]/localFonts";
 
 export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
     { href: `/${lang}/`, label: dictionary.common.home },
@@ -49,9 +53,11 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             <div className="flex flex-row
             items-center bg-primary/80 text-white
             justify-center
-            gap-5 backdrop-blur-3xl drop-shadow-md rounded-4xl scale-120 p-2">
+            gap-5
+            m-10
+            backdrop-blur-3xl drop-shadow-md rounded-4xl scale-120">
               <LanguageSwitcher lang={lang} />
-              <ModeToggle />
+              {mounted && <ModeToggle />}
             </div>
 
             <Button
@@ -83,12 +89,16 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             exit={{ clipPath: "circle(0% at 50% -100%)", }}
             transition={{
               duration: 0.9,
-              ease: [0.76, 0, 0.24, 1]
+              ease: [0.76, 0, 0.24, 1],
             }}
-            className="fixed inset-0 z-100 items-center justify-center pt-10 overflow-y-auto bg-primary animate-accordion-up backdrop-blur-3xl drop-shadow-md "
+            className="fixed inset-0 z-100
+            flex flex-col
+            overflow-y-auto
+            py-20
+            bg-primary
+            backdrop-blur-3xl drop-shadow-md "
           >
-            <nav className="flex flex-col gap-20">
-
+            <nav className="flex flex-col gap-10 space-y-5 mx-20">
               {navItems.map((item, i) => (
                 <NavigationItem
                   href={item.href}
@@ -127,7 +137,10 @@ function NavigationItem({
       <Link
         key={href}
         onClick={onClose}
-        className="text-white text-6xl hover:rounded-0 hover:bg-transparent md:text-8xl font-bold underline-offset-8 decoration-2 hover:text-yellow-500 transition-all hover:no-underline hover:underline-offset-2"
+        className="text-white text-6xl hover:rounded-0 hover:bg-transparent
+        md:text-8xl font-bold underline-offset-8
+        hover:text-yellow-500
+        transition-all"
         href={href}>
         {label}
 

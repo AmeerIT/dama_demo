@@ -79,5 +79,20 @@
     "allEpisodes": "All Episodes",
     "latestEpisode": "Latest Episode",
     "relatedEpisodes": "Related Episodes"
+  },
+  "courses": {
+    "title": "Courses",
+    "subtitle": "Explore our courses",
+    "enrollNow": "Enroll Now",
+    "courseDuration": "Course Duration",
+    "lessons": "Lessons",
+    "level": "Level",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "instructor": "Instructor",
+    "price": "Price",
+    "free": "Free",
+    "paid": "Paid"
   }
 }

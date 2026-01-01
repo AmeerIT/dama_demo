@@ -15,15 +15,14 @@ export function ModeToggle() {
     return (
         <Toggle
             aria-label="Toggle theme"
-            className="bg-transparent rounded-full"
+            className="bg-primary rounded-full p-2"
             onClick={() => setTheme(isDark ? "light" : "dark")}
         >
             {isDark ?
-
                 <Sun
-                    className={`h-10 w-10 transition-all duration-300 ${"text-amber-500"}`} />
+                    className={`h-10 w-10 transition-all duration-300 bg-transparent ${"text-amber-500"}`} />
                 : <Moon
-                    className={`h-10 w-10 transition-all duration-300 ${"text-amber-700"}`} />
+                    className={`h-10 w-10 transition-all duration-300 ${"text-black"}`} />
 
             }
         </Toggle>

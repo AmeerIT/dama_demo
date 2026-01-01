@@ -25,7 +25,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
   const dictionary = await getDictionary(lang as Locale);
 
   return (
-    <html lang={lang} dir={direction} className={cn(`${Effra.className}`)}>
+    <html lang={lang} dir={direction} className={cn(`${Effra.className}-[400]`)}>
       <head>
       </head>
       <body >
@@ -37,7 +37,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
             <div className="top-0 sticky z-100 py-2">
               <Header lang={lang as Locale} dictionary={dictionary} />
             </div>
-            <main className="relative min-h-screen z-10" style={{ background: "var(--background)" }}>
+            <main className="relative min-h-screen z-10" >
               {children}
             </main>
             <StickyFooter lang={lang as Locale} dictionary={dictionary} />

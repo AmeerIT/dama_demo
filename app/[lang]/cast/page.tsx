@@ -38,8 +38,6 @@ export default async function CastPage({ params, searchParams }: PageProps) {
 
   return (
     <div>
-      <CastHero />
-
       <div className="px-4 sm:px-6 py-16">
         {/* Page Header */}
         <div className="max-w-7xl mx-auto mb-10">
@@ -60,8 +58,7 @@ export default async function CastPage({ params, searchParams }: PageProps) {
               <Link href={`/${lang}/cast`}>
                 <Badge
                   variant={!tag ? "default" : "outline"}
-                  className="cursor-pointer hover:bg-primary/90"
-                >
+                  className="cursor-pointer hover:bg-primary/90">
                   {lang === "ar" ? "الكل" : "All"}
                 </Badge>
               </Link>

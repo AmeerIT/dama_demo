@@ -79,5 +79,20 @@
     "allEpisodes": "جميع الحلقات",
     "latestEpisode": "أحدث حلقة",
     "relatedEpisodes": "حلقات ذات صلة"
+  },
+  "courses": {
+    "title": " داما كورسيز",
+    "subtitle": "اكتشف دوراتنا التعليمية",
+    "enrollNow": "سجل الآن",
+    "courseDuration": "مدة الدورة",
+    "lessons": "الدروس",
+    "level": "المستوى",
+    "beginner": "مبتدئ",
+    "intermediate": "متوسط",
+    "advanced": "متقدم",
+    "instructor": "المدرب",
+    "price": "السعر",
+    "free": "مجاني",
+    "paid": "مدفوع"
   }
 }

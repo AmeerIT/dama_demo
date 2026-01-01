@@ -28,19 +28,20 @@ export default function Template({ children }: { children: React.ReactNode }) {
                     animate={{ scaleY: 0, opacity: 1 }}
                     exit={{ scaleY: 1 }}
                     style={{ originY: 1 }} // Scales from the bottom
-
                     className="flex-1 w-full bg-secondary"
                 />
             </div>
             <motion.div
                 key={"TOP_BARS"}
                 initial={{ scaleY: 1, opacity: 0 }}
-                animate={{ scaleY: 0, opacity: 1, animationDuration: '8s' }}
+                animate={{ scaleY: 0, opacity: 1 }}
                 className="fixed inset-0 z-99 bg-primary pointer-events-none"
             >
-                <p className='text-white text-9xl'>
-                    hello
-                </p>
+                <img
+                    height={150}
+                    width={150}
+                    alt="Loading"
+                    src="favicon.ico" />
             </motion.div>
 
             <motion.div
