@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { DefaultProps } from "@/lib/default-props";
 import { cn } from "@/lib/utils";
-import { useRef } from "react";
-import SimpleMarquee from "../fancy/blocks/simple-marquee";
 import { GlowingBlobs } from "../fancy/background/glowing-blobs";
+import { motion } from "framer-motion";
 
 export function HeroSection({ dictionary, lang }: DefaultProps) {
   const isRTL = lang === "ar";
@@ -25,24 +24,67 @@ export function HeroSection({ dictionary, lang }: DefaultProps) {
         <GlowingBlobs variant="hero" />
 
         {/* Content */}
-        <div className="relative z-10 text-center w-full max-w-7xl mx-auto px-6">
+        <motion.div
+          className="relative z-10 text-center w-full max-w-7xl mx-auto px-6"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1
+              }
+            }
+          }}
+        >
           <div className="space-y-8 md:space-y-12">
             {/* Main Title */}
-            <h1 className="text-5xl sm:text-7xl md:text-[10rem] lg:text-[12rem] font-black tracking-tighter leading-[0.9] sm:leading-[0.85]">
+            <motion.h1
+              className="text-5xl sm:text-7xl md:text-[10rem] lg:text-[12rem] font-black tracking-tighter leading-[0.9] sm:leading-[0.85]"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+                }
+              }}
+            >
               {dictionary.hero.title}
               <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-background via-background to-background/70">
                 {dictionary.hero.subtitle}
               </span>
-            </h1>
+            </motion.h1>
 
             {/* Description */}
-            <p className="text-lg sm:text-xl md:text-3xl font-medium opacity-80 max-w-3xl mx-auto leading-snug sm:leading-tight px-4 sm:px-0">
+            <motion.p
+              className="text-lg sm:text-xl md:text-3xl font-medium opacity-80 max-w-3xl mx-auto leading-snug sm:leading-tight px-4 sm:px-0"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 0.8,
+                  y: 0,
+                  transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+                }
+              }}
+            >
               {dictionary.hero.description}
-            </p>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-6 sm:px-0">
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-6 sm:px-0"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+                }
+              }}
+            >
               <Link href={`/${lang}/services`} className="w-full sm:w-auto">
                 <Button
                   size="lg"
@@ -71,9 +113,9 @@ export function HeroSection({ dictionary, lang }: DefaultProps) {
                   {dictionary.common.blog}
                 </Button>
               </Link>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Scroll Indicator */}
         {/* <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">

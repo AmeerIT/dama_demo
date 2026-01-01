@@ -50,7 +50,7 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
 
               return (
                 <Link key={service.id} href={`/${lang}/services/${service.slug}`}>
-                  <div className="group relative h-[450px] rounded-[2rem] overflow-hidden border border-border/50 transition-all duration-500 hover:-translate-y-2 hover:border-primary/30">
+                  <div className="group relative h-112.5 rounded-4xl overflow-hidden border border-border/50 transition-all duration-500 hover:-translate-y-2 hover:border-primary/30">
                     {/* Background Image Overlay */}
                     <div className="absolute inset-0 z-0">
                       {service.image && (
@@ -59,9 +59,9 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
                             src={service.image}
                             alt={title}
                             fill
-                            className="object-cover opacity-20 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700"
+                            className="object-cover opacity-20 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+                          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-linear-to-t from-background via-background/40 to-transparent"></div>
                         </>
                       )}
                     </div>
@@ -77,7 +77,7 @@ export function ServicesSection({ dictionary, lang, services }: ServicesSectionP
                       <h4 className="text-2xl font-bold mb-3 group-hover:text-foreground transition-colors">
                         {title}
                       </h4>
-                      <p className="text-muted-foreground text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0 transform transition-transform">
+                      <p className="text-muted-foreground text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0 transform">
                         {description}
                       </p>
                     </div>

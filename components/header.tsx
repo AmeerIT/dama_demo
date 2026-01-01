@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Button } from "@base-ui/react";
 import { LanguageSwitcher } from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
 import { DefaultProps } from "@/lib/default-props";
 import { cn } from "@/lib/utils";
 import { Effra } from "@/app/[lang]/localFonts";
+import { Button } from "@base-ui/react";
 
 export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,6 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
     { href: `/${lang}/`, label: dictionary.common.home },
     { href: `/${lang}/cast`, label: dictionary.common.cast },
     { href: `/${lang}/courses`, label: dictionary.common.courses },
-    { href: `/${lang}/insights`, label: dictionary.common.insights },
     { href: `/${lang}/blog`, label: dictionary.common.blog },
     { href: `/${lang}/services`, label: dictionary.common.services },
   ];
@@ -47,13 +46,14 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             : "bg-transparent"
         )}
       >
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-end items-center w-full">
           {/* Logo/Brand */}
-          <Link href={`/${lang}`} className="text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-all block backdrop-blur-2xl px-3 py-1 rounded-4xl shadow-2xl">
-          </Link>
+          {/* <Link href={`/${lang}`} className="text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-all block backdrop-blur-2xl px-3 py-1 rounded-4xl shadow-2xl">
+            {dictionary.common.dama}
+          </Link> */}
 
           {/* Right Side: Language + Theme + Menu */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4  backdrop-blur-3xl px-4 py-2 rounded-4xl ">
             {mounted && (
               <>
                 <LanguageSwitcher lang={lang} />
@@ -62,7 +62,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             )}
 
             {/* Mobile Menu Button */}
-            <button
+            <Button
               onClick={() => setIsOpen(!isOpen)}
               className="flex flex-col gap-1.5 p-2"
               aria-label={isOpen ? "Close Menu" : "Open Menu"}
@@ -79,18 +79,18 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
                 animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -4 : 0, width: isOpen ? "32px" : "20px" }}
                 className="h-0.5 bg-foreground rounded-full ml-auto transition-all"
               />
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
+            initial={{ clipPath: "circle(0% at 50% 0%)" }}
+            animate={{ clipPath: "circle(150% at 50% 0%)" }}
+            exit={{ clipPath: "circle(0% at 50% 0%)" }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: 0.3, staggerChildren: 0.1 }}
             className="fixed top-0 left-0 right-0 gap-10 w-screen h-full z-110 bg-primary"
           >
             {/* Header inside Menu */}

@@ -53,7 +53,7 @@ export async function PodcastPostsSection({ dictionary, lang }: DefaultProps) {
               </h2>
 
               {/* Featured Podcast Card */}
-              <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-primary/20 to-secondary/20 border border-border/10">
+              <div className="p-8 rounded-[2.5rem] group-hover:bg-linear-to-br from-primary/20 to-secondary/20 border border-border/10">
                 <Link href={`/${lang}/cast/${featuredPodcast.slug}`}>
                   <div className="relative aspect-square rounded-2xl overflow-hidden mb-8 group">
                     {featuredPodcast.cover_image && (

@@ -33,7 +33,7 @@ export function PodcastCard({ podcast, lang }: PodcastCardProps) {
 
   return (
     <Link href={`/${lang}/cast/${podcast.slug}`}>
-      <div className="relative group overflow-hidden rounded-3xl aspect-[3/4.5] w-full shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:primary">
+      <div className="relative group overflow-hidden rounded-3xl aspect-square w-full shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:primary">
         {podcast.cover_image && (
           <Image
             src={podcast.cover_image}

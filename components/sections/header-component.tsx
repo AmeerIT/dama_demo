@@ -21,7 +21,7 @@ export function HeaderComponent({ dictionary, lang, title, subtitle, target }: H
                     <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
                         {title}
                     </h2>
-                    <p className="text-muted-foreground mt-2">
+                    <p className="text-muted-foreground mt-2 self-end-safe">
                         {subtitle}
                     </p>
                 </div>

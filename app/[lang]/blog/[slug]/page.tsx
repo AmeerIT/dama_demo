@@ -92,32 +92,32 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* HERO SECTION - Dramatic Full Screen (only if featured_image exists) */}
       {post.featured_image && (
 
-        <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-slate-900">
+        <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
           {/* Parallax Background Image */}
           <div className="absolute inset-0">
             <Image
               src={post.featured_image}
               alt={title}
               fill
-              className="object-cover opacity-50 scale-105"
+              className="object-cover scale-105"
               priority
             />
           </div>
 
           {/* Gradient Overlay */}
           {/* <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" /> */}
-          <div className="absolute inset-0 bg-linear-to-b from-background to-transparent top-0" />
+          {/* <div className="absolute inset-0 bg-linear-to-b from-background to-transparent top-0" /> */}
 
           {/* Hero Content */}
-          <div className="relative z-10 text-center px-6 max-w-5xl space-y-8">
+          <div className="static top-0 z-10 text-center px-6 max-w-5xl space-y-8">
             {/* Editorial Label */}
-            <div className="flex items-center justify-center gap-3 text-primary font-bold uppercase text-xs">
+            <div className="flex items-center justify-center gap-3 text-primary font-bold uppercase text-xs bg-background/70 backdrop-blur-md px-4 py-2 w-fit rounded-full mx-auto">
               <Sparkles size={16} />
               <span>{dictionary.blog.title}</span>
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl md:text-8xl font-bold text-foreground text-balance leading-[1.1]">
+            <h1 className="text-5xl md:text-8xl font-bold text-balance text-white  leading-[1.1] bg-primary/75 backdrop-blur-3xl mt-20 pt-20 p-10 rounded-4xl" dir={isRTL ? "rtl" : "ltr"}>
               {title}
             </h1>
 
@@ -136,7 +136,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         </section>
       )}
       {/* ARTICLE CONTENT */}
-      <article className="relative bg-background">
+      <article className="relative bg-transparent py-16 md:py-24 backdrop-blur-xs"
+        style={{
+          backgroundImage: post.featured_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none'
+        }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-24">
           {/* Back Button */}
           <Link href={`/${lang}/blog`}>

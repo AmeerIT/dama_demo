@@ -105,11 +105,11 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
                     {dictionary.common.courses}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={`/${lang}/insights`} className="hover:text-primary transition-colors">
                     {dictionary.common.insights}
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>

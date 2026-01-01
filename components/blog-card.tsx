@@ -2,10 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { type Locale } from "@/lib/i18n/dictionaries";
 import { type Post } from "@/lib/appwrite/types";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar } from "lucide-react";
-import { FormattedDate } from "@/components/formatted-date";
 import AnimatedGradient from "./fancy/background/animated-gradient-with-svg";
 
 interface BlogCardProps {
@@ -19,7 +15,7 @@ export function BlogCard({ post, lang }: BlogCardProps) {
 
   return (
     <Link href={`/${lang}/blog/${post.slug}`}>
-      <div className="relative group overflow-hidden rounded-3xl aspect-[3/4.5] w-full shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:primary">
+      <div className="relative group overflow-hidden rounded-3xl aspect-square w-full shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:primary">
         {post.featured_image && <Image
           src={post.featured_image}
           width={750}

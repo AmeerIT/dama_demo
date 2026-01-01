@@ -12,7 +12,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
     return (
       <section className="py-24 bg-background">
         <div className="container mx-auto px-6 max-w-7xl">
-          <div className="text-center py-12 text-muted-foreground">
+          <div className="text-start py-12 text-muted-foreground">
             {dictionary.blog.noPostsFound}
           </div>
         </div>
@@ -35,17 +35,17 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Center Header */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+        <div className="flex flex-col mb-20">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 w-screen">
             {dictionary.blog.title.split(' ')[0]} <span className="text-muted-foreground italic">{dictionary.blog.title.split(' ').slice(1).join(' ')}</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">{dictionary.blog.subtitle}</p>
+          <p className="text-muted-foreground w-fit  self-end-safe">{dictionary.blog.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Featured Post - Left Column */}
           <Link href={`/${lang}/blog/${featuredPost.slug}`} className="lg:col-span-7 group cursor-pointer">
-            <div className="relative rounded-[2.5rem] overflow-hidden aspect-[16/10] mb-8">
+            <div className="relative rounded-[2.5rem] overflow-hidden aspect-16/10 mb-8">
               {featuredPost.featured_image && (
                 <Image
                   src={featuredPost.featured_image}
@@ -61,7 +61,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
               )}
             </div>
             <div className="px-2">
-              <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4 font-bold tracking-widest uppercase">
+              <div className="flex items-start gap-4 text-xs text-muted-foreground mb-4 font-bold tracking-widest uppercase">
                 <span>{formatDate(featuredPost.published_at)}</span>
               </div>
               <h3 className="text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
@@ -99,7 +99,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
                   <h4 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {lang === "ar" ? post.title_ar : post.title_en}
                   </h4>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
+                  <div className="flex items-start gap-2 text-xs text-muted-foreground font-medium">
                     {formatDate(post.published_at)}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-y-1 translate-x-1" />
                   </div>
