@@ -91,7 +91,7 @@ export default function ZestyHeader({ lang, dictionary }: DefaultProps) {
             animate={{ clipPath: "circle(150% at 50% 0%)" }}
             exit={{ clipPath: "circle(0% at 50% 0%)" }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: 0.3, staggerChildren: 0.1 }}
-            className="fixed top-0 left-0 right-0 gap-10 w-screen h-full z-110 bg-primary"
+            className="fixed top-0 left-0 right-0 gap-10  h-full z-110 bg-primary"
           >
             {/* Header inside Menu */}
             <div className="flex justify-between items-center mb-10">

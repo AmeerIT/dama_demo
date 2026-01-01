@@ -18,7 +18,7 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
   ];
 
   return (
-    <footer className="bg-background text-foreground min-h-screen pt-20 pb-10 px-6 md:px-12 flex flex-col justify-between border-t border-border" dir={lang === "ar" ? "rtl" : "ltr"}>
+    <footer className="bg-background text-foreground min-h-screen pt-20 pb-10 px-6 md:px-12 flex flex-col justify-between" dir={lang === "ar" ? "rtl" : "ltr"}>
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-16">
         {/* Left Column: Brand & Interactive Info */}
         <div className="space-y-12">
@@ -105,11 +105,7 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
                     {dictionary.common.courses}
                   </Link>
                 </li>
-                {/* <li>
-                  <Link href={`/${lang}/insights`} className="hover:text-primary transition-colors">
-                    {dictionary.common.insights}
-                  </Link>
-                </li> */}
+
               </ul>
             </div>
           </div>

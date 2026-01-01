@@ -109,7 +109,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* <div className="absolute inset-0 bg-linear-to-b from-background to-transparent top-0" /> */}
 
           {/* Hero Content */}
-          <div className="static top-0 z-10 text-center px-6 max-w-5xl space-y-8">
+          <div className="relative top-0 z-10 text-center px-6 max-w-5xl space-y-8">
             {/* Editorial Label */}
             <div className="flex items-center justify-center gap-3 text-primary font-bold uppercase text-xs bg-background/70 backdrop-blur-md px-4 py-2 w-fit rounded-full mx-auto">
               <Sparkles size={16} />
@@ -129,16 +129,20 @@ export default async function BlogPostPage({ params }: PageProps) {
             )}
 
             {/* Scroll Indicator */}
-            <div className="pt-12 animate-bounce">
-              <ChevronDown className="mx-auto" size={32} />
-            </div>
+            {/* <div className="animate-bounce scroll-smooth bg-primary rounded-full w-10 h-10 text-white mx-auto">
+              <a href="#article-content">
+                <ChevronDown className="mx-auto" size={32} />
+              </a>
+            </div> */}
           </div>
         </section>
       )}
       {/* ARTICLE CONTENT */}
-      <article className="relative bg-transparent py-16 md:py-24 backdrop-blur-xs"
+      <article
+        id="article-content"
+        className="relative bg-transparent py-16 md:py-24 duration-200 scroll-smooth"
         style={{
-          backgroundImage: post.featured_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none'
+          backgroundImage: post.featured_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none',
         }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-24">
           {/* Back Button */}

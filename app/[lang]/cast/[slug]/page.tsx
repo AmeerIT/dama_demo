@@ -102,21 +102,19 @@ export default async function PodcastDetailPage({ params }: PageProps) {
     <div className={`relative ${Effra.className}`}>
       {/* HERO SECTION - Dramatic Full Screen (only if cover_image exists) */}
       {podcast.cover_image && (
-        <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-slate-900">
+        <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
           {/* Parallax Background Image */}
           <div className="absolute inset-0">
             <Image
               src={podcast.cover_image}
               alt={title}
               fill
-              className="object-cover opacity-50 scale-105"
+              className="object-cover"
               priority
             />
           </div>
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" />
-          <div className="absolute inset-0 bg-linear-to-b from-background to-transparent top-0" />
 
           {/* Hero Content */}
           <div className="relative z-10 text-center px-6 max-w-5xl space-y-8">
@@ -127,7 +125,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl md:text-8xl font-bold text-foreground text-balance leading-[1.1]">
+            <h1 className="text-5xl md:text-8xl font-bold text-balance text-white  leading-[1.1] bg-primary/75 backdrop-blur-3xl mt-20 pt-20 p-10 rounded-4xl" dir={isRTL ? "rtl" : "ltr"}>
               {title}
             </h1>
 
@@ -138,16 +136,21 @@ export default async function PodcastDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator
             <div className="pt-12 animate-bounce">
               <ChevronDown className="mx-auto" size={32} />
-            </div>
+            </div> */}
           </div>
         </section>
       )}
 
       {/* ARTICLE CONTENT */}
-      <article className="relative bg-background">
+      <article
+
+        className="relative bg-transparent py-16 md:py-24 duration-200 scroll-smooth"
+        style={{
+          backgroundImage: podcast.cover_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none',
+        }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-24">
           {/* Back Button */}
           <Link href={`/${lang}/cast`}>

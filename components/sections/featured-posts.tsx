@@ -36,7 +36,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Center Header */}
         <div className="flex flex-col mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 w-screen">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 w-fit">
             {dictionary.blog.title.split(' ')[0]} <span className="text-muted-foreground italic">{dictionary.blog.title.split(' ').slice(1).join(' ')}</span>
           </h2>
           <p className="text-muted-foreground w-fit  self-end-safe">{dictionary.blog.subtitle}</p>
