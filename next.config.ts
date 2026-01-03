@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         hostname: 'api.center-phone.com',
         pathname: '/v1/storage/buckets/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
     ],
   },
 };

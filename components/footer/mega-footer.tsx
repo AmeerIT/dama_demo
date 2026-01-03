@@ -1,160 +1,96 @@
 import Link from "next/link";
 import { DefaultProps } from "@/lib/default-props";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { FooterTabs } from "./footer-tabs";
-import { ContactForm } from "./contact-form";
-import { Newsletter } from "./newsletter";
-import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 
 export function MegaFooter({ lang, dictionary }: DefaultProps) {
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { name: "Instagram", href: "#", icon: Instagram },
-    { name: "LinkedIn", href: "#", icon: Linkedin },
-    { name: "Twitter", href: "#", icon: Twitter },
-    { name: "YouTube", href: "#", icon: Youtube },
-  ];
-
   return (
-    <footer className="bg-background text-foreground min-h-screen pt-20 pb-10 px-6 md:px-12 flex flex-col justify-between" dir={lang === "ar" ? "rtl" : "ltr"}>
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-16">
-        {/* Left Column: Brand & Interactive Info */}
-        <div className="space-y-12">
-          <div>
-            <h2 className="text-6xl md:text-7xl font-black tracking-tighter mb-4 text-primary">
-              DAMA
-            </h2>
-            <p className="text-muted-foreground text-xl font-medium max-w-md">
-              {dictionary.footer.tagline}
-            </p>
-          </div>
+    <>
+      <footer className="bg-gray-100 pt-16 pb-8 border-t border-gray-200" dir={lang === "ar" ? "rtl" : "ltr"}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 items-start">
 
-          {/* Tabs Section */}
-          <FooterTabs lang={lang} dictionary={dictionary} />
-
-          {/* Contact Info Grid */}
-          <div className="grid grid-cols-2 gap-8 py-8 border-y border-border">
-            <div>
-              <h4 className="text-muted-foreground text-sm font-bold uppercase  mb-4">
-                {dictionary.footer.contactInfo}
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="mailto:admin@dama.com"
-                    className="text-foreground hover:text-primary transition-colors cursor-pointer"
-                  >
-                    admin@dama.com
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="tel:+964123456789"
-                    className="text-foreground hover:text-primary transition-colors cursor-pointer"
-                  >
-                    +964 123 456 789
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-muted-foreground text-sm font-bold uppercase  mb-4">
-                {dictionary.footer.mainStudio}
-              </h4>
-              <p className="text-foreground leading-relaxed">
-                الدورة <br />
-                Dubai, <br />
-                حي الصحة 12345 <br />
-                شمال ابو دشير
+            {/* Column 1: Contact and Logo */}
+            <div className="flex flex-col items-center md:items-start">
+              <div className="flex items-center text-blue-600 font-bold text-3xl mb-6">
+                <svg className="w-10 h-10 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
+                </svg>
+                <span>DAMA</span>
+              </div>
+              <p className="text-gray-600 text-sm mb-4 text-center md:text-start">
+                {dictionary.footer.address}
+              </p>
+              <p className="text-gray-600 text-sm mb-2 font-medium">
+                {dictionary.footer.email}: info@damaproductions.com
+              </p>
+              <p className="text-gray-600 text-sm font-medium">
+                {dictionary.footer.phone}: (+964) 771 234 5678
               </p>
             </div>
+
+            {/* Column 2: Map Placeholder */}
+            <div className="rounded-2xl overflow-hidden shadow-inner border border-gray-200 aspect-video md:aspect-auto h-48 bg-gray-200">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13337.810578500645!2d44.4442111!3d33.3134106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x155781600f682885%3A0x6a1006509425170d!2sZayouna%2C%20Baghdad!5e0!3m2!1sen!2siq!4v1700000000000!5m2!1sen!2siq"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+
+            {/* Column 3: Subscription Section */}
+            <div className="flex flex-col items-center md:items-end text-center md:text-right">
+              <h3 className="text-2xl font-bold mb-4">{dictionary.footer.subscribeTitle}</h3>
+              <p className="text-gray-500 text-sm mb-6">{dictionary.footer.subscribeDesc}</p>
+              <div className="flex w-full">
+                <input
+                  type="email"
+                  placeholder={dictionary.footer.emailPlaceholder}
+                  className="flex-grow p-3 rounded-r-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button className="bg-blue-600 text-white px-6 py-3 rounded-l-xl font-bold hover:bg-blue-700 transition-colors">
+                  {dictionary.footer.subscribeButton}
+                </button>
+              </div>
+
+              {/* Social Links */}
+              <div className="mt-8 flex gap-4">
+                <a href="#" className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-pink-600 hover:bg-pink-600 hover:text-white transition-all">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Quick Links - Desktop Only */}
-          <div className="hidden lg:grid grid-cols-2 gap-4">
-            <div>
-              <h4 className="text-muted-foreground text-sm font-bold uppercase  mb-4">
-                {dictionary.footer.quickLinks}
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href={`/${lang}/services`} className="hover:text-primary transition-colors">
-                    {dictionary.common.services}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={`/${lang}/blog`} className="hover:text-primary transition-colors">
-                    {dictionary.common.blog}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={`/${lang}/cast`} className="hover:text-primary transition-colors">
-                    {dictionary.common.cast}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-muted-foreground text-sm font-bold uppercase  mb-4">
-                {dictionary.footer.more}
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href={`/${lang}/courses`} className="hover:text-primary transition-colors">
-                    {dictionary.common.courses}
-                  </Link>
-                </li>
-
-              </ul>
-            </div>
+          <div className="border-t border-gray-200 pt-8 text-center text-gray-500 text-sm">
+            <p>&copy; {currentYear} {dictionary.footer.copyright}</p>
           </div>
         </div>
+      </footer>
 
-        {/* Right Column: Contact Form & Newsletter */}
-        <Card className="bg-card p-8 md:p-12 rounded-3xl border border-border h-fit">
-          <h3 className="text-3xl font-bold mb-8">{dictionary.footer.startConversation}</h3>
-          <ContactForm lang={lang} dictionary={dictionary} />
-
-          <Separator className="my-12" />
-
-          <Newsletter lang={lang} dictionary={dictionary} />
-
-          <div className="mt-12 flex flex-wrap gap-6 text-sm font-bold uppercase  text-muted-foreground">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="hover:text-primary transition-colors flex items-center gap-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <link.icon size={16} />
-                {link.name}
-              </a>
-            ))}
-          </div>
-        </Card>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto w-full pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-muted-foreground text-sm font-medium">
-          &copy; {currentYear} {dictionary.footer.copyright}
-        </p>
-        <div className="flex gap-8 text-xs font-semibold uppercase text-muted-foreground">
-          <a href="#" className="hover:text-primary transition-colors">
-            {dictionary.footer.privacyPolicy}
-          </a>
-          <a href="#" className="hover:text-primary transition-colors">
-            {dictionary.footer.termsOfService}
-          </a>
-          <a href="#" className="hover:text-primary transition-colors">
-            {dictionary.footer.cookies}
-          </a>
-        </div>
-      </div>
-    </footer>
+      {/* WhatsApp Sticky Button */}
+      <a
+        href="https://wa.me/9647712345678"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 bg-green-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-all z-40 hover:scale-110"
+        aria-label="Contact us on WhatsApp"
+      >
+        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.405.836 2.708 1.255 4.927 1.256 5.565 0 10.101-4.519 10.104-10.082.002-2.697-1.047-5.232-2.955-7.143-1.907-1.913-4.44-2.964-7.14-2.965-5.564 0-10.1 4.52-10.103 10.083-.001 2.028.52 3.35 1.448 4.828l-.966 3.523 3.585-.94zm10.511-7.108c-.287-.144-1.696-.838-1.958-.934-.262-.096-.453-.144-.644.144-.191.288-.74.934-.907 1.126-.167.192-.334.216-.621.072-.287-.144-1.21-.447-2.306-1.424-.853-.761-1.428-1.7-1.595-1.988-.167-.288-.018-.444.126-.587.13-.13.287-.336.43-.504.143-.168.191-.288.287-.48.096-.192.048-.36-.024-.504-.072-.144-.644-1.556-.883-2.128-.233-.561-.47-.484-.644-.492-.167-.008-.358-.01-.55-.01s-.501.072-.764.36c-.262.288-1.002.984-1.002 2.399s1.026 2.784 1.17 2.976c.143.192 2.02 3.084 4.893 4.327.683.296 1.216.474 1.632.606.688.219 1.312.188 1.807.115.552-.081 1.696-.692 1.935-1.363.239-.672.239-1.248.167-1.363-.072-.115-.262-.216-.549-.36z"/>
+        </svg>
+      </a>
+    </>
   );
 }

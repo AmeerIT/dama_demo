@@ -2,12 +2,17 @@
   "common": {
     "home": "Home",
     "blog": "Insights",
+    "news": "News",
     "cast": "Podcast",
     "courses": "Courses",
     "services": "Services",
+    "doctors": "Our Doctor",
+    "mail": "Dama Mail",
     "contact": "Contact Us",
     "subscribe": "Subscribe",
+    "subscribeCTA": "Subscribe with Dama",
     "readMore": "Read More",
+    "learnMore": "Learn More",
     "viewAll": "View All",
     "loading": "Loading...",
     "error": "An error occurred",
@@ -21,11 +26,14 @@
   "hero": {
     "title": "Your Digital Success",
     "subtitle": "With Dama",
-    "description": "We provide comprehensive services that include everything you need to succeed, combining extensive experience in digital marketing"
+    "description": "We provide comprehensive services that include everything you need to succeed, combining extensive experience in digital marketing",
+    "startJourney": "Start Your Journey Now",
+    "viewWork": "View Our Work"
   },
   "blog": {
     "title": "Latest News",
     "subtitle": "Follow the latest articles and news",
+    "latestNews": "Latest News",
     "noPostsFound": "No posts found",
     "publishedOn": "Published on",
     "tags": "Tags",
@@ -114,5 +122,9 @@
     "price": "Price",
     "free": "Free",
     "paid": "Paid"
+  },
+  "production": {
+    "title": "Dama Production",
+    "subtitle": "Explore our production showcase"
   }
 }
