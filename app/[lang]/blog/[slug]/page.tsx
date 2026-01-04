@@ -87,22 +87,13 @@ export default async function BlogPostPage({ params }: PageProps) {
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
-    <div className={`relative ${Effra.className}`}>
-
+    <div className={`${Effra.className}`}>
       {/* HERO SECTION - Dramatic Full Screen (only if featured_image exists) */}
       {post.featured_image && (
 
-        <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+        <section className="w-full  flex items-center justify-center overflow-hidden">
           {/* Parallax Background Image */}
-          <div className="absolute inset-0">
-            <Image
-              src={post.featured_image}
-              alt={title}
-              fill
-              className="object-cover scale-105"
-              priority
-            />
-          </div>
+
 
           {/* Gradient Overlay */}
           {/* <div className="absolute inset-0 bg-linear-to-b from-transparent to-background" /> */}
@@ -110,11 +101,19 @@ export default async function BlogPostPage({ params }: PageProps) {
 
           {/* Hero Content */}
           <div className="relative top-0 z-10 text-center px-6 max-w-5xl space-y-8">
-            {/* Editorial Label */}
+            {/* Editorial Label
             <div className="flex items-center justify-center gap-3 text-primary font-bold uppercase text-xs bg-background/70 backdrop-blur-md px-4 py-2 w-fit rounded-full mx-auto">
               <Sparkles size={16} />
               <span>{dictionary.blog.title}</span>
-            </div>
+            </div> */}
+
+            <Image
+              src={post.featured_image}
+              alt={title}
+              fill
+              className="object-cover"
+              priority
+            />
 
             {/* Title */}
             <h1 className="text-5xl md:text-8xl font-bold text-balance text-white  leading-[1.1] bg-primary/75 backdrop-blur-3xl mt-20 pt-20 p-10 rounded-4xl" dir={isRTL ? "rtl" : "ltr"}>
@@ -144,6 +143,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         style={{
           backgroundImage: post.featured_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none',
         }}>
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-24">
           {/* Back Button */}
           <Link href={`/${lang}/blog`}>
@@ -266,16 +266,16 @@ export default async function BlogPostPage({ params }: PageProps) {
               </div>
 
               {/* End Marker */}
-              <div className="text-xs font-bold uppercase tracking-widest">
+              {/* <div className="text-xs font-bold uppercase tracking-widest">
                 {lang === "ar" ? "نهاية المقال" : "End of Article"}
-              </div>
+              </div> */}
             </div>
 
             {/* Back Button */}
             <Link href={`/${lang}/blog`}>
               <Button variant="outline" className="group">
                 <ArrowIcon className="me-2 h-4 w-4 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
-                {lang === "ar" ? "العودة للمدونة" : "Back to Blog"}
+                {lang === "ar" ? "انسايتس" : "Insights"}
               </Button>
             </Link>
           </footer>

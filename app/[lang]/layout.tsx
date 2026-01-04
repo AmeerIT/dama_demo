@@ -31,7 +31,6 @@ export default async function LangLayout({ children, params }: LayoutProps) {
       <body className="font-normal">
         <SmoothScroll>
           <ThemeProvider
-            attribute="class"
             defaultTheme="light"
             disableTransitionOnChange>
             <Header lang={lang as Locale} dictionary={dictionary} />
@@ -45,3 +44,4 @@ export default async function LangLayout({ children, params }: LayoutProps) {
     </html >
   );
 }
+

@@ -24,8 +24,8 @@ export default function Header({ lang, dictionary }: DefaultProps) {
         <div className="flex justify-between items-center h-20">
           {/* Logo & Navigation Links */}
           <div className="flex items-center space-x-reverse space-x-8">
-            <Link href={`/${lang}`} className="flex-shrink-0 flex items-center">
-              <div className="text-blue-600 font-bold text-2xl flex items-center">
+            <Link href={`/${lang}`} className="shrink-0 flex items-center">
+              <div className="text-primary font-bold text-2xl flex items-center">
                 <svg className="w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
                 </svg>
@@ -33,12 +33,12 @@ export default function Header({ lang, dictionary }: DefaultProps) {
               </div>
             </Link>
 
-            <div className="hidden md:flex items-center space-x-reverse space-x-6 text-gray-700 font-medium">
+            <div className="hidden md:flex items-center space-x-reverse gap-x-4 space-x-6 text-foreground font-medium">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="hover:text-blue-600 transition-colors"
+                  className="hover:text-primary transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -84,7 +84,7 @@ export default function Header({ lang, dictionary }: DefaultProps) {
               key={item.href}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
             >
               {item.label}
             </Link>

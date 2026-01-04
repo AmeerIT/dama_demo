@@ -47,7 +47,7 @@ export default function CMSDashboardPage() {
       description: `${stats?.publishedPosts || 0} published, ${stats?.draftPosts || 0} drafts`,
       icon: FileText,
       href: "/cms/posts",
-      color: "text-blue-500",
+      color: "text-primary",
     },
     {
       title: "Services",

@@ -30,18 +30,18 @@ export async function PodcastPostsSection({ dictionary, lang }: DefaultProps) {
 
             return (
               <Link key={podcast.id} href={`/${lang}/cast/${podcast.slug}`} className="group cursor-pointer">
-                <div className="aspect-video bg-blue-100 rounded-2xl overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow relative">
+                <div className="aspect-auto bg-blue-100 rounded-2xl overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow relative">
                   {podcast.cover_image && (
                     <Image
                       src={podcast.cover_image}
                       alt={title}
-                      width={600}
-                      height={400}
+                      width={700}
+                      height={500}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
                   )}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/30 transition-opacity">
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600">
+                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary shadow-lg">
                       <Play className="w-6 h-6 ml-1 fill-current" />
                     </div>
                   </div>

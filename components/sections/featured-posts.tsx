@@ -31,7 +31,7 @@ export async function FeaturedPostsSection({ dictionary, lang }: DefaultProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-3xl font-bold text-gray-900">{dictionary.blog.latestNews}</h2>
-          <Link href={`/${lang}/blog`} className="text-blue-600 font-semibold hover:underline">
+          <Link href={`/${lang}/blog`} className="text-primary font-semibold hover:underline">
             {dictionary.common.viewAll}
           </Link>
         </div>
