@@ -85,7 +85,7 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
 
       {/* WhatsApp Sticky Button */}
       <a
-        href="https://wa.me/9647733324940"
+        href="https://wa.me/9647712345678"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 bg-green-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-all z-40 hover:scale-110"
