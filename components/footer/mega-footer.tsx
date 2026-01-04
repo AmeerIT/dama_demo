@@ -15,9 +15,8 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
             {/* Column 1: Contact and Logo */}
             <div className="flex flex-col items-center md:items-start">
               <div className="flex items-center text-primary font-bold text-3xl mb-6">
-                <svg className="w-10 h-10 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
-                </svg>
+                <img src={"/favicon.ico"} alt="DAMA Logo"
+                  className="w-7 h-7 mx-3 mb-3" />
                 <span>DAMA</span>
               </div>
               <p className="text-muted-foreground text-sm mb-4 text-center md:text-start">

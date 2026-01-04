@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import Header from "@/components/header";
 import { Effra } from "./localFonts";
-import { cn } from "@/lib/utils";
 
 import { LayoutProps } from "@/lib/default-props";
 

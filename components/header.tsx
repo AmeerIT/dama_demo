@@ -15,7 +15,7 @@ export default function Header({ lang, dictionary }: DefaultProps) {
     { href: `/${lang}/blog`, label: dictionary.common.news },
     { href: `/${lang}/courses`, label: dictionary.common.courses },
     { href: `/${lang}/services`, label: dictionary.common.doctors },
-    { href: `/${lang}/contact`, label: dictionary.common.mail },
+    // { href: `/${lang}/contact`, label: dictionary.common.mail },
   ];
 
   return (
@@ -23,22 +23,22 @@ export default function Header({ lang, dictionary }: DefaultProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo & Navigation Links */}
-          <div className="flex items-center space-x-reverse space-x-8">
+          <div className="flex items-center space-x-8">
             <Link href={`/${lang}`} className="shrink-0 flex items-center">
               <div className="text-primary font-bold text-2xl flex items-center">
-                <svg className="w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
-                </svg>
+                <img src={"/favicon.ico"} alt="DAMA Logo"
+                  className="w-7 h-7 mx-3 mb-3" />
                 <span>DAMA</span>
               </div>
             </Link>
 
-            <div className="hidden md:flex items-center space-x-reverse gap-x-4 space-x-6 text-foreground font-medium">
+            <div className="hidden md:flex text-end items-center gap-x-4 space-x-6 text-foreground font-medium">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-primary transition-all text-end
+                  hover:bg-primary/20 px-3 py-2 rounded-md"
                 >
                   {item.label}
                 </Link>
@@ -47,7 +47,7 @@ export default function Header({ lang, dictionary }: DefaultProps) {
           </div>
 
           {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-reverse space-x-3">
+          <div className="hidden md:flex items-center  gap-x-3 space-x-3">
             <LanguageSwitcher lang={lang} />
             <button className="bg-[#e91e63] text-white px-6 py-2 rounded-md hover:bg-[#d81b60] transition-all font-medium">
               {dictionary.common.subscribeCTA}
@@ -58,7 +58,7 @@ export default function Header({ lang, dictionary }: DefaultProps) {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-reverse space-x-3">
+          <div className="md:hidden flex items-center space-x-3">
             <LanguageSwitcher lang={lang} />
             <button
               onClick={() => setIsOpen(!isOpen)}

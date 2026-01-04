@@ -5,13 +5,17 @@ import { getDictionary, type Locale, locales } from "@/lib/i18n/dictionaries";
 import { getPostBySlug, getAllPostSlugs } from "@/lib/appwrite/posts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, ArrowLeft, ArrowRight, User, Sparkles, ChevronDown } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, User } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 import { FormattedDate } from "@/components/formatted-date";
 import { extractYouTubeId } from "@/lib/utils/youtube";
 import { BlogBookmark } from "@/components/blog-bookmark";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { Effra } from "@/app/[lang]/localFonts";
+import { generatePageMetadata } from "@/lib/utils/metadata";
+import { siteConfig } from "@/lib/config/site";
+import { Metadata } from "next";
 
 // Revalidate every 5 minutes (ISR) - Balance between freshness and server load
 export const revalidate = 300;
@@ -40,26 +44,39 @@ interface PageProps {
   params: Promise<{ lang: string; slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang, slug } = await params;
   const post = await getPostBySlug(slug, lang as Locale);
 
   if (!post) {
-    return { title: "Post Not Found" };
+    return {
+      title: "Post Not Found | Dama Productions",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
 
   const title = lang === "ar" ? post.title_ar : post.title_en;
   const excerpt = lang === "ar" ? post.excerpt_ar : post.excerpt_en;
 
-  return {
-    title: `${title} | Dama Productions`,
+  // Extract tag names for metadata
+  const tagNames =
+    post.tags?.map((tag) => (lang === "ar" ? tag.name_ar : tag.name_en)) || [];
+
+  return generatePageMetadata({
+    title,
     description: excerpt || title,
-    openGraph: {
-      title,
-      description: excerpt || title,
-      images: post.featured_image ? [post.featured_image] : [],
-    },
-  };
+    slug,
+    lang: lang as Locale,
+    imageUrl: post.featured_image, // Already converted to full URL in getPostBySlug
+    publishedTime: post.published_at,
+    modifiedTime: post.published_at, // Use published_at as fallback if no updated_at
+    authors: ["Dama Productions"],
+    tags: tagNames,
+    type: "article",
+  });
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
@@ -86,8 +103,49 @@ export default async function BlogPostPage({ params }: PageProps) {
   // Get the alternate language for language switcher (same slug, different language)
   const alternateLang = lang === "ar" ? "en" : "ar";
 
+  // Generate JSON-LD structured data for SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: excerpt || title,
+    image: post.featured_image || `${siteConfig.url}${siteConfig.ogImage}`,
+    datePublished: post.published_at,
+    dateModified: post.published_at,
+    author: {
+      "@type": "Organization",
+      name: "Dama Productions",
+      url: siteConfig.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Dama Productions",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/${lang}/blog/${slug}`,
+    },
+    ...(post.tags &&
+      post.tags.length > 0 && {
+      keywords: post.tags
+        .map((tag) => (lang === "ar" ? tag.name_ar : tag.name_en))
+        .join(", "),
+    }),
+    inLanguage: lang === "ar" ? "ar" : "en",
+  };
+
   return (
     <div className={`${Effra.className}`}>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* HERO SECTION - Dramatic Full Screen (only if featured_image exists) */}
       {post.featured_image && (
 
