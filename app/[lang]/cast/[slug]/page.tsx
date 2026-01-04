@@ -5,10 +5,11 @@ import { getDictionary, type Locale, locales } from "@/lib/i18n/dictionaries";
 import { getPodcastBySlug, getAllPodcastSlugs } from "@/lib/appwrite/podcasts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, ArrowLeft, ArrowRight, Clock, Headphones, Video, User, Sparkles, ChevronDown } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, Clock, Headphones, Video, User } from "lucide-react";
 import { LexicalRenderer } from "@/components/lexical-renderer";
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background";
 import { FormattedDate } from "@/components/formatted-date";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { Effra } from "@/app/[lang]/localFonts";
 
 // Revalidate every 5 minutes (ISR) - Balance between freshness and server load
@@ -99,106 +100,68 @@ export default async function PodcastDetailPage({ params }: PageProps) {
   const alternateLang = lang === "ar" ? "en" : "ar";
 
   return (
-    <div className={`relative ${Effra.className}`}>
-      {/* HERO SECTION - Dramatic Full Screen (only if cover_image exists) */}
-      {podcast.cover_image && (
-        <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-          {/* Parallax Background Image */}
-          <div className="absolute inset-0">
-            <Image
-              src={podcast.cover_image}
-              alt={title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-
-          {/* Gradient Overlay */}
-
-          {/* Hero Content */}
-          <div className="relative z-10 text-center px-6 max-w-5xl space-y-8">
-            {/* Editorial Label */}
-            <div className="flex items-center justify-center gap-3 text-primary font-bold uppercase text-xs">
-              <Sparkles size={16} />
-              <span>{lang === "ar" ? "البودكاست" : "Podcast"}</span>
-            </div>
-
-            {/* Title */}
-            <h1 className="text-5xl md:text-8xl font-bold text-balance text-white  leading-[1.1] bg-primary/75 backdrop-blur-3xl mt-20 pt-20 p-10 rounded-4xl" dir={isRTL ? "rtl" : "ltr"}>
-              {title}
-            </h1>
-
-            {/* Excerpt */}
-            {excerpt && (
-              <p className="text-xl md:text-2xl text-foreground font-light max-w-3xl mx-auto leading-relaxed italic">
-                &ldquo;{excerpt}&rdquo;
-              </p>
-            )}
-
-            {/* Scroll Indicator
-            <div className="pt-12 animate-bounce">
-              <ChevronDown className="mx-auto" size={32} />
-            </div> */}
-          </div>
-        </section>
-      )}
+    <div className={`${Effra.className}`}>
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
 
       {/* ARTICLE CONTENT */}
-      <article
-
-        className="relative bg-transparent py-16 md:py-24 duration-200 scroll-smooth"
-        style={{
-          backgroundImage: podcast.cover_image ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-background) 10%)' : 'none',
-        }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-24">
+      <article className="relative bg-background py-8 md:py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           {/* Back Button */}
           <Link href={`/${lang}/cast`}>
-            <Button variant="ghost" className="mb-8 group">
+            <Button variant="ghost" className="mb-6 group">
               <ArrowIcon className="me-2 h-4 w-4 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
               {lang === "ar" ? "البودكاست" : "Podcasts"}
             </Button>
           </Link>
 
+          {/* Cover Image - Contained with rounded borders */}
+          {podcast.cover_image && (
+            <div className="relative w-full aspect-video rounded-2xl md:rounded-3xl overflow-hidden mb-8 md:mb-10 shadow-xl">
+              <Image
+                src={podcast.cover_image}
+                alt={title}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 896px, 896px"
+              />
+            </div>
+          )}
+
           {/* Article Header */}
-          <header className="mb-12 md:mb-16 space-y-6 md:space-y-8">
+          <header className="mb-10 md:mb-14 space-y-6">
             {/* Category/Tag Label with Decorative Line */}
             {podcast.tags && podcast.tags.length > 0 && (
               <div className="flex items-center gap-3 text-primary font-bold tracking-widest uppercase text-xs">
-                <span className="w-8 h-0.5 bg-secondary rounded-full" />
+                <span className="w-8 h-0.5 bg-primary rounded-full" />
                 {lang === "ar" ? podcast.tags[0].name_ar : podcast.tags[0].name_en}
               </div>
             )}
 
-            {/* Title (if no cover_image/hero) */}
-            {!podcast.cover_image && (
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-foreground leading-[1.1] text-balance">
-                {title}
-              </h1>
-            )}
+            {/* Title - Always visible below image */}
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.15] text-balance"
+              dir={isRTL ? "rtl" : "ltr"}
+            >
+              {title}
+            </h1>
 
-            {/* Excerpt as Bordered Quote */}
-            {excerpt && (
-              <p className={`text-lg sm:text-xl md:text-2xl text-foreground font-light leading-relaxed
-                            border-l-4 border-slate-200 pl-4 sm:pl-6 py-2
-                            ${isRTL ? 'border-l-0 border-r-4 pl-0 pr-4 sm:pr-6' : ''}`}>
-                {excerpt}
-              </p>
-            )}
-
-            {/* Rich Metadata */}
-            <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm text-foreground font-medium">
+            {/* Compact Metadata Row */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden">
-                  <User size={14} className="text-foreground" />
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User size={12} className="text-primary" />
                 </div>
-                <span className="text-foreground">{author}</span>
+                <span>{author}</span>
               </div>
+
+              <span className="text-muted-foreground/30">•</span>
 
               {/* Date */}
               <div className="flex items-center gap-2">
-                <Calendar size={16} className="opacity-50" />
+                <Calendar size={14} className="opacity-60" />
                 <time dateTime={podcast.published_at}>
                   <FormattedDate date={podcast.published_at} locale={lang} />
                 </time>
@@ -206,16 +169,21 @@ export default async function PodcastDetailPage({ params }: PageProps) {
 
               {/* Duration */}
               {podcast.duration && (
-                <div className="flex items-center gap-2">
-                  <Clock size={16} className="opacity-50" />
-                  <span>{formatDuration(podcast.duration)}</span>
-                </div>
+                <>
+                  <span className="text-muted-foreground/30">•</span>
+                  <div className="flex items-center gap-2">
+                    <Clock size={14} className="opacity-60" />
+                    <span>{formatDuration(podcast.duration)}</span>
+                  </div>
+                </>
               )}
+
+              <span className="text-muted-foreground/30">•</span>
 
               {/* Language Switch */}
               <Link
                 href={`/${alternateLang}/cast/${podcast.slug}`}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors"
               >
                 <UnderlineToBackground targetTextColor="var(--color-primary)">
                   {lang === "ar" ? "Listen in English" : "استمع بالعربية"}
@@ -223,12 +191,26 @@ export default async function PodcastDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            {/* Tags */}
+            {/* Excerpt as Quote */}
+            {excerpt && (
+              <blockquote
+                className={`text-lg sm:text-xl md:text-2xl text-muted-foreground font-light leading-relaxed italic
+                  border-l-4 border-primary pl-5 sm:pl-6 py-1
+                  ${isRTL ? "border-l-0 border-r-4 pl-0 pr-5 sm:pr-6" : ""}`}
+              >
+                &ldquo;{excerpt}&rdquo;
+              </blockquote>
+            )}
+
+            {/* Tags - Between excerpt and body */}
             {podcast.tags && podcast.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 pt-2">
                 {podcast.tags.map((tag) => (
                   <Link key={tag.id} href={`/${lang}/cast?tag=${tag.slug}`}>
-                    <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer">
+                    <Badge
+                      variant="secondary"
+                      className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                    >
                       {lang === "ar" ? tag.name_ar : tag.name_en}
                     </Badge>
                   </Link>
@@ -239,7 +221,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
 
           {/* Audio Player */}
           {podcast.audio_url && (
-            <div className="bg-card border border-border rounded-xl p-6 md:p-8 mb-10 md:mb-12">
+            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-10 md:mb-12">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Headphones className="h-5 w-5 text-primary" />
@@ -259,7 +241,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
 
           {/* Video Player */}
           {podcast.video_url && (
-            <div className="bg-card border border-border rounded-xl p-6 md:p-8 mb-10 md:mb-12">
+            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-10 md:mb-12">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Video className="h-5 w-5 text-primary" />
@@ -268,7 +250,7 @@ export default async function PodcastDetailPage({ params }: PageProps) {
                   {lang === "ar" ? "شاهد الحلقة" : "Watch Episode"}
                 </h2>
               </div>
-              <video controls className="w-full rounded-lg" preload="metadata">
+              <video controls className="w-full rounded-xl" preload="metadata">
                 <source src={podcast.video_url} type="video/mp4" />
                 {lang === "ar"
                   ? "متصفحك لا يدعم تشغيل الفيديو"
@@ -277,28 +259,24 @@ export default async function PodcastDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Article Body with Enhanced Typography */}
-          <div className="max-w-full break-all overflow-hidden">
+          {/* Article Body */}
+          <div className="max-w-full overflow-hidden">
             <LexicalRenderer content={body} key={podcast.id} />
           </div>
 
           {/* Article Footer */}
-          <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
-              {/* Tags */}
-              <div className="flex flex-wrap gap-3 md:gap-4">
-                {podcast.tags && podcast.tags.map((tag) => (
-                  <Link key={tag.id} href={`/${lang}/cast?tag=${tag.slug}`}>
-                    <span className="text-xs font-bold cursor-pointer transition-all">
-                      #{lang === "ar" ? tag.name_ar : tag.name_en}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-
-              {/* End Marker */}
-              <div className="text-xs font-bold uppercase tracking-widest">
-                {lang === "ar" ? "نهاية الحلقة" : "End of Episode"}
+          <footer className="mt-16 md:mt-20 pt-8 border-t border-border/50">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+              {/* Hashtag Tags */}
+              <div className="flex flex-wrap gap-3">
+                {podcast.tags &&
+                  podcast.tags.map((tag) => (
+                    <Link key={tag.id} href={`/${lang}/cast?tag=${tag.slug}`}>
+                      <span className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer transition-colors">
+                        #{lang === "ar" ? tag.name_ar : tag.name_en}
+                      </span>
+                    </Link>
+                  ))}
               </div>
             </div>
 
