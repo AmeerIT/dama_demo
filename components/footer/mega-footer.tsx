@@ -15,8 +15,8 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
             {/* Column 1: Contact and Logo */}
             <div className="flex flex-col items-center md:items-start">
               <div className="flex items-center text-primary font-bold text-3xl mb-6">
-                <img src={"/favicon.ico"} alt="DAMA Logo"
-                  className="w-7 h-7 mx-3 mb-3" />
+                <img src="/favicon.ico" alt="DAMA Logo"
+                  className="w-10 h-10 mx-3 mb-3" />
                 <span>DAMA</span>
               </div>
               <p className="text-muted-foreground text-sm mb-4 text-center md:text-start">
@@ -31,7 +31,12 @@ export function MegaFooter({ lang, dictionary }: DefaultProps) {
             </div>
 
             {/* Column 2: Map Placeholder */}
-            <div className="rounded-2xl overflow-hidden shadow-inner border border-border aspect-video md:aspect-auto h-48 bg-muted-foreground">
+            <div className="rounded-2xl overflow-hidden
+            shadow-inner border border-border aspect-video
+             md:aspect-auto
+              w-full md:w-full
+              md:h-164 lg:h-72
+                           h-48 bg-muted-foreground">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1766.110197039839!2d44.445272026685785!3d33.31955095116054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2siq!4v1767555786912!5m2!1sen!2siq"
                 width="100%"

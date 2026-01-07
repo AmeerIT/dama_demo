@@ -26,8 +26,8 @@ export default function Header({ lang, dictionary }: DefaultProps) {
           <div className="flex items-center space-x-8">
             <Link href={`/${lang}`} className="shrink-0 flex items-center">
               <div className="text-primary font-bold text-2xl flex items-center">
-                <img src={"/favicon.ico"} alt="DAMA Logo"
-                  className="w-7 h-7 mx-3 mb-3" />
+                <img src="/favicon.ico" alt="DAMA Logo"
+                  className="w-10 h-10 mx-3 mb-3" />
                 <span>DAMA</span>
               </div>
             </Link>
